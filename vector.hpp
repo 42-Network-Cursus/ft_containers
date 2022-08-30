@@ -1,13 +1,189 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
+# include <iostream> // needed?
+
 # include <memory>
+# include <stdexcept>
 
-template<typename T, typename Alloc = allocator<T>> 
-class vector
-{
+namespace ft
+{	
+	class OUTOFRANGE : std::exception
+			{
+				public:
+					virtual const char* what() throw() {
+						return ("Out of range");
+					}
+			};
 
-};
 
+	template< typename T, typename Alloc = std::allocator<T> >  
+	class vector
+	{
+		private:
+			T*		_data;
+			Alloc	_allocator;
+		protected:
+		public:
+			typedef T 								value_type;
+			typedef typename Alloc::value_type		allocator_type;
+			typedef typename Alloc::reference		reference;
+			typedef	typename Alloc::const_reference	const_reference;
+			typedef	typename Alloc::pointer			pointer;
+			typedef	typename Alloc::const_pointer	const_pointer;
+			//iterators ! Probably need to implement them
+			std::iterator< std::random_access_iterator_tag, T > iterator;
+			std::iterator< std::random_access_iterator_tag, const T > const_iterator;
+			std::reverse_iterator<std::iterator< std::random_access_iterator_tag, T > > reverse_iterator;
+			std::reverse_iterator<std::iterator< std::random_access_iterator_tag, const T > > const_reverse_iterator;
+			// typedef	iterator<T>						iterator;
+			// typedef iterator<const T>				const_iterator;
+			typedef ptrdiff_t						difference_type;
+			typedef	size_t							size_type;
+
+			// class iterator : public std::iterator< std::random_access_iterator_tag, T >
+			// {
+				
+			// };
+
+			// class reverse_iterator : public std::reverse_iterator<iterator>
+			// {
+
+			// };
+
+
+			vector(): _data( new T[10] ) {}
+			// ~vector();
+			// operator=();
+
+			// ITERATORS
+     		// iterator begin();
+			// const_iterator begin() const;
+			// end();
+			// rbegin();
+			// rend();
+			// cbegin();
+			// cend();
+			// crbegin();
+			// crend();
+
+			// CAPACITY
+			size_type	size() const {
+				size_type	i = 0;
+
+				while ( _data[i] )
+					i++;
+				return ( i );
+			}
+
+			size_type	max_size() const { 
+				return ( _allocator.max_size() ); 
+			}
+
+			void		resize(size_type n, value_type val = value_type()) {
+				// if (n < this->size())
+				// 	//reduce content to first n elements, delete the rest
+				// else
+				// {
+				// 	if (n > this->capacity())
+				// 		//reallocate
+				// 	//expand up to n elements, initialized as copies of val
+				// }
+			}
+
+			size_type	capacity() const {
+				//use private member to count ?
+			}
+
+			bool		empty() const {
+				if ( this->size() != 0 )
+					return ( false );
+				return ( true );
+			}
+
+			void		reserve( size_type n ) {
+				// if (n > this->capacity() )
+					//reallocate
+			}
+
+			void		shrink_to_fit() {
+				// if (this->capacity() > this->size() )
+					//deallocate
+			}
+
+			// ELEMENT ACCESS
+			reference 		operator[] (size_type n) {
+				return ( _data[n] );
+			}
+
+			const_reference operator[] (size_type n) const {
+				return ( _data[n] );
+			}
+
+			reference 		at ( size_type n ) {
+				if ( n >= this->size() )
+					throw OUTOFRANGE();
+				return ( _data[n] );
+			}
+
+			const_reference at ( size_type n ) const {
+				if ( n >= this->size() )
+					throw OUTOFRANGE();
+				return ( _data[n] );
+			}
+
+			reference 		front() {
+				return ( _data[0] );
+			}
+
+			const_reference	front() const {
+				// const T& ret = _data[ this->size() - 1]; DELETE IF CONST IMPLICIT CAST IS OK
+				return ( _data[0] );
+			}
+
+			reference		back() {
+				return ( _data[ this->size() - 1] );
+			}
+
+			const_reference back() const {
+				return ( _data[ this->size() - 1] );
+			}
+			
+			value_type* 		data() {
+				return ( _data );
+			}
+
+			const value_type*	data() const {
+				return ( _data );
+			}
+
+			// MODIFIERS
+			// assign();
+			void		push_back( const value_type& val ) {
+				// if (//size too small)
+					//allocate
+				_data[this->size()] = val;
+			}
+			// pop_back();
+			// insert();
+			// erase();
+			// swap();
+			void		clear() {
+				for (size_type i = 0; i < this->size(); i++)
+					_data[i] = 0;
+			}
+
+			// emplace();
+			// emplace_back();
+
+			// ALLOCATOR
+			// get_allocator();
+
+			// NON-MEMBER FUNCTION OVERLOADS
+			// relational operators... (keyword friend)
+			// swap();
+
+	};
+}
 
 #endif
