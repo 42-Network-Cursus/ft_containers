@@ -14,16 +14,32 @@ namespace ft {
 	class vector
 	{
 		private:
+
+			// Array used to store data. Grows dynamically depending on needs.
 			T*		_data;
+
+			// Allocator used to dynamically grow memory needs for _data.
 			Alloc	_allocator;
+
 		protected:
+
 		public:
+
+			// First template parameter
 			typedef T 								value_type;
+
+			// Second template parameter
 			typedef typename Alloc::value_type		allocator_type;
+
+			// (const) Reference to value_type
 			typedef typename Alloc::reference		reference;
 			typedef	typename Alloc::const_reference	const_reference;
+
+			// (const) Pointer to value_type
 			typedef	typename Alloc::pointer			pointer;
 			typedef	typename Alloc::const_pointer	const_pointer;
+
+			//TODO
 			//iterators ! Probably need to implement them
 			std::iterator< std::random_access_iterator_tag, T > iterator;
 			std::iterator< std::random_access_iterator_tag, const T > const_iterator;
@@ -31,9 +47,12 @@ namespace ft {
 			std::reverse_iterator<std::iterator< std::random_access_iterator_tag, const T > > const_reverse_iterator;
 			// typedef	iterator<T>						iterator;
 			// typedef iterator<const T>				const_iterator;
+			//ENDTODO
+
 			typedef ptrdiff_t						difference_type;
 			typedef	size_t							size_type;
 
+			//MAYBE TODO
 			// class iterator : public std::iterator< std::random_access_iterator_tag, T >
 			// {
 				
@@ -43,11 +62,13 @@ namespace ft {
 			// {
 
 			// };
-
+			//ENDTODO
 
 			vector(): _data( new T[10] ) {}
 			// ~vector();
+			//copy constr.
 			// operator=();
+
 
 			// ITERATORS
      		// iterator begin();
