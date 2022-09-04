@@ -6,18 +6,11 @@
 # include <memory>
 # include <stdexcept>
 
-namespace ft
-{	
-	class OUTOFRANGE : std::exception
-			{
-				public:
-					virtual const char* what() throw() {
-						return ("Out of range");
-					}
-			};
+namespace ft {	
 
-
-	template< typename T, typename Alloc = std::allocator<T> >  
+	template<	typename T, 
+				typename Alloc = std::allocator<T> 
+			>  
 	class vector
 	{
 		private:
@@ -68,6 +61,8 @@ namespace ft
 			// crend();
 
 			// CAPACITY
+
+			
 			size_type	size() const {
 				size_type	i = 0;
 
@@ -93,6 +88,7 @@ namespace ft
 
 			size_type	capacity() const {
 				//use private member to count ?
+				return 0;
 			}
 
 			bool		empty() const {

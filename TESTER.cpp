@@ -7,7 +7,7 @@
 int main()
 {
 	ft::vector<int> vec;
-
+	
 	// std.resize(8);
 	// std.push_back("5");
 	// std::cout << std.capacity() << std::endl;
