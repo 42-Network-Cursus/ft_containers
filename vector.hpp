@@ -11,8 +11,7 @@ namespace ft {
 	template<	typename T, 
 				typename Alloc = std::allocator<T> 
 			>  
-	class vector
-	{
+	class vector {
 		private:
 
 			// Array used to store data. Grows dynamically depending on needs.
