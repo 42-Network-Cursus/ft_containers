@@ -6,10 +6,16 @@
 # include <memory>
 # include <stdexcept>
 
+/************************************/
+/*									*/
+/*									*/
+/*									*/
+/************************************/
+
 namespace ft {	
 
-	template<	typename T, 
-				typename Alloc = std::allocator<T> 
+	template<	typename T,
+				typename Alloc = std::allocator<T>
 			>  
 	class vector {
 		private:
@@ -80,9 +86,17 @@ namespace ft {
 			// crbegin();
 			// crend();
 
-			// CAPACITY
 
-			
+			/************************************/
+			/*									*/
+			/*			   CAPACITY				*/
+			/*									*/
+			/************************************/
+
+			/**
+			 * @returns number of elements
+			 * ! not equal to storage capacity
+			 */
 			size_type	size() const {
 				size_type	i = 0;
 
@@ -91,6 +105,7 @@ namespace ft {
 				return ( i );
 			}
 
+			// @returns max number of elements the vector can hold
 			size_type	max_size() const { 
 				return ( _allocator.max_size() ); 
 			}
