@@ -18,6 +18,7 @@ namespace ft {
 				typename Alloc = std::allocator<T>
 			>  
 	class vector {
+	
 		private:
 
 			// Array used to store data. Grows dynamically depending on needs.
@@ -25,8 +26,6 @@ namespace ft {
 
 			// Allocator used to dynamically grow memory needs for _data.
 			Alloc	_allocator;
-
-		protected:
 
 		public:
 
@@ -81,10 +80,12 @@ namespace ft {
 			// end();
 			// rbegin();
 			// rend();
-			// cbegin();
-			// cend();
-			// crbegin();
-			// crend();
+			
+			// cbegin(); C++11
+			// cend();   C++11
+			
+			// crbegin(); C++11
+			// crend(); C++11
 
 
 			/************************************/
@@ -137,10 +138,10 @@ namespace ft {
 					//reallocate
 			}
 
-			void		shrink_to_fit() {
-				// if (this->capacity() > this->size() )
-					//deallocate
-			}
+			// void		shrink_to_fit() {     C++11
+			// 	// if (this->capacity() > this->size() )
+			// 		//deallocate
+			// }
 
 			// ELEMENT ACCESS
 			reference 		operator[] (size_type n) {
@@ -180,13 +181,13 @@ namespace ft {
 				return ( _data[ this->size() - 1] );
 			}
 			
-			value_type* 		data() {
-				return ( _data );
-			}
+			// value_type* 		data() { C++11
+			// 	return ( _data );
+			// }
 
-			const value_type*	data() const {
-				return ( _data );
-			}
+			// const value_type*	data() const { C++11
+			// 	return ( _data );
+			// }
 
 			// MODIFIERS
 			// assign();
@@ -204,8 +205,8 @@ namespace ft {
 					_data[i] = 0;
 			}
 
-			// emplace();
-			// emplace_back();
+			// emplace();  C++11
+			// emplace_back(); C++11
 
 			// ALLOCATOR
 			// get_allocator();
@@ -214,7 +215,8 @@ namespace ft {
 			// relational operators... (keyword friend)
 			// swap();
 
-	};
-}
+	}; // END class vector
+	
+} // END namespace ft
 
-#endif
+#endif // VECTOR_HPP

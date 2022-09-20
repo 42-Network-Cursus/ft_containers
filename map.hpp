@@ -24,10 +24,8 @@ namespace ft {
 			// const_reverse_iterator rbegin() const;
 			// reverse_iterator rend();
 			// const_reverse_iterator rend() const;
-			// const_iterator cbegin() const noexcept;
-			// const_iterator cend() const noexcept;
-			// const_reverse_iterator crbegin() const noexcept;
-			// const_reverse_iterator crend() const noexcept;
+			
+			
 
 			// CAPACITY
 			// bool empty() const;
@@ -36,16 +34,14 @@ namespace ft {
 
 			//ELEMENT ACCESS
 			// mapped_type& operator[] (const key_type& k);
-			// mapped_type& at (const key_type& k);
-			// const mapped_type& at (const key_type& k) const;
+		
 
 			// MODIFIERS
 			// insert..
 			// erase...
 			// void swap (map& x);
 			// void clear();
-			// emplace
-			// emplace_hint
+			
 
 			// OBSERVERS
 			// key_compare key_comp() const;

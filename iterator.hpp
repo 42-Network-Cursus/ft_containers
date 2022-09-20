@@ -2,18 +2,43 @@
 # define ITERATOR_HPP
 
 namespace ft {
-	struct bidirectional_iterator_tag {};
+
+	// Empty classes to identify the category of an iterator
+	struct input_iterator_tag {};
+	struct output_iterator_tag {};
+	struct forward_iterator_tag : public input_iterator_tag {};
+	struct bidirectional_iterator_tag : public forward_iterator_tag {};
 	struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 
-	//2 iterator_traits template specialization, 1 for each
-
-   template <class T>
+	template <class T>
     struct iterator_traits {
         typedef typename T::value_type            value_type;
         typedef typename T::difference_type       difference_type;
         typedef typename T::iterator_category     iterator_category;
         typedef typename T::pointer               pointer;
         typedef typename T::reference             reference;
+	};
+
+	template <	class Category,
+				class T,
+				class Distance = ptrdiff_t,
+          		class Pointer = T*,
+				class Reference = T&
+			>
+	struct iterator {
+		typedef T         value_type;
+		typedef Distance  difference_type;
+		typedef Pointer   pointer;
+		typedef Reference reference;
+		typedef Category  iterator_category;
+	};
+
+
+	template <class Iterator> 
+	class reverse_iterator {
+		
+	};
+
 
 //my_function() for bidirectional iterators
  template <typename BidectionalIterator>
@@ -80,20 +105,6 @@ namespace ft {
         return diff; 
     }  
 
-
-
-	template<	typename Category,
-				typename T,
-				typename Distance=ptrdiff_t,
-				typename Pointer=T*,
-				typename Reference=T&,
-			>
-	class iterator {
-		private:
-
-		public:
-
-	};
 }
 
 #endif
