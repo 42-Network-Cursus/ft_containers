@@ -79,6 +79,7 @@ namespace ft {
 
 			template <class Tx, class Containerx>
 			friend  bool operator>= (const stack<Tx,Containerx>& lhs, const stack<Tx,Containerx>& rhs);
+			
 	}; // END class stack
 
 	// Non-member RELATIONAL OPERATORS
