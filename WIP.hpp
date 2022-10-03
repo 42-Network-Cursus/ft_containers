@@ -1,5 +1,4 @@
 namespace ft {
-	//iterator_traits
 
 	//reverse iterator
 

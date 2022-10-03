@@ -27,13 +27,12 @@ namespace ft {
 
 		public:
 
-			//Constructor
-
-			// explicit : 
+			// Constructor
+			// explicit keyword : cannot be used for implicit conversions and copy-initialization. 
+			// More info https://en.cppreference.com/w/cpp/language/explicit
 			explicit stack( const container_type& ctnr = container_type() ) : _c(ctnr) {}
 		
-			// Member Functions
-
+			// Member Functions ----------------------------------
 			bool 				empty() const {
 				return ( _c.empty() );
 			}
@@ -58,9 +57,9 @@ namespace ft {
 			void 				pop() {
 				_c.pop_back();
 			}
+			// ----------------------------------------------------
 
 			/***************************** RELATIONAL OPERATORS *****************************/
-			
 			// Friend keyword: grants operators access to private/protected underlying container
 			template <class Tx, class Containerx>
 			friend  bool operator== (const stack<Tx,Containerx>& lhs, const stack<Tx,Containerx>& rhs);
@@ -79,7 +78,8 @@ namespace ft {
 
 			template <class Tx, class Containerx>
 			friend  bool operator>= (const stack<Tx,Containerx>& lhs, const stack<Tx,Containerx>& rhs);
-			
+			// ------------------------------------------------------------------------------------------
+
 	}; // END class stack
 
 	// Non-member RELATIONAL OPERATORS
