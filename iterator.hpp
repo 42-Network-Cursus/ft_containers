@@ -16,6 +16,7 @@ namespace ft {
 				typename Reference = T&
 			>
 	class Iterator {
+
 		public:
 			typedef T         value_type;
 			typedef Distance  difference_type;
@@ -26,7 +27,9 @@ namespace ft {
 
 	template < typename T >
 	class Random_access_iterator : public virtual ft::Iterator<ft::random_access_iterator_tag, T> {
+
 		public:
+
 			typedef typename ft::Iterator<ft::random_access_iterator_tag, T>::value_type 		value_type;
 
 			typedef typename ft::Iterator<ft::random_access_iterator_tag, T>::iterator_category	iterator_category;
@@ -37,34 +40,152 @@ namespace ft {
 
 			typedef T&	reference;
 
-			typedef Random_access_iterator RA_Iterator;
 		private:
+
 			pointer	_data;
+
 		public:
-			RA_Iterator() : _data(NULL) {
+
+			//TODEL
+			void	toData(T value, int i) {
+				_data[i] = value;
+			}
+			//------
+
+			Random_access_iterator() : _data(NULL) { //ok
+				_data = new value_type[10];
+				*_data = 10;
 				std::cout << "Constructor\n";
 			}
 
-			RA_Iterator(const RA_Iterator & rhs) {
+			Random_access_iterator(const Random_access_iterator & rhs) { //ok
 				std::cout << "Copy\n";
 				_data = rhs._data;
 			}
 
-			~RA_Iterator() {
+			~Random_access_iterator() {
 				std::cout << "Destructor\n";
 			}
 
-			RA_Iterator& operator=(const RA_Iterator & rhs) {
+			Random_access_iterator& operator=(const Random_access_iterator & rhs) { //ok
+				std::cout << "Operator=\n";
 				_data = rhs._data;
+				return (*this);
 			}
 
-		// iterator operator++(int); //postfix increment
-		// value_type operator*() const;
-		// pointer operator->() const;
-		// friend bool operator==(const iterator&, const iterator&);
-		// friend bool operator!=(const iterator&, const iterator&); 
-	};
+			Random_access_iterator &operator++() { //ok
+				++_data;
+				return *this;
+			}
 
-}
+			Random_access_iterator operator++(int) { //ok
+				Random_access_iterator<value_type> tmp(*this);
+				++(*this);
+				return tmp;
+			}
 
-#endif
+			Random_access_iterator &operator--() { //ok
+				--_data;
+				return *this;
+			}
+
+			Random_access_iterator operator--(int) { //ok
+				Random_access_iterator<value_type> tmp(*this);
+				--(*this);
+				return tmp;
+			}
+
+			Random_access_iterator operator+(difference_type n) //ok
+			{
+				Random_access_iterator<value_type> tmp(*this);
+				tmp._data += n;
+				return tmp;
+			}
+			
+			Random_access_iterator operator-(difference_type n) //ok
+			{
+				Random_access_iterator<value_type> tmp(*this);
+				tmp._data -= n;
+				return tmp;
+			}
+
+			Random_access_iterator &operator+=(difference_type n) { //ok	
+				_data += n; // Works??
+				return *this;
+			}
+
+			Random_access_iterator &operator-=(difference_type n) {	//ok	
+				_data -= n; // Works??
+				return *this;
+			}
+
+			bool operator<(const Random_access_iterator &rhs) {
+				if (*_data < *(rhs._data))
+					return (true);
+				return (false);
+			}
+			
+			bool operator>(const Random_access_iterator &rhs) {
+				if (*_data > *(rhs._data))
+					return (true);
+				return (false);
+			}
+
+			bool operator<=(const Random_access_iterator &rhs) {
+				if (*_data <= *(rhs._data))
+					return (true);
+				return (false);
+			}
+
+			bool operator>=(const Random_access_iterator &rhs) {
+				if (*_data >= *(rhs._data))
+					return (true);
+				return (false);
+			}
+			
+			value_type operator[](int n) {
+				return (*(_data + n));
+			}
+
+			reference operator*() const {
+				return (*_data);
+			}
+
+			// HOW TO USE ???????
+			pointer operator->() const {
+				return (&(operator*()));
+			}
+
+			// value_type operator=(value_type &value) {
+			// 	return (value);
+			// }
+
+			bool operator==(const Random_access_iterator &rhs) {
+				if (*_data == *(rhs._data))
+					return (true);
+				return (false);
+			}
+
+			bool operator!=(const Random_access_iterator &rhs) {
+				if (*_data != *(rhs._data))
+					return (true);
+				return (false);
+			}
+
+			//DIFF BETWEEN 2 ITERATORS
+
+	}; // END class Random_access_iterator
+
+	//Specialized for N + iterator
+	template <typename T>
+	ft::Random_access_iterator<T> operator+(typename ft::Random_access_iterator<T>::difference_type n, ft::Random_access_iterator<T> &rhs) {
+		ft::Random_access_iterator<T> tmp(rhs);
+		return (tmp + n);
+	}
+
+	// Const specialization ?
+	// Ref specialization ?
+
+} // END FT
+
+#endif // END ITERATOR_HPP

@@ -85,37 +85,43 @@ namespace ft {
 	// Non-member RELATIONAL OPERATORS
 	// Calls the relational operator between the underlying containers
 
-	template <class T, class Container>  bool operator== (const stack<T,Container>& lhs, const stack<T,Container>& rhs) {
+	template <class T, class Container>  
+	bool operator== (const stack<T,Container>& lhs, const stack<T,Container>& rhs) {
 		if (lhs._c == rhs._c)
 			return true;
 		return false;
 	}
 	
-	template <class T, class Container>  bool operator!= (const stack<T,Container>& lhs, const stack<T,Container>& rhs) {
+	template <class T, class Container>  
+	bool operator!= (const stack<T,Container>& lhs, const stack<T,Container>& rhs) {
 		if (lhs._c != rhs._c)
 			return true;
 		return false;
 	}
 
-	template <class T, class Container>  bool operator<  (const stack<T,Container>& lhs, const stack<T,Container>& rhs) {
+	template <class T, class Container>  
+	bool operator<  (const stack<T,Container>& lhs, const stack<T,Container>& rhs) {
 		if (lhs._c < rhs._c)
 			return true;
 		return false;
 	}
 
-	template <class T, class Container>  bool operator<= (const stack<T,Container>& lhs, const stack<T,Container>& rhs) {
+	template <class T, class Container>  
+	bool operator<= (const stack<T,Container>& lhs, const stack<T,Container>& rhs) {
 		if (lhs._c <= rhs._c)
 			return true;
 		return false;
 	}
 	
-	template <class T, class Container>  bool operator>  (const stack<T,Container>& lhs, const stack<T,Container>& rhs) {
+	template <class T, class Container>  
+	bool operator>  (const stack<T,Container>& lhs, const stack<T,Container>& rhs) {
 		if (lhs._c > rhs._c)
 			return true;
 		return false;
 	}
 
-	template <class T, class Container>  bool operator>= (const stack<T,Container>& lhs, const stack<T,Container>& rhs) {
+	template <class T, class Container>  
+	bool operator>= (const stack<T,Container>& lhs, const stack<T,Container>& rhs) {
 		if (lhs._c >= rhs._c)
 			return true;
 		return false;
