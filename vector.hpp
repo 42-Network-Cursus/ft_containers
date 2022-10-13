@@ -5,6 +5,7 @@
 
 # include <memory>
 # include <stdexcept>
+# include "Random_access_iterator.hpp"
 
 /************************************/
 /*									*/
@@ -19,59 +20,49 @@ namespace ft {
 			>  
 	class vector {
 	
-		private:
-
-			// Array used to store data. Grows dynamically depending on needs.
-			T*		_data;
-
-			// Allocator used to dynamically grow memory needs for _data.
-			Alloc	_allocator;
-
 		public:
 
 			// First template parameter
-			typedef T 								value_type;
+			typedef T 												value_type;
 
 			// Second template parameter
-			typedef typename Alloc::value_type		allocator_type;
+			typedef Alloc											allocator_type;
 
 			// (const) Reference to value_type
-			typedef typename Alloc::reference		reference;
-			typedef	typename Alloc::const_reference	const_reference;
+			typedef typename Alloc::reference						reference;
+			typedef	typename Alloc::const_reference					const_reference;
 
 			// (const) Pointer to value_type
-			typedef	typename Alloc::pointer			pointer;
-			typedef	typename Alloc::const_pointer	const_pointer;
+			typedef	typename Alloc::pointer							pointer;
+			typedef	typename Alloc::const_pointer					const_pointer;
 
-			//TODO
-			//iterators ! Probably need to implement them
-			std::iterator< std::random_access_iterator_tag, T > iterator;
-			std::iterator< std::random_access_iterator_tag, const T > const_iterator;
+			// Iterators
+			typedef ft::Random_access_iterator<value_type>			iterator;
+			typedef ft::Random_access_iterator<const value_type>	const_iterator;
+		
+			//TO IMPLEMENT
 			std::reverse_iterator<std::iterator< std::random_access_iterator_tag, T > > reverse_iterator;
 			std::reverse_iterator<std::iterator< std::random_access_iterator_tag, const T > > const_reverse_iterator;
-			// typedef	iterator<T>						iterator;
-			// typedef iterator<const T>				const_iterator;
-			//ENDTODO
+			//-------------
 
-			typedef ptrdiff_t						difference_type;
-			typedef	size_t							size_type;
+			typedef ptrdiff_t										difference_type;
+			typedef	size_t											size_type;
 
-			//MAYBE TODO
-			// class iterator : public std::iterator< std::random_access_iterator_tag, T >
-			// {
-				
-			// };
-
-			// class reverse_iterator : public std::reverse_iterator<iterator>
-			// {
-
-			// };
-			//ENDTODO
-
-			vector(): _data( new T[10] ) {}
-			// ~vector();
-			//copy constr.
-			// operator=();
+			// 		CONSTRUCTORS
+			explicit vector (const allocator_type& alloc = allocator_type()) {}
+			
+			explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) {}
+			
+			template <typename InputIterator>
+			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) {}
+			
+			vector (const vector& rhs) {}
+			
+			// 		DESTRUCTOR
+			~vector() {}
+			
+			// 		Assignment operator
+			vector& operator=(const vector& rhs) {}
 
 
 			// ITERATORS
@@ -199,7 +190,6 @@ namespace ft {
 			// pop_back();
 			// insert();
 			// erase();
-			// swap();
 			void		clear() {
 				for (size_type i = 0; i < this->size(); i++)
 					_data[i] = 0;
@@ -211,12 +201,72 @@ namespace ft {
 			// ALLOCATOR
 			// get_allocator();
 
-			// NON-MEMBER FUNCTION OVERLOADS
-			// relational operators... (keyword friend)
-			// swap();
+			void swap (vector& rhs) {
+
+			}
+
+			// NON-MEMBER FUNCTION OPERATOR OVERLOADS
+			template <class Tx, class Allocx>  
+			friend bool operator== (const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs);
+
+			template <class Tx, class Allocx> 
+			friend bool operator!= (const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs);
+
+			template <class Tx, class Allocx>  
+			friend bool operator<  (const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs);
+
+			template <class Tx, class Allocx>  
+			friend bool operator<= (const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs);
+			
+			template <class Tx, class Allocx>  
+			friend bool operator>  (const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs);
+			
+			template <class Tx, class Allocx>  
+			friend bool operator>= (const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs);
+
+		private:
+
+			// Array used to store data. Grows dynamically depending on needs.
+			value_type*		_data;
+
+			// Allocator used to dynamically grow memory needs for _data.
+			allocator_type	_allocator;
 
 	}; // END class vector
 	
+
+	// RELATIONAL OPERATORS
+	template <class T, class Alloc>  bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+
+	}
+
+	template <class T, class Alloc>  bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+
+	}
+
+	template <class T, class Alloc>  bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+
+	}
+
+	template <class T, class Alloc>  bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+
+	}
+	
+	template <class T, class Alloc>  bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+
+	}
+	
+	template <class T, class Alloc>  bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+
+	}
+
+	//swap
+	template <class T, class Alloc>  
+	void swap (vector<T,Alloc>& lhs, vector<T,Alloc>& rhs) {
+
+	}
+
+
 } // END namespace ft
 
 #endif // VECTOR_HPP

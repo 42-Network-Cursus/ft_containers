@@ -21,12 +21,6 @@ namespace ft {
 
 			typedef size_t		size_type;
 
-		protected:
-
-			container_type	_c;
-
-		public:
-
 			// Constructor
 			// explicit keyword : cannot be used for implicit conversions and copy-initialization. 
 			// More info https://en.cppreference.com/w/cpp/language/explicit
@@ -60,7 +54,7 @@ namespace ft {
 			// ----------------------------------------------------
 
 			/***************************** RELATIONAL OPERATORS *****************************/
-			// Friend keyword: grants operators access to private/protected underlying container
+			// Friend keyword: grants operator overloads access to private/protected members of underlying container
 			template <class Tx, class Containerx>
 			friend  bool operator== (const stack<Tx,Containerx>& lhs, const stack<Tx,Containerx>& rhs);
 
@@ -79,12 +73,15 @@ namespace ft {
 			template <class Tx, class Containerx>
 			friend  bool operator>= (const stack<Tx,Containerx>& lhs, const stack<Tx,Containerx>& rhs);
 			// ------------------------------------------------------------------------------------------
+		
+		protected:
+
+			container_type	_c;
 
 	}; // END class stack
 
 	// Non-member RELATIONAL OPERATORS
 	// Calls the relational operator between the underlying containers
-
 	template <class T, class Container>  
 	bool operator== (const stack<T,Container>& lhs, const stack<T,Container>& rhs) {
 		if (lhs._c == rhs._c)

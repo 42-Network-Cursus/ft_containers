@@ -20,15 +20,15 @@ int main() {
 	//--------
 
 	
-	ft::Random_access_iterator<int>	it;
-	ft::Random_access_iterator<int>	ite;
-	for (int i = 0; i < 5; i++)
-		it.toData((i * 10), i);
+	// ft::Random_access_iterator<int>	it;
+	// ft::Random_access_iterator<int>	ite;
+	// for (int i = 0; i < 5; i++)
+	// 	it.toData((i * 10), i);
 
-	*it = 50;
+	// *it = 50;
 
-	std::cout << "[] " << it[0] << std::endl;
-	std::cout << *it << std::endl;
+	// std::cout << "[] " << it[0] << std::endl;
+	// std::cout << *it << std::endl;
 	// std::cout << *(it - 1) << std::endl;
 	// std::cout << *it  << std::endl;
 
