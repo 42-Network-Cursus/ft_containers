@@ -10,6 +10,6 @@ namespace ft {
 	struct bidirectional_iterator_tag : public forward_iterator_tag {};
 	struct random_access_iterator_tag : public bidirectional_iterator_tag {};
 
-}
+} // END namespace ft
 
-#endif
+#endif // ITERATOR_TAGS_HPP

@@ -1,4 +1,4 @@
-#ifndef #ifndef ITERATOR_HPP
+#ifndef ITERATOR_HPP
 # define ITERATOR_HPP
 
 namespace ft {
@@ -11,7 +11,7 @@ namespace ft {
           		typename Pointer = T*,
 				typename Reference = T&
 			>
-	class Iterator {
+	class iterator {
 
 		public:
 			typedef T         value_type;
@@ -23,4 +23,4 @@ namespace ft {
 	//-------------------------------------------------------------------
 } // END namespace ft
 
-#endif // END ITERATOR_HPP
+#endif // ITERATOR_HPP

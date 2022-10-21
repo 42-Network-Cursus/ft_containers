@@ -38,6 +38,6 @@ namespace ft {
 			typedef  const T&            		reference;
 	};
 	
-}
+} // END namespace ft
 
-#endif
+#endif // ITERATOR_TRAITS_HPP

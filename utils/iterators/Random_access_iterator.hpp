@@ -3,21 +3,22 @@
 
 # include <iostream> // Testing, delete later
 
-# include "utils/iterator_tags.hpp"
-# include "utils/iterator.hpp"
+# include "iterator_tags.hpp"
+# include "iterator_traits.hpp"
+# include "iterator.hpp"
 
 namespace ft {
 
 	template < typename T >
-	class Random_access_iterator : public virtual ft::Iterator<ft::random_access_iterator_tag, T> {
+	class Random_access_iterator : public virtual ft::iterator<ft::random_access_iterator_tag, T> {
 
 		public:
 
-			typedef typename ft::Iterator<ft::random_access_iterator_tag, T>::value_type 		value_type;
+			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::value_type 		value_type;
 
-			typedef typename ft::Iterator<ft::random_access_iterator_tag, T>::iterator_category	iterator_category;
+			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::iterator_category	iterator_category;
 
-			typedef typename ft::Iterator<ft::random_access_iterator_tag, T>::difference_type	difference_type;
+			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type	difference_type;
 
 			typedef T*			pointer;
 
@@ -26,30 +27,21 @@ namespace ft {
 			typedef const T&	const_reference;
 
 			// Default constructor
-			Random_access_iterator() : _data(NULL) { //ok
-				_data = new value_type[10]; //TODEL
-				*_data = 10; //TODEL
-				std::cout << "Constructor\n";
-			}
+			Random_access_iterator() : _data(NULL) {} //ok
 
-			Random_access_iterator(pointer ptr) : _data(ptr) {
-				std::cout << "ptr Constructor\n";
-			}
+			Random_access_iterator(pointer ptr) : _data(ptr) {}
 
 			// Copy constructor
 			Random_access_iterator(const Random_access_iterator & rhs) { //ok
-				std::cout << "Copy\n";
 				_data = rhs._data;
 			}
 
 			// Destructor
 			~Random_access_iterator() {
-				std::cout << "Destructor\n";
 			}
 
 			// Assignment operator
 			Random_access_iterator& operator=(const Random_access_iterator & rhs) { //ok
-				std::cout << "Operator=\n";
 				_data = rhs._data;
 				return (*this);
 			}
@@ -110,44 +102,44 @@ namespace ft {
 			}
 
 			// Difference between two iterators
-			difference_type operator-(VectorIterator const &rhs) const {
+			difference_type operator-(Random_access_iterator const &rhs) const {
 				return (_data - rhs._data);
 			}
 			//-------------------------------------------------------
 
 			//				COMPARING OPERATORS
 			bool operator<(const Random_access_iterator &rhs) {
-				if (*_data < *(rhs._data))
+				if (_data < (rhs._data))
 					return (true);
 				return (false);
 			}
 			
 			bool operator>(const Random_access_iterator &rhs) {
-				if (*_data > *(rhs._data))
+				if (_data > (rhs._data))
 					return (true);
 				return (false);
 			}
 
 			bool operator<=(const Random_access_iterator &rhs) {
-				if (*_data <= *(rhs._data))
+				if (_data <= (rhs._data))
 					return (true);
 				return (false);
 			}
 
 			bool operator>=(const Random_access_iterator &rhs) {
-				if (*_data >= *(rhs._data))
+				if (_data >= (rhs._data))
 					return (true);
 				return (false);
 			}
 
 			bool operator==(const Random_access_iterator &rhs) {
-				if (*_data == *(rhs._data))
+				if (_data == (rhs._data))
 					return (true);
 				return (false);
 			}
 
 			bool operator!=(const Random_access_iterator &rhs) {
-				if (*_data != *(rhs._data))
+				if (_data != (rhs._data)) // if (*_data != *(rhs._data))
 					return (true);
 				return (false);
 			}
@@ -185,6 +177,11 @@ namespace ft {
 		return (tmp += n);
 	}
 
-} // END FT
+	template<class InputIterator>  
+	typename ft::iterator_traits<InputIterator>::difference_type    distance (InputIterator first, InputIterator last) {
+	return (last - first);
+}
 
-#endif // END RANDOM_ACCESS_ITERATOR_HPP
+} // END namespace ft
+
+#endif // RANDOM_ACCESS_ITERATOR_HPP
