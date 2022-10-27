@@ -10,7 +10,7 @@ namespace ft {
 
 		public:
 			
-			typedef Iterator													iterator_type;
+			typedef  Iterator													iterator_type;
 
 			typedef typename ft::iterator_traits<Iterator>::iterator_category	iterator_category;
 
@@ -46,7 +46,7 @@ namespace ft {
 
 			reverse_iterator  operator--(int) {
 				reverse_iterator tmp = *this;
-				--(*this);
+				++(*this);
 				return tmp;
 			}
 
@@ -66,7 +66,7 @@ namespace ft {
 
 			reverse_iterator  operator++(int) {
 				reverse_iterator tmp = *this;
-				++(*this);
+				--(*this);
 				return tmp;
 			}
 			
@@ -78,7 +78,7 @@ namespace ft {
 
 			//		ACCESS OPERATORS
 			reference operator*() const {
-				iterator_type	tmp(_data);
+				iterator_type	tmp = _data;
 				return (*(--tmp));
 			}
 
