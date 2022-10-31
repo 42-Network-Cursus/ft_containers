@@ -1,8 +1,8 @@
 #ifndef IS_INTEGRAL
 # define IS_INTEGRAL
 
-namespace ft {
-
+namespace ft 
+{
 	// Base template, defaults to false
 	template <typename T> 
 	struct is_integral { static const bool value = false; };

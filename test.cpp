@@ -1,204 +1,36 @@
 #include <iostream>
+#include <utility>
+
+// uncomment to disable assert()
+// #define NDEBUG
+#include <cassert>
+
+#include "stack.hpp"
+#include "vector.hpp"
+
+#include <typeinfo>     // typeid
+
+
 int main() {
-	{
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
-		std::cout << "1\n";
 
-	}
-	{
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-		std::cout << "2\n";
-	}
-	{
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
+	// std::pair<int, char> pr(5, 'c');
+	// assert(1 > 2);
+	// std::cout << pr.first << std::endl;
 
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
 
-		std::cout << "3\n";
-		std::cout << "3\n";std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
+	ft::vector<int> s1;
+	ft::vector<int> s2;
 
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
+	s1.push_back(5);
+	s2.push_back(5);
+	
+	s1.push_back(4);
+	s2.push_back(4);
 
-		std::cout << "3\n";
-		std::cout << "3\n";std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
+	ft::vector<int>::iterator it = s1.begin();
 
-		std::cout << "3\n";
-		std::cout << "3\n";std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
+	if (typeid(ft::iterator_traits<int*>::iterator_category) == typeid(ft::random_access_iterator_tag))
+		std::cout << "OK\n";
 
-		std::cout << "3\n";
-		std::cout << "3\n";std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-
-		std::cout << "3\n";
-		std::cout << "3\n";std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-
-		std::cout << "3\n";
-		std::cout << "3\n";std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-
-		std::cout << "3\n";
-		std::cout << "3\n";std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-
-		std::cout << "3\n";
-		std::cout << "3\n";std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-
-		std::cout << "3\n";
-		std::cout << "3\n";std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-
-		std::cout << "3\n";
-		std::cout << "3\n";std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-		std::cout << "3\n";
-
-		std::cout << "3\n";
-		std::cout << "3\n";
-	}
+	// iterator
 }
