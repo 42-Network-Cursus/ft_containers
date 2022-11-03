@@ -79,7 +79,7 @@ explicit	reverse_iterator (iterator_type it) : _data(it) {}
 
 			pointer		operator-> () const { return &(operator*() ); }
 
-			reference	operator [] (difference_type n) const { return (base([-n - 1]) ); }
+			reference	operator [] (difference_type n) const { return (base()[-n - 1] ); }
 		// ------------------------------------------------------------------------------------------------
 
 		// RELATIONAL OPERATORS 

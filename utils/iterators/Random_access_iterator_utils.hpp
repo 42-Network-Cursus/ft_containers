@@ -1,6 +1,8 @@
 #ifndef RANDOM_ACCESS_ITERATOR_UTILS_HPP
 # define RANDOM_ACCESS_ITERATOR_UTILS_HPP
 
+# include "iterator.hpp"
+
 namespace ft 
 {
 	template <typename InputIterator1, typename InputIterator2>
@@ -36,6 +38,7 @@ namespace ft
 	template<class InputIterator>  
 	typename ft::iterator_traits<InputIterator>::difference_type    distance (InputIterator first, InputIterator last) 
 	{
+		std::cout << "MY DIST\n";
 		return (last - first);
 	}
 
