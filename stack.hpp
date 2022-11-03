@@ -1,13 +1,13 @@
 #ifndef STACK_HPP
 # define STACK_HPP
 
-# include <vector> // Delete and replace by ft::vector
+# include "vector"
 
 namespace ft 
 {
 
 	template <	typename T,
-				typename Container = std::vector<T> // must use ft::vector<T> as default
+				typename Container = ft::vector<T>
 			 >
 	class stack 
 	{

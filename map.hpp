@@ -4,6 +4,68 @@
 //https://github.com/electronicarts/EASTL/blob/master/source/red_black_tree.cpp
 // uses bidirectional iterator
 
+// parsing through tree
+// Go as far left from this node as you can.
+// i.e. find the minimum node in this subtree
+// Node* Leftmost(Node* node)
+// {
+//     if (node == nullptr)
+//         return nullptr;
+//     while (node->left != nullptr)
+//         node = node->left;
+//     return node;
+// }
+
+// // Start iterating from a root node
+// Node* First(Node* root)
+// {
+//     return Leftmost(root);
+// }
+
+// // The iteration is current at node.  Return the next node
+// // in value order.
+// Node* Next(Node* node)
+// {
+//     // Make sure that the caller hasn't failed to stop.
+//     assert(node != nullptr);
+
+//     // If we have a right subtree we must iterate over it,
+//     // starting at its leftmost (minimal) node.
+
+//     if (node->right != nullptr)
+//         return Leftmost(node->right);
+    
+//     // Otherwise we must go up the tree
+
+//     Node* parent = node->parent;
+//     if (parent == nullptr)
+//         return nullptr;
+
+//     // A node comes immediately after its left subtree
+
+//     if (node == parent->left)
+//         return parent;
+
+//     // This must be the right subtree!
+//     assert(node == parent->right);
+
+//     // In which case we need to go up again, looking for a node that is
+//     // its parent's left child.
+
+//     while (parent != nullptr && node != parent->left)
+//     {
+//         node = parent;
+//         parent = node->parent;
+//     }
+
+//     // We should be at a left child!
+//     assert(parent == nullptr || node == parent->left);
+
+//     // And, as we know, a node comes immediately after its left subtree
+
+//     return parent;
+// }
+// *********************************************************************************
 namespace ft {
 	template<	typename Key, 
 				typename T, 
@@ -17,7 +79,7 @@ namespace ft {
 			typedef T												mapped_type;
 			typedef ft::pair<const Key, T>							value_type;
 			typedef	Compare											key_compare;
-			//														value_compare
+			//typedef map<Key,T,Compare,Alloc>::value_compare		value_compare
 			typedef Alloc											allocator_type;
 
 			typedef	allocator_type::reference						reference;
@@ -33,16 +95,18 @@ namespace ft {
 			typedef size_t 											size_type;
 			
 			
+		// CONSTRUCTORS
+// explicit	map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : ... {}
 			
-			// explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {}
+// 			template <class InputIterator>  
+// 			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) 
+// 			: ...
+// 			{}
 			
-			// template <class InputIterator>  
-			// map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {}
-			
-			// map (const map& x) {}
+// 			map (const map& x) {}
 
 			// ~map() {}
-			// map& operator= (const map& x) {}
+			// map& operator= (const map& rhs) {}
 
 
 			// ITERATORS
@@ -105,7 +169,7 @@ namespace ft {
 			// pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
 			// pair<iterator,iterator>             equal_range (const key_type& k);
 
-			// GET ALLOCATOR
+		// GET ALLOCATOR
 			allocator_type get_allocator() const { return (_alloc); }
 		
 			private:
@@ -115,6 +179,23 @@ namespace ft {
 				
 				allocator_type	_alloc;
 
+	}; // END class map
+
+	template <class Key, class T, class Compare, class Alloc>
+	class map<Key, T, Compare, Alloc>::value_compare
+	{   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
+		friend class map;
+		public:
+			typedef bool		result_type;
+			typedef value_type	first_argument_type;
+			typedef value_type	second_argument_type;
+		
+			bool operator() (const value_type& x, const value_type& y) const { return comp(x.first, y.first); }
+		protected:
+			Compare comp;
+			value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
 	};
-}
-#endif
+
+} // END namespace ft
+
+#endif // MAP_HPP

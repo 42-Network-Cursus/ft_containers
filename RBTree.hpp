@@ -4,17 +4,17 @@
 /*
  * Node RBTree Declaration
  */
-
+// https://en.wikipedia.org/wiki/Red%E2%80%93black_tree#Insert_case_1
 namespace ft {
 
 
-enum color { RED, BLACK };
+enum colour { RED, BLACK };
 
 template<typename T>
 typedef struct	rbtree_node
 {
 	T			pair;
-    enum color color;
+    colour 		Colour;
     rbtree_node *left; 
 	rbtree_node *right;
 	rbtree_node *parent;
@@ -426,6 +426,7 @@ void RBTree::insert_case5(rbtree t, node n)
 /*
  * Delete Node from RBTree
  */
+ // USE ALLOCATOR DESTROY // CALLED BY CLEAR
 void RBTree::rbtree_delete(rbtree t, void* key, compare_func compare)
 {
     node child;
