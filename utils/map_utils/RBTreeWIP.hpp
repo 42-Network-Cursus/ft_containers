@@ -5,25 +5,25 @@
  * Node RBTree Declaration
  */
 // https://en.wikipedia.org/wiki/Red%E2%80%93black_tree#Insert_case_1
-namespace ft {
+// namespace ft {
 
 
-enum colour { RED, BLACK };
+// enum colour { RED, BLACK };
 
-template<typename T>
-typedef struct	rbtree_node
-{
-	T			pair;
-    colour 		Colour;
-    rbtree_node *left; 
-	rbtree_node *right;
-	rbtree_node *parent;
-}				node;
+// template<typename T>
+// typedef struct	rbtree_node
+// {
+// 	T			pair;
+//     colour 		Colour;
+//     rbtree_node *left; 
+// 	rbtree_node *right;
+// 	rbtree_node *parent;
+// }				node;
 
-typedef struct	rbtree_t // Replace by private property ?
-{
-    node root;
-}				rbtree;
+// typedef struct	rbtree_t // Replace by private property ?
+// {
+//     node root;
+// }				rbtree;
  
 template<typename T>
 class RBTree
@@ -31,6 +31,7 @@ class RBTree
     public:
 
         typedef int (*compare_func)(void* left, void* right);
+		
         rbtree rbtree_create();
         void* rbtree_lookup(rbtree t, void* , compare_func compare);
         void rbtree_insert(rbtree t, void* , void* , compare_func compare);
@@ -201,9 +202,12 @@ rbtree RBTree::rbtree_create()
 node RBTree::new_node(void* k, void* v, color n_color, node left, node right) //*****************
 {
     node result = new rbtree_node;
+   
     result->key = k;
     result->value = v;
+   
     result->color = n_color;
+   
     result->left = left;
     result->right = right;
     if (left  != NULL)

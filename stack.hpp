@@ -23,10 +23,10 @@ namespace ft
 		
 		// Member Functions 
 			bool 				empty ()	const				{ return (_c.empty() ); }
-			size_type 			size ()	const					{ return (_c.size() ); }
+			size_type 			size ()		const				{ return (_c.size() ); }
 
 			value_type& 		top ()							{ return (_c.back() ); }
-			const value_type& 	top ()	const 					{ return (_c.back() ); }
+			const value_type& 	top ()		const 				{ return (_c.back() ); }
 
 			void 				push (const value_type& val)	{ _c.push_back(val); }
 			void 				pop () 							{ _c.pop_back(); }

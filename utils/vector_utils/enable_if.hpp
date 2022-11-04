@@ -1,21 +1,27 @@
-#ifndef IS_INTEGRAL
-# define IS_INTEGRAL
+#ifndef ENABLE_IF
+# define ENABLE_IF
 
 namespace ft 
 {
-	// Base template, defaults to false
+	template <bool Cond, class T = void> 
+	struct enable_if {};
+
+	template<class T> 
+	struct enable_if<true, T> 
+	{ 
+		typedef T type; 
+	};
+//-------------------------------------------------------------------
+// Base template, defaults to false
 	template <typename T> 
 	struct is_integral { static const bool value = false; };
 
-	// Specializations for integral types
+// Specializations for integral types
 	template <>
 	struct is_integral<bool> { static const bool value = true; };
 
 	template <>
 	struct is_integral<char> { static const bool value = true; };
-
-	template <>
-	struct is_integral<wchar_t> { static const bool value = true; }; // Not used anymore ?
 
 	template <>
 	struct is_integral<signed char> { static const bool value = true; };
@@ -49,4 +55,4 @@ namespace ft
 
 } // END namespace ft
 
-#endif // IS_INTEGRAL
+#endif //ENABLE_IF
