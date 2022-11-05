@@ -6,6 +6,8 @@
 # include "iterator.hpp"
 # include "Random_access_iterator_utils.hpp"
 
+// CONST ITERATOR WORKS ???????????????????
+
 namespace ft 
 {
 	template <typename T>
@@ -22,13 +24,12 @@ namespace ft
 			typedef const T&																	const_reference;
 
 		// CONSTRUCTORS
-			Random_access_iterator () : _data(NULL) {}
-			Random_access_iterator (pointer ptr) : _data(ptr) {}
-			Random_access_iterator (const Random_access_iterator & rhs) { _data = rhs._data; }
+			Random_access_iterator (pointer data = NULL) : _data(data) {}
+			Random_access_iterator (const Random_access_iterator& rhs) { _data = rhs._data; }
 		// DESTRUCTOR
 			~Random_access_iterator () {}
 		// ASSIGMNEMT OPERATOR
-			Random_access_iterator& operator= (const Random_access_iterator & rhs) 
+			Random_access_iterator& operator= (const Random_access_iterator& rhs) 
 			{
 				_data = rhs._data;
 				return (*this);
@@ -123,7 +124,7 @@ namespace ft
 			pointer		operator-> ()	const 	{ return (&(operator*() )); }
 			//-------------------------------------------------------
 		
-		private: //protected ?
+		private:
 			pointer	_data;
 	
 	}; // END class Random_access_iterator

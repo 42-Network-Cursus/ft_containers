@@ -15,23 +15,28 @@ namespace ft
 			typedef Key																			key_type;
 			typedef T																			mapped_type;
 			typedef ft::pair<const Key, T>														value_type;
-			typedef typename ft::iterator<ft::bidirectional_iterator_tag, T>::iterator_category	iterator_category;
-			typedef typename ft::iterator<ft::bidirectional_iterator_tag, T>::difference_type	difference_type;
+
+			typedef  ft::bidirectional_iterator_tag		iterator_category;
+			typedef  ptrdiff_t							difference_type;
 			
-			typedef T*																			pointer;
-			typedef T&																			reference;
-			typedef const T&																	const_reference;
+			typedef value_type*																			pointer;
+		//weird
+			// typedef typename ft::select_const_type<IsConst, value_type*, const value_type*>::type	pointer;
+			// typedef typename ft::select_const_type<IsConst, value_type&, const value_type&>::type	reference;
+			typedef value_type&																			reference;
+			typedef const value_type&																	const_reference;
+
+			typedef Node<Key, T>																node_type;
 
 		// CONSTRUCTORS
-			Bidirectional_iterator () : _data(NULL) {}
-			Bidirectional_iterator (pointer ptr) : _data(ptr) {}
-			Bidirectional_iterator (const Bidirectional_iterator & rhs) { _data = rhs._data; }
+			Bidirectional_iterator (node_type *value = NULL) : _node(value) {}
+			Bidirectional_iterator (const Bidirectional_iterator& rhs) : _node(rhs._node) {}
 		// DESTRUCTOR
 			~Bidirectional_iterator () {}
 		// ASSIGMNEMT OPERATOR
-			Bidirectional_iterator& operator= (const Bidirectional_iterator & rhs) 
+			Bidirectional_iterator& operator= (const Bidirectional_iterator& rhs) 
 			{
-				_data = rhs._data;
+				_node = rhs._node;
 				return (*this);
 			}
 		// ------------------------------------------------------------------------------------------------
@@ -39,103 +44,61 @@ namespace ft
 		// INCREMENT && DECREMENT
 			Bidirectional_iterator& operator++ () 
 			{
-				++_data;
-				return *this;
+				return (_node->next() );
 			}
 
 			Bidirectional_iterator operator++ (int) 
 			{
-				Bidirectional_iterator<value_type> tmp(*this);
+				Bidirectional_iterator tmp(*this);
 				++(*this);
 				return tmp;
 			}
 
 			Bidirectional_iterator& operator-- () 
-			{
-				--_data;
-				return *this;
+			
+				return (_node->prev());
 			}
 
 			Bidirectional_iterator operator-- (int) 
 			{
-				Bidirectional_iterator<value_type> tmp(*this);
+				Bidirectional_iterator tmp(*this);
 				--(*this);
 				return tmp;
 			}
-		// ------------------------------------------------------------------------------------------------
-
-		// ADDING && SUBSTRACTING
-			// Bidirectional_iterator& operator+= (difference_type n) 
-			// {
-			// 	_data += n; // Works??
-			// 	// difference_type m = n; //cppreference
-			// 	// if (m >= 0) while (m--) ++r;
-			// 	// else while (m++) --r;
-			// 	// return r;
-			// 	return *this;
-			// }
-
-			// Bidirectional_iterator& operator-= (difference_type n) 
-			// {
-			// 	_data -= n; // Works??
-			// 	// return r += -n; cppreference
-			// 	return *this;
-			// }
-
-			// Bidirectional_iterator operator+ (difference_type n)
-			// {
-			// 	Bidirectional_iterator<value_type> tmp(*this);
-			// 	tmp._data += n;
-			// 	return tmp;
-			// }
-			
-			// Bidirectional_iterator operator- (difference_type n)
-			// {
-			// 	Bidirectional_iterator<value_type> tmp(*this);
-			// 	// tmp._data -= n;
-			// 	// return tmp;
-			// 	return (tmp -= n);
-			// }
-
-			// // Difference between two iterators
-			// difference_type operator- (Bidirectional_iterator const &rhs) const 
-			// {
-			// 	return (_data - rhs._data);
-			// }
-		// ------------------------------------------------------------------------------------------------
-
-		// COMPARING OPERATORS
-			// bool operator<	(const Bidirectional_iterator& rhs)	{ return (_data < rhs._data); }
-			// bool operator>	(const Bidirectional_iterator& rhs)	{ return (_data > rhs._data); }
-			// bool operator<=	(const Bidirectional_iterator& rhs)	{ return (_data <= rhs._data); }
-			// bool operator>=	(const Bidirectional_iterator& rhs)	{ return (_data >= rhs._data); }
-			bool operator==	(const Bidirectional_iterator& rhs)	{ return (_data == rhs._data); }
-			bool operator!=	(const Bidirectional_iterator& rhs)	{ return (_data != rhs._data); }
-		// ------------------------------------------------------------------------------------------------
-
+		// ---------------------------------------------------------------------
 		// ACCESS OPERATORS
-			// reference 	operator[] (int n)	{return (*(_data + n) ); }
-
-			// const_reference operator[](int n) const {
-			// 	return (*(_data + n));
-			// }
-
-			reference	operator* ()	const 	{ return (*_data); }
+			reference	operator* ()	const 	{ return (_node->value); }
 			pointer		operator-> ()	const 	{ return (&(operator*() )); }
-			//-------------------------------------------------------
+		//----------------------------------------------------------------------
+		// COMPARING OPERATORS
+			bool operator==	(const Bidirectional_iterator& rhs)	
+			{
+				// if (_is_end != rhs._is_end)
+				// 	return false;
+				// else if (_is_end == true)
+				// 	return true;
+				// else
+				// 	return node == rhs.node;
+			}
+			
+			bool operator!=	(const Bidirectional_iterator& rhs)	
+			{ 
+				// if (lhs._is_end != rhs._is_end)
+				// 	return true;
+				// else if (lhs._is_end == true)
+				// 	return false;
+				// else
+				// 	return lhs._node != rhs._node;
+			}
+		// ------------------------------------------------------------------------------------------------
+
 		
-		private: //protected ?
-			pointer	_data;
+		private:
+			node_type	*_node;
 	
 	}; // END class Bidirectional_iterator
 
-//Specialized for "n + iterator"
-	// template <typename T>
-	// ft::Bidirectional_iterator<T> operator+ (typename ft::Bidirectional_iterator<T>::difference_type n, ft::Bidirectional_iterator<T> &rhs) 
-	// {
-	// 	ft::Bidirectional_iterator<T> tmp(rhs);
-	// 	return (tmp += n);
-	// }
+
 
 } // END namespace ft
 

@@ -1,5 +1,5 @@
 #include <map>
-#include "map.hpp"
+// #include "map.hpp"
 #include <iostream>
 
 template<typename map>
@@ -22,14 +22,20 @@ int main()
 
 	map.insert(std::make_pair(5, 'a'));
 	map.insert(std::make_pair(4, 'b'));
-	map.insert(std::make_pair(8, 'c'));
-	map.insert(std::make_pair(7, 'd'));
-	map.insert(std::make_pair(15, 'e'));
+	// map.insert(std::make_pair(8, 'c'));
+	// map.insert(std::make_pair(7, 'd'));
+	// map.insert(std::make_pair(15, 'e'));
 
 	std::map<int, char>::iterator it = map.begin();
+	// it;
+	// it++;
+	// it++;
+	// it++;
+	it--;
+	it--;
+	// it--;
 
-	it++;
-	std::cout << it->first << std::endl;
+	std::cout << it->first << " => " << it->second << std::endl;
 
 	showData(map);
 
