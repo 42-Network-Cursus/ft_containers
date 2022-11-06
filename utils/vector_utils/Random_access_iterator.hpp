@@ -15,13 +15,13 @@ namespace ft
 	{
 
 		public:
-			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::value_type 		value_type;
-			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::iterator_category	iterator_category;
-			typedef typename ft::iterator<ft::random_access_iterator_tag, T>::difference_type	difference_type;
+			typedef T 								value_type;
+			typedef ft::random_access_iterator_tag	iterator_category;
+			typedef ptrdiff_t						difference_type;
 			
-			typedef T*																			pointer;
-			typedef T&																			reference;
-			typedef const T&																	const_reference;
+			typedef T*								pointer;
+			typedef T&								reference;
+			typedef const T&						const_reference;
 
 		// CONSTRUCTORS
 			Random_access_iterator (pointer data = NULL) : _data(data) {}

@@ -6,8 +6,7 @@
 # include "utils/iterators/Random_access_iterator.hpp"
 # include "utils/iterators/reverse_iterator.hpp"
 
-//https://github.com/electronicarts/EASTL/blob/master/source/red_black_tree.cpp
-// uses bidirectional iterator
+// https://blog.actorsfit.com/a?ID=01600-b3bb67f8-2a9f-41ad-a265-4d05da4ef2a0
 
 namespace ft 
 {
@@ -139,81 +138,16 @@ explicit	map (const key_compare& comp = key_compare(), const allocator_type& all
 		
 			
 
-			private:
-				RBTree				_tree;
+		private:
+			RBTree				_tree;
 
-				// size_type		_size;
-				
-				allocator_type	_alloc;
+			// allocator_type	_alloc;
+			
+			// size_type		_size;
 
-				// key_compare		_comp;
+			// key_compare		_comp;
 
 	}; // END class map
-
-
-// parsing through tree
-// Go as far left from this node as you can.
-// i.e. find the minimum node in this subtree
-// Node* Leftmost(Node* node)
-// {
-//     if (node == nullptr)
-//         return nullptr;
-//     while (node->left != nullptr)
-//         node = node->left;
-//     return node;
-// }
-
-// // Start iterating from a root node
-// Node* First(Node* root)
-// {
-//     return Leftmost(root);
-// }
-
-// // The iteration is current at node.  Return the next node
-// // in value order.
-// Node* Next(Node* node)
-// {
-//     // Make sure that the caller hasn't failed to stop.
-//     assert(node != nullptr);
-
-//     // If we have a right subtree we must iterate over it,
-//     // starting at its leftmost (minimal) node.
-
-//     if (node->right != nullptr)
-//         return Leftmost(node->right);
-    
-//     // Otherwise we must go up the tree
-
-//     Node* parent = node->parent;
-//     if (parent == nullptr)
-//         return nullptr;
-
-//     // A node comes immediately after its left subtree
-
-//     if (node == parent->left)
-//         return parent;
-
-//     // This must be the right subtree!
-//     assert(node == parent->right);
-
-//     // In which case we need to go up again, looking for a node that is
-//     // its parent's left child.
-
-//     while (parent != nullptr && node != parent->left)
-//     {
-//         node = parent;
-//         parent = node->parent;
-//     }
-
-//     // We should be at a left child!
-//     assert(parent == nullptr || node == parent->left);
-
-//     // And, as we know, a node comes immediately after its left subtree
-
-//     return parent;
-// }
-// *********************************************************************************
-
 } // END namespace ft
 
 #endif // MAP_HPP

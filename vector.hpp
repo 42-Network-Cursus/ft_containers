@@ -17,27 +17,25 @@ namespace ft
 	class vector 
 	{
 		public:
-			typedef T 												value_type;
-			typedef Alloc											allocator_type;
+			typedef T 										value_type;
+			typedef Alloc									allocator_type;
 
-		// (const) Reference to value_type
-			typedef typename Alloc::reference						reference;
-			typedef	typename Alloc::const_reference					const_reference;
-
-		// (const) Pointer to value_type
-			typedef	typename Alloc::pointer							pointer;
-			typedef	typename Alloc::const_pointer					const_pointer;
-
-			typedef	size_t											size_type;
-			typedef ptrdiff_t										difference_type;
+			typedef T&										reference;
+			typedef	const T&								const_reference;
 			
-			typedef ft::Random_access_iterator<value_type>			iterator;
-			typedef ft::Random_access_iterator<const value_type>	const_iterator;
-			
-			typedef ft::reverse_iterator<iterator> 					reverse_iterator;
-			typedef ft::reverse_iterator<const_iterator>			const_reverse_iterator;	
+			typedef	T*										pointer;
+			typedef	const T*								const_pointer;
 
-		// CONSTRUCTORS -------------------------------------------------------------------------------------------------
+			typedef	size_t									size_type;
+			typedef ptrdiff_t								difference_type;
+			
+			typedef ft::Random_access_iterator<T>			iterator;
+			typedef ft::Random_access_iterator<const T>		const_iterator;
+			
+			typedef ft::reverse_iterator<iterator> 			reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;	
+
+		// CONSTRUCTORS ------------------------------------------------------------------------------------------------------
 explicit	vector (const allocator_type& alloc = allocator_type())
 			: _data(NULL), _alloc(alloc), _capacity(0), _size(0) {}
 			
@@ -75,8 +73,8 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 				}
   				return (*this);
 			}
-		// -----------------------------------------------------------------------------------------------------------
-		// ITERATORS -------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------
+		// ITERATORS ---------------------------------------------------------------------------------------------------------
      		iterator				begin ()			{ return ( iterator(_data) ); }
 			const_iterator			begin ()	const	{ return ( const_iterator(_data) ); }
 
@@ -88,9 +86,9 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 
 			reverse_iterator		rend ()				{ return ( reverse_iterator( begin() ) ); }
 			const_reverse_iterator	rend ()		const	{ return ( const_reverse_iterator( begin() ) ); }
-		// -----------------------------------------------------------------------------------------------------------
-		// METHODS ---------------------------------------------------------------------------------------------------
-			// Returns number of elements (!! != capacity !!)
+		// -------------------------------------------------------------------------------------------------------------------
+		// METHODS -----------------------------------------------------------------------------------------------------------
+			// Returns number of elements
 			size_type		size ()				const	{ return (_size); }
 
 			// Returns max number of elements the vector could hold given OS specs
@@ -98,7 +96,9 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 
 			// Allocated space for sizeof(value_type) elements
 			size_type		capacity ()			const	{ return (_capacity); }
+
 			allocator_type	get_alloc ()		const	{ return (_alloc); }
+
 			bool			empty ()			const	{ return (_size == 0); }
 
 			void			reserve (size_type n)
@@ -142,8 +142,8 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
                     _size = n;
                 }
 			}
-		// -----------------------------------------------------------------------------------------------------------
-		// ELEMENT ACCESS --------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------
+		// ELEMENT ACCESS ----------------------------------------------------------------------------------------------------
 			reference 			operator[] (size_type n)			{ return ( _data[n] ); }
 			const_reference		operator[] (size_type n)	const	{ return ( _data[n] ); }
 
@@ -160,14 +160,14 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 				return ( _data[n] );
 			}
 
-			const_reference 	at ( size_type n ) 			const 
+			const_reference 	at ( size_type n ) const 
 			{
 				if ( n >= _size )
 					throw OUTOFRANGE();
 				return ( _data[n] );
 			}
-		// -----------------------------------------------------------------------------------------------------------
-		// MODIFIERS -------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------
+		// MODIFIERS ---------------------------------------------------------------------------------------------------------
 			template <class InputIterator>  
 			void		assign (InputIterator first, 
 								typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type last) 
@@ -300,7 +300,6 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 					_alloc.destroy(&(_data[i]));
 				_size = 0;
 			}
-		// -----------------------------------------------------------------------------------------------------------
 
 			void		swap (vector& rhs) 
 			{
@@ -319,29 +318,35 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 				rhs._capacity	= tmp_capacity;
 				rhs._size		= tmp_size;
 			}
-
-		// RELATIONAL OPERATORS ---------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------------------
+		// RELATIONAL OPERATORS ----------------------------------------------------------------------------------------------
 			template <class Tx, class Allocx>  
-			friend bool operator==	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs);
+			friend bool operator==	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs)
+			{
+				if (lhs.size() == rhs.size())
+					return (equal(lhs.begin(), lhs.end(), rhs.begin()));
+				return (false);
+			}
 
+			template <class Tx, class Allocx>  
+			friend bool operator<	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs)
+			{ return (lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end())); }
+			
 			template <class Tx, class Allocx> 
-			friend bool operator!=	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs);
+			friend bool operator!=	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs) { return (!(lhs == rhs)); }
+
 
 			template <class Tx, class Allocx>  
-			friend bool operator<	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs);
-
-			template <class Tx, class Allocx>  
-			friend bool operator<=	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs);
+			friend bool operator<=	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs) { return (!(rhs < lhs)); }
 			
 			template <class Tx, class Allocx>  
-			friend bool operator>	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs);
+			friend bool operator>	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs) { return (rhs < lhs); }
 			
 			template <class Tx, class Allocx>  
-			friend bool operator>=	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs);
-		// -----------------------------------------------------------------------------------------------------------
+			friend bool operator>=	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs) { return (!(lhs < rhs)); }
+		// -------------------------------------------------------------------------------------------------------------------
 
 		private:
-
 			// Array used to store data. Grows dynamically depending on needs.
 			pointer			_data;
 
@@ -355,35 +360,6 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 			size_type		_size;
 
 	}; // END class vector
-	
-// Non-member RELATIONAL OPERATORS ---------------------------------------------------------------------------
-	template <class T, class Alloc>  
-	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) 
-	{
-		if (lhs.size() == rhs.size())
-			return (equal(lhs.begin(), lhs.end(), rhs.begin()));
-		return (false);
-	}
-	
-	template <class T, class Alloc>  
-	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) 
-	{
-		return (lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
-	}
-
-	template <class T, class Alloc>  
-	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return (!(lhs == rhs)); }
-
-
-	template <class T, class Alloc>  
-	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return (!(rhs < lhs)); }
-	
-	template <class T, class Alloc>  
-	bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return (rhs < lhs); }
-	
-	template <class T, class Alloc>  
-	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) { return (!(lhs < rhs)); }
-// -----------------------------------------------------------------------------------------------------------
 
 	template <class T, class Alloc>  
 	void swap (vector<T,Alloc>& lhs, vector<T,Alloc>& rhs) { lhs.swap(rhs); }

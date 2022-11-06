@@ -44,6 +44,10 @@ namespace ft
 				return (*this);
 			}
 
+		key_type	getKey ()
+		{
+			return _value->second;
+		}
 
 		Node	*getMin()
 		{

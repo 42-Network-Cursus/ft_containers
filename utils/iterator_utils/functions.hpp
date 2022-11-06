@@ -33,12 +33,10 @@ namespace ft
 		}
 		return (first2 != last2);
 	}
-// -------------------------------------------------------------------------------------------------------------------
 
 	template<class InputIterator>  
 	typename ft::iterator_traits<InputIterator>::difference_type    distance (InputIterator first, InputIterator last) 
 	{
-		std::cout << "MY DIST\n";
 		return (last - first);
 	}
 
