@@ -4,10 +4,12 @@
 // # include <memory>
 // # include <stdexcept>
 
-# include "utils/iterators/Random_access_iterator.hpp"
-# include "utils/iterators/reverse_iterator.hpp"
-# include "utils/exceptions.hpp"
-# include "utils/enable_if.hpp"
+# include "utils/vector_utils/Random_access_iterator.hpp"
+# include "utils/vector_utils/reverse_iterator.hpp"
+# include "utils/vector_utils/exceptions.hpp"
+# include "utils/vector_utils/enable_if.hpp"
+# include "utils/iterator_utils/functions.hpp"
+# include "utils/iterator_utils/iterator.hpp"
 
 namespace ft 
 {	
@@ -17,27 +19,30 @@ namespace ft
 	class vector 
 	{
 		public:
-			typedef T 										value_type;
-			typedef Alloc									allocator_type;
+			typedef T 											value_type;
+			typedef Alloc										allocator_type;
 
-			typedef T&										reference;
-			typedef	const T&								const_reference;
+			typedef T&											reference;
+			typedef	const T&									const_reference;
 			
-			typedef	T*										pointer;
-			typedef	const T*								const_pointer;
+			typedef	T*											pointer;
+			typedef	const T*									const_pointer;
 
-			typedef	size_t									size_type;
-			typedef ptrdiff_t								difference_type;
+			typedef	size_t										size_type;
+			typedef ptrdiff_t									difference_type;
 			
-			typedef ft::Random_access_iterator<T>			iterator;
-			typedef ft::Random_access_iterator<const T>		const_iterator;
+			typedef ft::Random_access_iterator<T>				iterator;
+			typedef ft::Random_access_iterator<T, true>			const_iterator;
 			
-			typedef ft::reverse_iterator<iterator> 			reverse_iterator;
-			typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;	
+			typedef ft::reverse_iterator<iterator> 				reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;	
 
 		// CONSTRUCTORS ------------------------------------------------------------------------------------------------------
 explicit	vector (const allocator_type& alloc = allocator_type())
-			: _data(NULL), _alloc(alloc), _capacity(0), _size(0) {}
+			: _data(NULL), _alloc(alloc), _capacity(0), _size(0) 
+			{
+				_data = _alloc.allocate(0);
+			}
 			
 explicit	vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 			: _data(NULL), _alloc(alloc), _capacity(0), _size(0) { resize(n, val); }
@@ -48,19 +53,25 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 					const allocator_type& alloc = allocator_type() ) 
 			: _data(NULL), _alloc(alloc), _capacity(0), _size(0) 
 			{
-				reserve(distance(first, last));
+				reserve(ft::distance(first, last) );
 				for ( ; first != last; first++, _size++)
 					_data[_size] = *first;
 			}
 			
 			vector (const vector& rhs)
-			: _data(rhs._data), _alloc(rhs._alloc), _capacity(rhs._capacity), _size(rhs._size) {}
+			: _alloc(rhs._alloc), _capacity(rhs._capacity), _size(rhs._size) //_data(rhs._data), 
+			{
+				_data = _alloc.allocate(_capacity);
+				for (size_type i = 0; i < _size; i++)
+					_data[i] = rhs._data[i];
+			}
 		
 		// DESTRUCTOR
 			~vector() 
 			{
 				clear();
-				_alloc.deallocate(_data, _capacity);
+				if (_capacity)
+					_alloc.deallocate(_data, _capacity);
 			}
 			
 		// ASSIGMENT OPERATOR
@@ -97,7 +108,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 			// Allocated space for sizeof(value_type) elements
 			size_type		capacity ()			const	{ return (_capacity); }
 
-			allocator_type	get_alloc ()		const	{ return (_alloc); }
+			allocator_type	get_allocator ()		const	{ return (_alloc); }
 
 			bool			empty ()			const	{ return (_size == 0); }
 
@@ -119,8 +130,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 							_alloc.destroy(prev_data + i);
 						}
 					}
-					if (_capacity)
-						_alloc.deallocate(prev_data, prev_capacity);
+					_alloc.deallocate(prev_data, prev_capacity);
 					_capacity = n;
 				}				
 			}
@@ -179,8 +189,9 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 			
 			void		assign (size_type n, const value_type& val) 
 			{
-				while (_size)
-						pop_back();
+				// while (_size)
+				// 		pop_back();
+				clear();
 				resize(n, val);
 			}
 
@@ -205,7 +216,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 
 			iterator	insert (iterator position, const value_type& val) 
 			{
-				size_type	dist		= distance(begin(), position);
+				size_type	dist		= ft::distance(begin(), position);
 				size_type	prev_size	= _size;
 
 				if (_size == 0) 
@@ -226,7 +237,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 
 			void		insert (iterator position, size_type n, const value_type& val) 
 			{
-				size_type	dist		= distance(begin(), position);
+				size_type	dist		= ft::distance(begin(), position);
 				size_type	i 			= _size + n - 1;
 
 				if (_capacity < _size + n)
@@ -251,8 +262,8 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 								InputIterator first, 
 								typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type last) 
 			{
-				size_type	dist		= distance(begin(), position);
-				size_type	n 			= distance(first, last);
+				size_type	dist		= ft::distance(begin(), position);
+				size_type	n 			= ft::distance(first, last);
 				size_type	i 			= _size + n - 1;
 
 				if (_capacity < _size + n)
@@ -284,8 +295,8 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 
 			iterator	erase (iterator first, iterator last) 
 			{
-				size_type	start = distance(begin(), first);
-				size_type	rem	= _size - distance(first, last);
+				size_type	start = ft::distance(begin(), first);
+				size_type	rem	= _size - ft::distance(first, last);
 
 				for (; first != last; first++, _size--)
 					_alloc.destroy(&(*first) );
@@ -297,7 +308,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 			void		clear () 
 			{
 				for (size_type i = 0; i < _size; i++)
-					_alloc.destroy(&(_data[i]));
+						_alloc.destroy(&(_data[i]));
 				_size = 0;
 			}
 
@@ -324,13 +335,13 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 			friend bool operator==	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs)
 			{
 				if (lhs.size() == rhs.size())
-					return (equal(lhs.begin(), lhs.end(), rhs.begin()));
+					return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 				return (false);
 			}
 
 			template <class Tx, class Allocx>  
 			friend bool operator<	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs)
-			{ return (lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end())); }
+			{ return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end())); }
 			
 			template <class Tx, class Allocx> 
 			friend bool operator!=	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs) { return (!(lhs == rhs)); }

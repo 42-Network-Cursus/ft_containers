@@ -3,29 +3,30 @@
 
 # include <iostream> // Testing, delete later
 
-# include "iterator.hpp"
-# include "Random_access_iterator_utils.hpp"
+# include "../iterator_utils/iterator.hpp"
+//# include "Random_access_iterator_utils.hpp"
 
 // CONST ITERATOR WORKS ???????????????????
 
 namespace ft 
 {
-	template <typename T>
+	template <typename T, bool IsConst = false>
 	class Random_access_iterator : public virtual ft::iterator <ft::random_access_iterator_tag, T> 
 	{
 
 		public:
-			typedef T 								value_type;
-			typedef ft::random_access_iterator_tag	iterator_category;
-			typedef ptrdiff_t						difference_type;
+			typedef T 																value_type;
+			typedef ft::random_access_iterator_tag									iterator_category;
+			typedef ptrdiff_t														difference_type;
 			
-			typedef T*								pointer;
-			typedef T&								reference;
-			typedef const T&						const_reference;
+			typedef typename ft::verify_const_property<IsConst, T*, const T*>::type	pointer;
+			typedef typename ft::verify_const_property<IsConst, T&, const T&>::type	reference;
 
 		// CONSTRUCTORS
-			Random_access_iterator (pointer data = NULL) : _data(data) {}
-			Random_access_iterator (const Random_access_iterator& rhs) { _data = rhs._data; }
+			Random_access_iterator (pointer data = 0) : _data(data) {}
+
+			Random_access_iterator (const Random_access_iterator<T>& rhs) : _data(rhs.getData() ) {} // _data = rhs._data;
+
 		// DESTRUCTOR
 			~Random_access_iterator () {}
 		// ASSIGMNEMT OPERATOR
@@ -88,6 +89,13 @@ namespace ft
 				tmp._data += n;
 				return tmp;
 			}
+
+			// const Random_access_iterator operator+ (difference_type n)
+			// {
+			// 	Random_access_iterator<value_type> tmp(*this);
+			// 	tmp._data += n;
+			// 	return tmp;
+			// }
 			
 			Random_access_iterator operator- (difference_type n)
 			{
@@ -124,6 +132,7 @@ namespace ft
 			pointer		operator-> ()	const 	{ return (&(operator*() )); }
 			//-------------------------------------------------------
 		
+			pointer	getData() const { return _data; }
 		private:
 			pointer	_data;
 	

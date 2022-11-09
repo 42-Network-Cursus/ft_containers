@@ -71,6 +71,23 @@ namespace ft
 	};
 //---------------------------------------------------------------------------
 
+// Used to define type given to iterator as const or non const
+	template <bool IsConst, typename NonConst, typename Const>
+    struct verify_const_property {};
+
+    template <typename NonConst, typename Const>
+    struct verify_const_property <false, NonConst, Const>
+    {
+        typedef NonConst type;
+    };
+
+    template <typename NonConst, typename Const>
+    struct verify_const_property <true, NonConst, Const>
+    {
+        typedef Const type;
+    };
+//---------------------------------------------------------------------------
+
 } // END namespace ft
 
 #endif // ITERATOR_HPP
