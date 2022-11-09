@@ -18,7 +18,7 @@ namespace ft
 		return true;
 	}
 
-	template <class InputIterator1, class InputIterator2>
+	template <typename InputIterator1, typename InputIterator2>
 	bool lexicographical_compare (	InputIterator1 first1, InputIterator1 last1,
                                 	InputIterator2 first2, InputIterator2 last2 ) 
 	{
@@ -34,8 +34,14 @@ namespace ft
 		return (first2 != last2);
 	}
 
-	template<class InputIterator>  
+	template<typename InputIterator>  
 	typename ft::iterator_traits<InputIterator>::difference_type    distance (InputIterator first, InputIterator last) 
+	{
+		return (last - first);
+	}
+
+	template<typename It1, typename It2>  
+	typename ft::iterator_traits<It1>::difference_type    distance (It1 first, It2 last) 
 	{
 		return (last - first);
 	}

@@ -59,7 +59,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 			}
 			
 			vector (const vector& rhs)
-			: _alloc(rhs._alloc), _capacity(rhs._capacity), _size(rhs._size) //_data(rhs._data), 
+			: _alloc(rhs._alloc), _capacity(rhs._capacity), _size(rhs._size)
 			{
 				_data = _alloc.allocate(_capacity);
 				for (size_type i = 0; i < _size; i++)
@@ -214,7 +214,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 				_size--;
 			}
 
-			iterator	insert (iterator position, const value_type& val) 
+			iterator	insert (const_iterator position, const value_type& val) 
 			{
 				size_type	dist		= ft::distance(begin(), position);
 				size_type	prev_size	= _size;
@@ -235,7 +235,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 				return (iterator(_data));
 			}
 
-			void		insert (iterator position, size_type n, const value_type& val) 
+			void		insert (const_iterator position, size_type n, const value_type& val) 
 			{
 				size_type	dist		= ft::distance(begin(), position);
 				size_type	i 			= _size + n - 1;
@@ -257,8 +257,8 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 				}
 			}
 
-			template <class InputIterator>    
-			void		insert (iterator position, 
+			template <typename InputIterator>    
+			void		insert (const_iterator position, 
 								InputIterator first, 
 								typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type last) 
 			{
@@ -283,7 +283,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 				}
 			}
 
-			iterator	erase (iterator position) 
+			iterator	erase (const_iterator position) 
 			{
 				iterator ret = position;
 				_alloc.destroy(&(*position) );
@@ -293,7 +293,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 				return (ret);
 			}
 
-			iterator	erase (iterator first, iterator last) 
+			iterator	erase (const_iterator first, const_iterator last) 
 			{
 				size_type	start = ft::distance(begin(), first);
 				size_type	rem	= _size - ft::distance(first, last);
