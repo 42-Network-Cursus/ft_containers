@@ -44,80 +44,76 @@ namespace ft
 				return (*this);
 			}
 
-		key_type	getKey ()
-		{
-			return _value->second;
-		}
+			key_type	getKey () const { return _value->second; }
 
-		Node	*getMin()
-		{
-			Node	*tmp = this;
-			while (tmp->l_child)
-				tmp = tmp->l_child;
-			return tmp;
-		}
-
-		Node	*getMax()
-		{
-			Node	*tmp = this;
-			while (tmp->r_child)
-				tmp = tmp->r_child;
-			return tmp;
-		}
-
-		//
-		Node	*next () // Maybe implement in iterator directly
-		{
-			Node	*tmp = this;
-
-			//case 1
-			if (tmp->r_child)
+			Node	*getMin()
 			{
-				tmp = tmp->r_child;
+				Node	*tmp = this;
 				while (tmp->l_child)
 					tmp = tmp->l_child;
+				return tmp;
 			}
 
-			//case 2
-			else
+			Node	*getMax()
 			{
-				Node *tmp_parent = tmp->parent;
-				while (tmp == tmp_parent->r_child)
-				{
-					tmp = tmp_parent;
-					tmp_parent = tmp_parent->parent;
-				}
-				//case 3
-				if (tmp->r_child != tmp_parent)
-					tmp = tmp_parent;
-			}
-		}
-
-		Node	*prev () // Maybe implement in iterator directly
-		{
-			Node *tmp = this;
-		// case 1 if tmp == header, r_child of header is MAX_VAL of tree
-			if (tmp->colour == RED && (tmp->parent->parent == tmp) )
-				tmp = tmp->r_child;
-		// case 2
-			else if (tmp->l_child)
-			{
-				tmp = tmp->l_child;
+				Node	*tmp = this;
 				while (tmp->r_child)
 					tmp = tmp->r_child;
+				return tmp;
 			}
-		// case 3
-			else
+
+			Node	*next () // Maybe implement in iterator directly
 			{
-				Node *tmp_parent = tmp->parent;
-				while (tmp == tmp_parent->l_child)
+				Node	*tmp = this;
+
+				//case 1
+				if (tmp->r_child)
 				{
-					tmp = tmp_parent;
-					tmp_parent = tmp_parent->parent;
+					tmp = tmp->r_child;
+					while (tmp->l_child)
+						tmp = tmp->l_child;
 				}
-				tmp = tmp_parent;
+
+				//case 2
+				else
+				{
+					Node *tmp_parent = tmp->parent;
+					while (tmp == tmp_parent->r_child)
+					{
+						tmp = tmp_parent;
+						tmp_parent = tmp_parent->parent;
+					}
+					//case 3
+					if (tmp->r_child != tmp_parent)
+						tmp = tmp_parent;
+				}
 			}
-		}
+
+			Node	*prev () // Maybe implement in iterator directly
+			{
+				Node *tmp = this;
+				// case 1 if tmp == header, r_child of header is MAX_VAL of tree
+				if (tmp->colour == RED && (tmp->parent->parent == tmp) )
+					tmp = tmp->r_child;
+				// case 2
+				else if (tmp->l_child)
+				{
+					tmp = tmp->l_child;
+					while (tmp->r_child)
+						tmp = tmp->r_child;
+				}
+				// case 3
+				else
+				{
+					Node *tmp_parent = tmp->parent;
+					while (tmp == tmp_parent->l_child)
+					{
+						tmp = tmp_parent;
+						tmp_parent = tmp_parent->parent;
+					}
+					tmp = tmp_parent;
+				}
+			}
 		// -----------------------------------------------------------------------------------
 		
 	}; // END class Node

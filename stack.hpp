@@ -1,7 +1,7 @@
 #ifndef STACK_HPP
 # define STACK_HPP
 
-# include "vector"
+# include "vector.hpp"
 
 namespace ft 
 {
@@ -18,7 +18,7 @@ namespace ft
 		// CONSTRUCTOR --------------------------------------------------------------------------------------------------------------
 			// explicit keyword : cannot be used for implicit conversions and copy-initialization. 
 			// More info https://en.cppreference.com/w/cpp/language/explicit
-explicit	stack (const container_type& ctnr = container_type () ) : _c(ctnr) {}
+explicit	stack (const container_type& ctnr = container_type() ) : _c(ctnr) {}
 		// ---------------------------------------------------------------------------------------------------------------------------
 		// MEMBER FUNCTIONS ----------------------------------------------------------------------------------------------------------
 			bool 				empty ()	const				{ return (_c.empty() ); }

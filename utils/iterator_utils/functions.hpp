@@ -2,6 +2,7 @@
 # define RANDOM_ACCESS_ITERATOR_UTILS_HPP
 
 # include "iterator.hpp"
+# include <typeinfo>
 
 namespace ft 
 {
@@ -37,14 +38,20 @@ namespace ft
 	template<typename InputIterator>  
 	typename ft::iterator_traits<InputIterator>::difference_type    distance (InputIterator first, InputIterator last) 
 	{
-		return (last - first);
+		typename ft::iterator_traits<InputIterator>::difference_type n = 0;
+		while (first != last)
+		{
+			n++;
+			first++;
+		}
+		return (n);
 	}
 
-	template<typename It1, typename It2>  
-	typename ft::iterator_traits<It1>::difference_type    distance (It1 first, It2 last) 
-	{
-		return (last - first);
-	}
+	// template<typename It1, typename It2>  
+	// typename ft::iterator_traits<It1>::difference_type    distance (It1 first, It2 last) 
+	// {
+	// 	return (last - first);
+	// }
 
 } // END namespace ft
 

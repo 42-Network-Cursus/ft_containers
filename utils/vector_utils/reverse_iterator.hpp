@@ -18,7 +18,10 @@ namespace ft
 
 		// CONSTRUCTORS --------------------------------------------------------------------------------------------------------------------------------------------
 			reverse_iterator () : _data() {}
+
 explicit	reverse_iterator (iterator_type it) : _data(it) {}
+			
+			reverse_iterator (const reverse_iterator& rhs) : _data(rhs._data) {}
 			
 			template <class Iter>  
 			reverse_iterator (const reverse_iterator<Iter>& rev_it) : _data(rev_it.base()) {}
@@ -27,17 +30,33 @@ explicit	reverse_iterator (iterator_type it) : _data(it) {}
 			iterator_type base () const { return (_data); }
 		// ---------------------------------------------------------------------------------------------------------------------------------------------------------
 		// ADDING && SUBSTRACTING ----------------------------------------------------------------------------------------------------------------------------------
-			reverse_iterator operator- (difference_type n) const { return (reverse_iterator(_data + n) ); }
+			reverse_iterator	operator- (difference_type n) const { return (reverse_iterator(_data + n) ); }
 
-			template <class Iteratorx>  
-			friend typename reverse_iterator<Iteratorx>::difference_type operator- (const reverse_iterator<Iteratorx>& lhs, const reverse_iterator<Iteratorx>& rhs)
-			{ return (lhs.base() - rhs.base()); }
+			template <typename It>
+			difference_type		operator- (const reverse_iterator<It> &rhs) { return (rhs.base() - _data); }
+			
+			// friend difference_type	operator- ( reverse_iterator lhs, reverse_iterator rhs )
+			// {
+			// 	return (lhs._data - rhs._data);
+			// }  
 
-			reverse_iterator operator+ (difference_type n) const { return (reverse_iterator(_data - n) ); }
+			// template <class Iteratorx>  
+			// friend typename reverse_iterator<Iteratorx>::difference_type operator- (const reverse_iterator<Iteratorx>& lhs, const reverse_iterator<Iteratorx>& rhs)
+			// { return (lhs.base() - rhs.base()); }
 
-			template <class Iteratorx>  
-			friend reverse_iterator<Iteratorx> operator+ (typename reverse_iterator<Iteratorx>::difference_type n, const reverse_iterator<Iteratorx>& rhs)
-			{ return (rhs._data -= n); }
+			reverse_iterator	operator+ (difference_type n) const { return (reverse_iterator(_data - n) ); }
+
+			// template <class Iteratorx>  
+			// friend reverse_iterator<Iteratorx> operator+ (typename reverse_iterator<Iteratorx>::difference_type n, const reverse_iterator<Iteratorx>& rhs)
+			// { return (rhs._data -= n); }
+
+			reverse_iterator&	operator-= (difference_type n) 
+			{
+				_data += n;
+				return (*this);
+			}
+			friend reverse_iterator operator+ (typename reverse_iterator::difference_type n, const reverse_iterator& rhs)
+			{ return (reverse_iterator(rhs._data - n) ); }
 
 			reverse_iterator& operator-- () 
 			{
@@ -48,15 +67,10 @@ explicit	reverse_iterator (iterator_type it) : _data(it) {}
 			reverse_iterator  operator-- (int) 
 			{
 				reverse_iterator tmp = *this;
-				++(*this);
+				--(*this);
 				return (tmp);
 			}
 
-			reverse_iterator& operator-= (difference_type n) 
-			{
-				_data += n;
-				return (*this);
-			}
 
 			reverse_iterator& operator++ () 
 			{
@@ -67,7 +81,7 @@ explicit	reverse_iterator (iterator_type it) : _data(it) {}
 			reverse_iterator  operator++ (int) 
 			{
 				reverse_iterator tmp = *this;
-				--(*this);
+				++(*this);
 				return (tmp);
 			}
 			
@@ -88,27 +102,28 @@ explicit	reverse_iterator (iterator_type it) : _data(it) {}
 
 			reference	operator [] (difference_type n) const { return (base()[-n - 1] ); }
 		// ---------------------------------------------------------------------------------------------------------------------------------------------------------
-		// RELATIONAL OPERATORS ------------------------------------------------------------------------------------------------------------------------------------
-			template <class Iteratorx>  
-			friend bool operator== (const reverse_iterator<Iteratorx>& lhs, const reverse_iterator<Iteratorx>& rhs) { return (lhs._data == rhs._data); }
-			
-			template <class Iteratorx>  
-			friend bool operator!= (const reverse_iterator<Iteratorx>& lhs, const reverse_iterator<Iteratorx>& rhs) { return (lhs._data != rhs._data); }
-			
-			template <class Iteratorx>  
-			friend bool operator<  (const reverse_iterator<Iteratorx>& lhs, const reverse_iterator<Iteratorx>& rhs) { return (lhs._data < rhs._data); }
-			
-			template <class Iteratorx>  
-			friend bool operator<= (const reverse_iterator<Iteratorx>& lhs, const reverse_iterator<Iteratorx>& rhs) { return (lhs._data <= rhs._data); }
-			
-			template <class Iteratorx>  
-			friend bool operator>  (const reverse_iterator<Iteratorx>& lhs, const reverse_iterator<Iteratorx>& rhs) { return (lhs._data > rhs._data); }
-			
-			template <class Iteratorx>  
-			friend bool operator>= (const reverse_iterator<Iteratorx>& lhs, const reverse_iterator<Iteratorx>& rhs) { return (lhs._data >= rhs._data); }
+		// RELATIONAL OPERATORS ------------------------------------------------------------------------------------------------------------------------------------			
+			template <typename It> 
+			bool	operator== (const reverse_iterator<It> &rhs)	const { return _data == (rhs.base()); }
+
+			template <typename It> 
+			bool	operator!= (const reverse_iterator<It> &rhs)	const { return _data != (rhs.base()); }
+
+			template <typename It> 
+			bool	operator< (const reverse_iterator<It> &rhs)		const { return _data >  (rhs.base()); }
+
+			template <typename It> 
+			bool	operator<= (const reverse_iterator<It> &rhs)	const { return _data >= (rhs.base()); }
+
+			template <typename It> 
+			bool	operator> (const reverse_iterator<It> &rhs)		const { return _data <  (rhs.base()); }
+
+			template <typename It> 
+			bool	operator>= (const reverse_iterator<It> &rhs)	const { return _data <= (rhs.base()); }
+
 		// ---------------------------------------------------------------------------------------------------------------------------------------------------------
 	
-		private:
+		protected:
 			iterator_type	_data;
 
 	}; // END class reverse_iterator

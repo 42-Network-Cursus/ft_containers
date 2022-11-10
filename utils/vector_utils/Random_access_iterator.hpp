@@ -29,17 +29,13 @@ namespace ft
 
 			Random_access_iterator (const Random_access_iterator<T>& rhs) : _data(rhs.getData() ) {} // _data = rhs._data;
 			
-			// template<bool WasConst, class = std::enable_if<IsConst && !WasConst> >
-    		// Random_access_iterator(const Random_access_iterator<T, WasConst>& rhs) : _data(rhs.getData()) {}
-			// template<bool isConst = IsConst, typename = ft::enable_if<isConst> >
-    		// Random_access_iterator(const Random_access_iterator& rhs) : _data(rhs.getData()) {} 
-
 		// DESTRUCTOR
 			~Random_access_iterator () {}
 		// ASSIGMNEMT OPERATOR
 			Random_access_iterator& operator= (const Random_access_iterator& rhs) 
 			{
-				_data = rhs._data;
+				if (this != &rhs)
+					_data = rhs._data;
 				return (*this);
 			}
 		// ------------------------------------------------------------------------------------------------
@@ -97,17 +93,18 @@ namespace ft
 				return *this;
 			}
 
-			Random_access_iterator operator+ (difference_type n)
+			Random_access_iterator operator+ (difference_type n) const
 			{
-				Random_access_iterator tmp(*this);
-				tmp._data += n;
-				return tmp;
+				return Random_access_iterator(_data + n);
+				// Random_access_iterator tmp(*this);
+				// tmp._data += n;
+				// return tmp;
 			}
 
 			friend Random_access_iterator operator+ (difference_type n, Random_access_iterator &rhs) // typename  ft::Random_access_iterator<T>::difference_type
 			{
-				Random_access_iterator tmp(rhs);
-				return (tmp += n);
+				return Random_access_iterator(rhs._data + n);
+				// return (tmp += n);
 			}
 
 			// const Random_access_iterator operator+ (difference_type n)
@@ -117,28 +114,34 @@ namespace ft
 			// 	return tmp;
 			// }
 			
-			Random_access_iterator operator- (difference_type n)
+			Random_access_iterator operator- (difference_type n) const
 			{
-				Random_access_iterator tmp(*this);
-				// tmp._data -= n;
-				// return tmp;
-				return (tmp -= n);
+				// Random_access_iterator tmp(*this);
+				// // tmp._data -= n;
+				// // return tmp;
+				// return (tmp -= n);
+				return Random_access_iterator(_data - n);
 			}
 
-			// Difference between two iterators
-			difference_type operator- (Random_access_iterator const &rhs) const 
+			//Difference between two iterators
+			// difference_type operator- (Random_access_iterator const &rhs) const 
+			// {
+			// 	return (_data - rhs._data);
+			// }
+
+			friend difference_type	operator- ( Random_access_iterator lhs, Random_access_iterator rhs )
 			{
-				return (_data - rhs._data);
-			}
+				return (lhs._data - rhs._data);
+			}  
 		// ------------------------------------------------------------------------------------------------
 
 		// COMPARING OPERATORS
-			bool operator<	(const Random_access_iterator& rhs)	{ return (_data < rhs._data); }
-			bool operator>	(const Random_access_iterator& rhs)	{ return (_data > rhs._data); }
-			bool operator<=	(const Random_access_iterator& rhs)	{ return (_data <= rhs._data); }
-			bool operator>=	(const Random_access_iterator& rhs)	{ return (_data >= rhs._data); }
-			bool operator==	(const Random_access_iterator& rhs)	{ return (_data == rhs._data); }
-			bool operator!=	(const Random_access_iterator& rhs)	{ return (_data != rhs._data); }
+			friend bool operator<	(const Random_access_iterator& lhs, const Random_access_iterator& rhs)	{ return (lhs._data < rhs._data); }
+			friend bool operator>	(const Random_access_iterator& lhs, const Random_access_iterator& rhs)	{ return (lhs._data > rhs._data); }
+			friend bool operator<=	(const Random_access_iterator& lhs, const Random_access_iterator& rhs)	{ return (lhs._data <= rhs._data); }
+			friend bool operator>=	(const Random_access_iterator& lhs, const Random_access_iterator& rhs)	{ return (lhs._data >= rhs._data); }
+			friend bool operator==	(const Random_access_iterator& lhs, const Random_access_iterator& rhs)	{ return (lhs._data == rhs._data); }
+			friend bool operator!=	(const Random_access_iterator& lhs, const Random_access_iterator& rhs)	{ return (lhs._data != rhs._data); }
 		// ------------------------------------------------------------------------------------------------
 
 		// ACCESS OPERATORS

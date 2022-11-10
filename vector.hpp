@@ -3,10 +3,10 @@
 
 // # include <memory>
 // # include <stdexcept>
+# include <stdexcept>
 
 # include "utils/vector_utils/Random_access_iterator.hpp"
 # include "utils/vector_utils/reverse_iterator.hpp"
-# include "utils/vector_utils/exceptions.hpp"
 # include "utils/vector_utils/enable_if.hpp"
 # include "utils/iterator_utils/functions.hpp"
 # include "utils/iterator_utils/iterator.hpp"
@@ -53,7 +53,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 					const allocator_type& alloc = allocator_type() ) 
 			: _data(NULL), _alloc(alloc), _capacity(0), _size(0) 
 			{
-				reserve(ft::distance(first, last) );
+				reserve(ft::distance(first, last) + 1);
 				for ( ; first != last; first++, _size++)
 					_data[_size] = *first;
 			}
@@ -77,9 +77,11 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 		// ASSIGMENT OPERATOR
 			vector&	operator= (const vector& rhs) 
 			{
-				if (this != &rhs) {
+				if (this != &rhs) 
+				{
 					clear();
-					_capacity = rhs.capacity();
+					if (_capacity < rhs.capacity())
+						reserve(rhs.capacity());
 					assign(rhs.begin(), rhs.end());
 				}
   				return (*this);
@@ -114,8 +116,8 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 
 			void			reserve (size_type n)
 			{
-				if (n > max_size() )
-					throw std::length_error("ft::vector reserve()");
+				if (n > max_size() || n < 0)
+					throw std::length_error("vector");
 				if (n > _capacity) 
 				{
 					pointer		prev_data 		= _data;
@@ -144,7 +146,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 				}
 				else if (n > _size) 
 				{
-                    size_type prev_size = _size; 
+                    size_type prev_size = _size;
                     if (n > _capacity)
                 		reserve(n);
                     for (size_type  i = prev_size; i < n; i++)
@@ -165,15 +167,15 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 		
 			reference 			at ( size_type n ) 
 			{
-				if ( n >= _size )
-					throw OUTOFRANGE();
+				if ( n > _size )
+					throw std::out_of_range("ft::vector::at");
 				return ( _data[n] );
 			}
 
 			const_reference 	at ( size_type n ) const 
 			{
-				if ( n >= _size )
-					throw OUTOFRANGE();
+				if ( n > _size )
+					throw std::out_of_range("ft::vector::at");
 				return ( _data[n] );
 			}
 		// -------------------------------------------------------------------------------------------------------------------
@@ -183,21 +185,19 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 								typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type last) 
 			{
 				clear();
+				reserve(ft::distance(first, last) + 1);
 				for (size_type i = 0; first != last; first++, i++, _size++)
 					_data[i] = *first;
 			}
 			
 			void		assign (size_type n, const value_type& val) 
 			{
-				// while (_size)
-				// 		pop_back();
 				clear();
 				resize(n, val);
 			}
 
 			void		push_back ( const value_type& val ) 
 			{
-				
 				if ( _capacity <= _size ) {
 					if (_size == 0)
 						reserve(1);
@@ -212,9 +212,11 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 			{
 				_alloc.destroy( &(_data[_size - 1]) );
 				_size--;
+				if (!_size)
+					_data = 0;
 			}
 
-			iterator	insert (const_iterator position, const value_type& val) 
+			iterator	insert (iterator position, const value_type& val) 
 			{
 				size_type	dist		= ft::distance(begin(), position);
 				size_type	prev_size	= _size;
@@ -232,10 +234,10 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 					_data[prev_size] = _data[prev_size - 1];
 				_data[prev_size] = val;
 				_size += 1;
-				return (iterator(_data));
+				return (iterator(_data + dist));
 			}
 
-			void		insert (const_iterator position, size_type n, const value_type& val) 
+			void		insert (iterator position, size_type n, const value_type& val) 
 			{
 				size_type	dist		= ft::distance(begin(), position);
 				size_type	i 			= _size + n - 1;
@@ -258,7 +260,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 			}
 
 			template <typename InputIterator>    
-			void		insert (const_iterator position, 
+			void		insert (iterator position, 
 								InputIterator first, 
 								typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type last) 
 			{
@@ -278,22 +280,25 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 					_size += n;
 					for (; i - n + 1 > dist; i--)
 						_data[i] = _data[i - n];
-					for (; first != last; i--, first++)
-						_data[i] = *first;
+					for (; first != last; i--)
+					{
+						last--;
+						_data[i] = *last;
+					}
 				}
 			}
 
-			iterator	erase (const_iterator position) 
+			iterator	erase (iterator position) 
 			{
 				iterator ret = position;
 				_alloc.destroy(&(*position) );
-				_size -= 1;
+				_size -= 1;	
 				for(; position != end(); position++)
 					*position = *(position + 1);
 				return (ret);
 			}
 
-			iterator	erase (const_iterator first, const_iterator last) 
+			iterator	erase (iterator first, iterator last) 
 			{
 				size_type	start = ft::distance(begin(), first);
 				size_type	rem	= _size - ft::distance(first, last);

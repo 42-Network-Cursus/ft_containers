@@ -37,7 +37,7 @@ namespace ft
 			
 			typedef Node<Key, T>									node_type;
 		
-		// CONSTRUCTORS
+		// CONSTRUCTOR
 			Red_black_tree (const allocator_type& alloc = allocator_type(), cont key_compare& comp = key_compare()) 
 			: _comp(comp), _valueAlloc(alloc), _size(0), _capacity(0) 
 			{ 
@@ -48,17 +48,20 @@ namespace ft
 				_header->r_child = _header;
 			}
 		// DESTRUCTOR
-			~Red_black_tree () { deallocyNode(_header); }
+			~Red_black_tree () { deallocNode(_header); }
 		// -----------------------------
-		// METHODS
+		// CAPACITY
 			bool 			empty()		const	{ return (_size == 0); } 
+			
 			size_type 		size()		const	{ return (_size); }
+			
 			size_type 		max_size()	const	{ return (_nodeAlloc.max_size() ); }
 			// size_type max_size() const {return size_type(-1);}
 
 			allocator_type 	get_allocator() const { return (_valueAlloc ); }
-			
-			ft::pair<iterator, bool>	unique_insert (const value_type& val) 
+		
+		// MODIFIERS
+			ft::pair<iterator, bool>	insert (const value_type& val) 
 			{
 				node_type	*tmp_parent = _header;
 				node_type	*tmp = getRoot();
@@ -84,6 +87,7 @@ namespace ft
 				
 			}
 
+			//private
 			iterator	insertNode (node_type *pos, node_type *pos_parent, const value_type& val)
 			{
 				node_type	*newNode;
@@ -115,6 +119,7 @@ namespace ft
 				return iterator(newNode);
 			}
 
+			//private
 			void	rebalanceTree(node_type *newNode, node_type *root)
 			{
 				newNode->colour = RED;
@@ -168,6 +173,7 @@ namespace ft
 				root->color = BLACK;
 			}
 
+			//private
 			void	rotateLeft (node_type *node, node_type *root)
 			{
 				node_type *tmp = node->r_child;
@@ -187,6 +193,7 @@ namespace ft
 				node->parent - tmp;
 			}
 
+			//private
 			void	rotateRight (node_type *node, node_type *root)
 			{
 				node_type *tmp = node->l_child;
@@ -233,6 +240,7 @@ namespace ft
 				}
 			}      
 
+			//private
 			node_type	*allocNode ()
 			{
 				// node_type	*newNode = _nodeAlloc.allocate(1);
@@ -247,12 +255,14 @@ namespace ft
 				return _nodeAlloc.allocate(1);
 			}
 
+			//private
 			void	deallocNode (node_type	*node)
 			{
 				// _valueAlloc.destroy(&node->value);
 				_nodeAlloc.deallocate(node, 1);
 			}
 
+			//private
 			node_type	*createNode (const value_type& val)
 			{
 				node_type	*tmp = newNode();
@@ -260,6 +270,7 @@ namespace ft
 				return tmp;
 			}
 
+			//private (Needed ?)
 			node_type	*cloneNode (node_type *node)
 			{
 				node_type	*tmp = createNode(node->value);
@@ -270,13 +281,16 @@ namespace ft
 				return tmp;
 			}
 
+			//private
 			void	destroyNode (node_type	*node)
 			{
 				_valueAlloc.destroy(&(node->value) );
 				deallocNode(node);
 			}
+
 		// ACCESSORS ----------------------
  			key_compare key_comp() 	const { return _comp; }
+
   		// ITERATORS
 			iterator 		begin() 		{ return getLeftMost(); }
 			const_iterator	begin() const 	{ return getLeftMost(); }
@@ -296,7 +310,7 @@ namespace ft
 				// __STD::swap(_M_key_compare, __t._M_key_compare);
 			}
 
-		protected:
+		protected: //private ???
 			node_type*& getRoot ()	const 
 				{ return _header->parent; }
 			

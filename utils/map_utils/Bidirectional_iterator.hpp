@@ -31,8 +31,10 @@ namespace ft
 		// CONSTRUCTORS
 			Bidirectional_iterator (node_type *value = NULL) : _node(value) {}
 			Bidirectional_iterator (const Bidirectional_iterator& rhs) : _node(rhs._node) {}
+
 		// DESTRUCTOR
 			~Bidirectional_iterator () {}
+
 		// ASSIGMNEMT OPERATOR
 			Bidirectional_iterator& operator= (const Bidirectional_iterator& rhs) 
 			{
@@ -54,8 +56,8 @@ namespace ft
 				return tmp;
 			}
 
-			Bidirectional_iterator& operator-- () 
-			
+			Bidirectional_iterator& operator-- ()
+			{
 				return (_node->prev());
 			}
 
@@ -97,8 +99,6 @@ namespace ft
 			node_type	*_node;
 	
 	}; // END class Bidirectional_iterator
-
-
 
 } // END namespace ft
 
