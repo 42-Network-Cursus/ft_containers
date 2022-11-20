@@ -78,7 +78,7 @@ namespace ft
 
 	template <class T1, class T2>
 	std::ostream& operator<< (std::ostream& os, const ft::pair<T1, T2>  & rhs) {
-		std::cout << rhs.first << " => " << rhs.second << std::endl;
+		std::cout << rhs.first << " => " << rhs.second;
 		return os;
 	}
 	

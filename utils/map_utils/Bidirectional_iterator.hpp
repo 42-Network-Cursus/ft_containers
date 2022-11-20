@@ -3,8 +3,7 @@
 
 # include <iostream> // Testing, delete later
 
-# include "iterator.hpp"
-# include "Bidirectional_iterator_utils.hpp"
+# include "../iterator_utils/iterator.hpp"
 
 namespace ft 
 {
@@ -42,11 +41,12 @@ namespace ft
 				return (*this);
 			}
 		// ------------------------------------------------------------------------------------------------
-
 		// INCREMENT && DECREMENT
 			Bidirectional_iterator& operator++ () 
 			{
-				return (_node->next() );
+				Bidirectional_iterator tmp(_node->next());
+				*this = tmp;
+				return (*this);
 			}
 
 			Bidirectional_iterator operator++ (int) 
@@ -58,7 +58,9 @@ namespace ft
 
 			Bidirectional_iterator& operator-- ()
 			{
-				return (_node->prev());
+				Bidirectional_iterator tmp(_node->prev());
+				*this = tmp;
+				return (*this);
 			}
 
 			Bidirectional_iterator operator-- (int) 
@@ -73,27 +75,27 @@ namespace ft
 			pointer		operator-> ()	const 	{ return (&(operator*() )); }
 		//----------------------------------------------------------------------
 		// COMPARING OPERATORS
-			bool operator==	(const Bidirectional_iterator& rhs)	
+			bool operator==	(const Bidirectional_iterator& rhs)	const
 			{
 				// if (_is_end != rhs._is_end)
 				// 	return false;
 				// else if (_is_end == true)
 				// 	return true;
 				// else
-				// 	return node == rhs.node;
+				return _node == rhs._node;
 			}
 			
-			bool operator!=	(const Bidirectional_iterator& rhs)	
+			bool operator!=	(const Bidirectional_iterator& rhs)	const
 			{ 
 				// if (lhs._is_end != rhs._is_end)
 				// 	return true;
 				// else if (lhs._is_end == true)
 				// 	return false;
 				// else
-				// 	return lhs._node != rhs._node;
+				return _node != rhs._node;
 			}
 		// ------------------------------------------------------------------------------------------------
-
+			const key_type&	getKey() { return _node->getKey(); }
 		
 		private:
 			node_type	*_node;

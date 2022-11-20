@@ -27,11 +27,11 @@ namespace ft
 		// --------------------------------------------------------------------------
 		// CONSTRUCTORS --------------------------------------------------------------
 			Node () 
-			: colour(RED), parent(NULL), leftChild(NULL), rightChild(NULL), value(value_type()) 
+			: colour(RED), parent(NULL), l_child(NULL), r_child(NULL), value(value_type()) 
 			{}
 
 			Node (const value_type& val) 
-			: colour(RED), value(val), parent(NULL), leftChild(NULL), rightChild(NULL) 
+			: colour(RED), value(val), parent(NULL), l_child(NULL), r_child(NULL) 
 			{}
 		// ----------------------------------------------------------------------------
 			Node& operator= (const Node& rhs) 
@@ -39,12 +39,12 @@ namespace ft
 				// value = value_type(rhs.value);
 				colour		= rhs.colour;
 				parent		= rhs.parent;
-				leftChild	= rhs.leftChild;
-				rightChild	= rhs.rightChild;
+				l_child	= rhs.l_child;
+				r_child	= rhs.r_child;
 				return (*this);
 			}
 
-			key_type	getKey () const { return _value->second; }
+			const key_type&	getKey () const { return value.first; }
 
 			Node	*getMin()
 			{
@@ -87,9 +87,10 @@ namespace ft
 					if (tmp->r_child != tmp_parent)
 						tmp = tmp_parent;
 				}
+				return tmp;
 			}
 
-			Node	*prev () // Maybe implement in iterator directly
+			Node	*prev() // Maybe implement in iterator directly
 			{
 				Node *tmp = this;
 				// case 1 if tmp == header, r_child of header is MAX_VAL of tree
@@ -113,6 +114,7 @@ namespace ft
 					}
 					tmp = tmp_parent;
 				}
+				return tmp;
 			}
 		// -----------------------------------------------------------------------------------
 		
