@@ -112,7 +112,134 @@ namespace ft
 				else
 					return it;
 			}
+//--------------------------
 
+			void	transplant(node_type *oldNode, node_type *newNode) // 4 null
+			{
+				if (oldNode->parent == _header)
+					getRoot() = newNode;
+				else if (oldNode == oldNode->parent->l_child)
+					oldNode->parent->l_child = newNode;
+				else
+					oldNode->parent->r_child = newNode;
+				newNode->parent = oldNode->parent;
+			}
+
+			void	eraseFix(node_type *node)
+			{
+				node_type *tmp;
+				// std::cout << node->value << std::endl;
+				while ((node != getRoot()) && (node->colour == BLACK))
+				{
+					if ((node == node->parent->l_child))
+					{
+						tmp = node->parent->r_child;
+						if ((tmp->colour == RED))
+						{
+							tmp->colour = BLACK;
+							node->parent->colour = RED;
+							rotateLeft(node->parent, getRoot());
+							tmp = node->parent->r_child;
+						}
+						std::cout << "SEG\n";
+						if (tmp->l_child->colour == BLACK && tmp->r_child->colour == BLACK)
+						{
+							tmp->colour = RED;
+							node = node->parent;
+						}
+						else
+						{
+							if (tmp->r_child->colour == BLACK)
+							{
+								tmp->l_child->colour = BLACK;
+								tmp->colour = RED;
+								rotateRight(tmp, getRoot());
+								tmp = node->parent->r_child;
+							}
+							tmp->colour = node->parent->colour;
+							node->parent->colour = BLACK;
+							tmp->r_child->colour = BLACK;
+							rotateLeft(node->parent, getRoot());
+							node = getRoot();
+						}
+					}
+					else
+					{
+						tmp = node->parent->l_child;
+						if (tmp->colour == RED)
+						{
+							tmp->colour = BLACK;
+							node->parent->colour = RED;
+							rotateRight(node->parent, getRoot());
+							tmp = node->parent->l_child;
+						}
+						if (tmp->r_child->colour == BLACK && tmp->l_child->colour == BLACK)
+						{
+							tmp->colour = RED;
+							node = node->parent;
+						}
+						else
+						{
+							if (tmp->l_child->colour == BLACK)
+							{
+								tmp->r_child->colour = BLACK;
+								tmp->colour = RED;
+								rotateLeft(tmp, getRoot());
+								tmp = node->parent->l_child;
+							}
+							tmp->colour = node->parent->colour;
+							node->parent->colour = BLACK;
+							tmp->l_child->colour = BLACK;
+							rotateRight(node->parent, getRoot());
+							node = getRoot();
+						}
+					}
+					tmp->colour = BLACK;
+				}
+			}
+
+			void	erase(iterator z)
+			{
+				node_type	*nodeToDel = z.getNode();
+				node_type	*y = z.getNode();
+				// node_type	*newNode = z.getNode();
+				node_type	*tmp;
+				NodeColour 	yColour = y->colour;
+
+				std::cout << nodeToDel->value << std::endl;
+
+				if (!nodeToDel->l_child)
+				{
+					tmp = nodeToDel->r_child;
+					transplant(nodeToDel, tmp);
+				}
+				else if (!nodeToDel->r_child)
+				{
+					tmp = nodeToDel->l_child;
+					transplant(nodeToDel, tmp);
+				}
+				else
+				{
+					y =  getMinOf(nodeToDel->r_child); // 4
+					yColour = y->colour;
+					tmp = y->r_child; // null
+					if (y->parent == nodeToDel)
+						tmp->parent = y;
+					else
+					{
+						transplant(y, tmp); // y now null
+						tmp = nodeToDel->r_child; // 5
+						tmp->parent = y; // null ?
+					}
+					transplant(nodeToDel, y);
+					y->l_child = nodeToDel->l_child;
+					y->l_child->parent = y;
+					y->colour = nodeToDel->colour;
+				}
+				if (yColour == BLACK)
+					eraseFix(tmp);
+			}
+// --------------------------------
 			void clear() {
 				if (_size) 
 				{
@@ -174,10 +301,10 @@ namespace ft
 			NodeColour& getColourOf(node_type *node)
 				{return node->colour; }
 
-			// node_type	* getMinimum(node_type	*node) 
-			// 	{ return Node::getMin(node); }
+			node_type	*getMinOf(node_type	*node) 
+				{ return node->getMin(); }
 
-			// node_type	* getMaximum(node_type	*node)
+			// node_type	* getMaxOf(node_type	*node)
 			// 	{ return Node::getMax(node); }
 		
 		private:
@@ -252,12 +379,12 @@ namespace ft
 				getParentOf(newNode) 		= pos_parent;
 				getLeftChildOf(newNode) 	= NULL;
 				getRightChildOf(newNode) 	= NULL;
-				rebalanceTree(newNode, _header->parent);
+				insertFix(newNode, _header->parent);
 				_size++;
 				return iterator(newNode);
 			}
 
-			void	rebalanceTree(node_type *newNode, node_type *root)
+			void	insertFix(node_type *newNode, node_type *root)
 			{
 				newNode->colour = RED;
 				while (newNode != root && newNode->parent->colour == RED)

@@ -96,6 +96,7 @@ namespace ft
 			}
 		// ------------------------------------------------------------------------------------------------
 			const key_type&	getKey() { return _node->getKey(); }
+			node_type	*getNode() { return _node; }
 		
 		private:
 			node_type	*_node;

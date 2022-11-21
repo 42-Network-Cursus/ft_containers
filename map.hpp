@@ -129,8 +129,18 @@ explicit	map(const key_compare& comp = key_compare(), const allocator_type& allo
 					_tree.insert(*first);
 			}
 
-			// void erase (iterator position) {}
-			// size_type erase (const key_type& k) {}
+			void erase (iterator position) 
+			{
+				_tree.erase(position);
+			}
+
+			// size_type erase (const key_type& k) 
+			// {
+			// 	//find
+			// 	// if it != end() ->ret 1
+			// 	// else ret 0
+			// 	//use it to erase
+			// }
 			// void erase (iterator first, iterator last) {}
 
 			// void swap (map& x);

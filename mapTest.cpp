@@ -66,15 +66,21 @@ int main()
 	// 	std::cout << *itFor << std::endl;
 	// }
 
-	std::map<int, int> map;
+	ft::map<int, char> map;
 
-	for (int i = 0;i < 10; i++)
-		map.insert(std::make_pair<int, int>(i, i));
+	int i;
 
-	std::map<int, int>::iterator it = map.begin();
-	std::map<int, int>::iterator ite = map.end();
+	std::map<int, char> mapstd;
 
-	std::map<int, int>::iterator er = map.begin();
+	mapstd.erase();
+
+	for (i = 0;i < 10; i++)
+		map.insert(ft::make_pair<int, char>(i, i));
+
+	ft::map<int, char>::iterator it = map.begin();
+	ft::map<int, char>::iterator ite = map.end();
+
+	ft::map<int, char>::iterator er = map.begin();
 	er++;
 	er++;
 	er++;
