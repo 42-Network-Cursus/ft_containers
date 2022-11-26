@@ -7,13 +7,14 @@
 
 namespace ft 
 {
-	template <typename Key, typename T, bool IsConst = false>
-	class Bidirectional_iterator : public virtual ft::iterator <ft::bidirectional_iterator_tag, T> 
+	template <typename Key, typename Value, bool IsConst = false>
+	class Bidirectional_iterator : public virtual ft::iterator <ft::bidirectional_iterator_tag, Value> 
 	{
 		public:
 			typedef Key																			key_type;
-			typedef T																			mapped_type;
-			typedef ft::pair<const Key, T>														value_type;
+			// typedef T																			mapped_type;
+			// typedef ft::pair<const Key, T>														value_type;
+			typedef Value																		value_type;
 
 			typedef  ft::bidirectional_iterator_tag		iterator_category;
 			typedef  ptrdiff_t							difference_type;
@@ -25,11 +26,11 @@ namespace ft
 			// typedef value_type&																			reference;
 			// typedef const value_type&																	const_reference;
 
-			typedef Node<Key, T>																node_type;
+			typedef Node<Key, Value>																node_type;
 
 		// CONSTRUCTORS
 			Bidirectional_iterator (node_type *node = NULL) : _node(node) {}
-			Bidirectional_iterator (const Bidirectional_iterator<Key, T>& rhs) : _node(rhs.getNode()) {}
+			Bidirectional_iterator (const Bidirectional_iterator<Key, Value>& rhs) : _node(rhs.getNode()) {}
 
 		// DESTRUCTOR
 			~Bidirectional_iterator () {}

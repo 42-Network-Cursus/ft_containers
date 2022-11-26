@@ -10,7 +10,7 @@
 namespace ft
 {
 	template<	typename Key,
-				typename T,
+				typename Value,
 				typename Compare,
 				typename Alloc
 			>
@@ -18,9 +18,10 @@ namespace ft
 	{
 		public:
 			typedef Key												key_type;
-			typedef T												mapped_type;
-			typedef ft::pair<const Key, T>							value_type;
-			
+			// typedef T												mapped_type;
+			// typedef ft::pair<const Key, T>							value_type;
+			typedef Value											value_type;
+
 			typedef	Compare											key_compare;
 			typedef Alloc											allocator_type;
 			
@@ -32,12 +33,12 @@ namespace ft
 			typedef typename allocator_type::pointer				pointer;
 			typedef typename allocator_type::const_pointer			const_pointer;
 			
-			typedef ft::Bidirectional_iterator<Key, T>				iterator;
-			typedef ft::Bidirectional_iterator<Key, T, true>		const_iterator;
+			typedef ft::Bidirectional_iterator<Key, Value>				iterator;
+			typedef ft::Bidirectional_iterator<Key, Value, true>		const_iterator;
 			typedef ft::reverse_iterator<iterator> 					reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 			
-			typedef Node<Key, T>									node_type;
+			typedef Node<Key, Value>									node_type;
 
 		// CONSTRUCTOR -------------------------------------------------------------------------------------------------------
 		public:
@@ -625,7 +626,7 @@ namespace ft
 			node_type		*getMaxOf(node_type	*node)			{ return node->getMax(); }		
 			
 			reference		getValueOf(node_type *node)			{ return node->value; }			
-			const key_type	&getKeyOf(node_type *node)	 const		{ return node->getKey(); }
+			const key_type	&getKeyOf(node_type *node)	 const	{ return node->getKey(); }
 			NodeColour		&getColourOf(node_type *node)		{ return node->colour; }
 		// -------------------------------------------------------------------------------------------------------------------	
 		// MEMBER VARIABLES --------------------------------------------------------------------------------------------------

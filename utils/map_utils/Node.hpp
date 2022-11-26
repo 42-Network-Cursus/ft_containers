@@ -10,14 +10,16 @@ namespace ft
 	enum NodeColour { RED, BLACK };
 
 	template<	typename Key,
-				typename T
+				typename Value
 			>
 	class Node
 	{
 		public:
 			typedef Key												key_type;
-			typedef T												mapped_type;
-			typedef ft::pair<const Key, T>							value_type;
+			// typedef T												mapped_type;
+			// typedef ft::pair<const Key, T>							value_type;
+			typedef Value							value_type;
+
 
 		// MEMBER VARIABLES --------------------------------------------------------
 			NodeColour	colour;	
