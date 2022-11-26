@@ -3,6 +3,8 @@
 
 # include <iostream> // TO DEL
 
+# include "pair.hpp"
+
 namespace ft
 {
 	enum NodeColour { RED, BLACK };
@@ -32,6 +34,10 @@ namespace ft
 
 			Node (const value_type& val) 
 			: colour(RED), value(val), parent(NULL), l_child(NULL), r_child(NULL) 
+			{}
+
+			Node (const Node& rhs) 
+			: colour(rhs.colour), value(rhs.value), parent(rhs.parent), l_child(rhs.l_child), r_child(rhs.r_child) 
 			{}
 		// ----------------------------------------------------------------------------
 			Node& operator= (const Node& rhs) 
@@ -66,15 +72,12 @@ namespace ft
 			{
 				Node	*tmp = this;
 
-				//case 1
 				if (tmp->r_child)
 				{
 					tmp = tmp->r_child;
 					while (tmp->l_child)
 						tmp = tmp->l_child;
 				}
-
-				//case 2
 				else
 				{
 					Node *tmp_parent = tmp->parent;
@@ -83,7 +86,6 @@ namespace ft
 						tmp = tmp_parent;
 						tmp_parent = tmp_parent->parent;
 					}
-					//case 3
 					if (tmp->r_child != tmp_parent)
 						tmp = tmp_parent;
 				}

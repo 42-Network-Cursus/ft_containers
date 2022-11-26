@@ -1,5 +1,5 @@
-#ifndef RANDOM_ACCESS_ITERATOR_UTILS_HPP
-# define RANDOM_ACCESS_ITERATOR_UTILS_HPP
+#ifndef UTILITY_FUNCTIONS_HPP
+# define UTILITY_FUNCTIONS_HPP
 
 # include "iterator.hpp"
 # include <typeinfo>
@@ -55,4 +55,4 @@ namespace ft
 
 } // END namespace ft
 
-#endif // RANDOM_ACCESS_ITERATOR_UTILS_HPP
+#endif // UTILITY_FUNCTIONS_HPP

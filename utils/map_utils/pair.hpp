@@ -25,7 +25,7 @@ namespace ft
 
 	// ASSIGMENT OPERATOR
 	// implicitly declared ?
-		// pair &operator= (const pair &pr) 
+		// pair &operator= (const pair &pr)
 		// {
 		// 	first	= pr.first;
 		// 	second	= pr.second;
