@@ -100,7 +100,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 			reverse_iterator		rend ()				{ return ( reverse_iterator( begin() ) ); }
 			const_reverse_iterator	rend ()		const	{ return ( const_reverse_iterator( begin() ) ); }
 		// -------------------------------------------------------------------------------------------------------------------
-		// METHODS -----------------------------------------------------------------------------------------------------------
+		// CAPACITY -----------------------------------------------------------------------------------------------------------
 			// Returns number of elements
 			size_type		size ()				const	{ return (_size); }
 
@@ -180,6 +180,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 			}
 		// -------------------------------------------------------------------------------------------------------------------
 		// MODIFIERS ---------------------------------------------------------------------------------------------------------
+		// ---------- INSERTION ----------------------------------------------------------------------------------------------
 			template <class InputIterator>  
 			void		assign (InputIterator first, 
 								typename enable_if<!is_integral<InputIterator>::value, InputIterator>::type last) 
@@ -206,14 +207,6 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 				}
 				_data[_size] = val;
 				_size++;
-			}
-
-			void		pop_back () 
-			{
-				_alloc.destroy( &(_data[_size - 1]) );
-				_size--;
-				if (!_size)
-					_data = 0;
 			}
 
 			iterator	insert (iterator position, const value_type& val) 
@@ -287,7 +280,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 					}
 				}
 			}
-
+		// ---------- DELETION -------------------------------------------------------------------------------------------
 			iterator	erase (iterator position) 
 			{
 				iterator ret = position;
@@ -310,13 +303,21 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 				return (iterator(&_data[start]));
 			}
 
+			void		pop_back () 
+			{
+				_alloc.destroy( &(_data[_size - 1]) );
+				_size--;
+				if (!_size)
+					_data = 0;
+			}
+
 			void		clear () 
 			{
 				for (size_type i = 0; i < _size; i++)
 						_alloc.destroy(&(_data[i]));
 				_size = 0;
 			}
-
+		// ---------- SWAP ------------------------------------------------------------------------------------------------------------------
 			void		swap (vector& rhs) 
 			{
 				pointer			tmp_data		=	_data;
@@ -336,31 +337,6 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 			}
 		// -------------------------------------------------------------------------------------------------------------------
 		// RELATIONAL OPERATORS ----------------------------------------------------------------------------------------------
-			// template <class Tx, class Allocx>  
-			// friend bool operator==	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs)
-			// {
-			// 	if (lhs.size() == rhs.size())
-			// 		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
-			// 	return (false);
-			// }
-
-			// template <class Tx, class Allocx>  
-			// friend bool operator<	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs)
-			// { 
-			// 	return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end())); 
-			// }
-			
-			// template <class Tx, class Allocx> 
-			// friend bool operator!=	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs) { return (!(lhs == rhs)); }
-
-			// template <class Tx, class Allocx>  
-			// friend bool operator<=	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs) { return (!(rhs < lhs)); }
-			
-			// template <class Tx, class Allocx>  
-			// friend bool operator>	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs) { return (rhs < lhs); }
-			
-			// template <class Tx, class Allocx>  
-			// friend bool operator>=	(const vector<Tx,Allocx>& lhs, const vector<Tx,Allocx>& rhs) { return (!(lhs < rhs)); }
 			friend bool operator== ( const vector& lhs, const vector& rhs )
 			{
 				if (lhs.size() == rhs.size())
