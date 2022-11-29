@@ -6,9 +6,9 @@
 # include <stdexcept>
 
 # include "utils/vector_utils/Random_access_iterator.hpp"
-# include "utils/vector_utils/reverse_iterator.hpp"
 # include "utils/vector_utils/enable_if.hpp"
-# include "utils/iterator_utils/functions.hpp"
+# include "utils/iterator_utils/reverse_iterator.hpp"
+# include "utils/iterator_utils/Utility_functions.hpp"
 # include "utils/iterator_utils/iterator.hpp"
 
 namespace ft 

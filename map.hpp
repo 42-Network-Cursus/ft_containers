@@ -42,6 +42,8 @@ namespace ft
 			class value_compare
 			{   
 				public:
+					friend class map<key_type, mapped_type, key_compare, allocator_type>;
+
 					typedef bool		result_type;
 					typedef value_type	first_argument_type;
 					typedef value_type	second_argument_type;
@@ -54,7 +56,7 @@ namespace ft
 				protected:
 					Compare comp;
 					value_compare (Compare c) : comp(c) {}
-			};
+			}; 
 			
 		// CONSTRUCTORS ---------------------------------------------------------------------------------------------------------------------
 explicit	map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {}
@@ -87,11 +89,11 @@ explicit	map(const key_compare& comp = key_compare(), const allocator_type& allo
 			}
 		// ----------------------------------------------------------------------------------------------------------------------------------
 		// ITERATORS ------------------------------------------------------------------------------------------------------------------------
-			iterator				begin()				{ return iterator(_tree.begin()); }
-			const_iterator			begin()		const	{ return const_iterator(_tree.begin()); }
+			iterator				begin()				{ return _tree.begin(); }
+			const_iterator			begin()		const	{ return _tree.begin(); }
 
-			iterator 				end() 				{ return iterator(_tree.end()); }
-			const_iterator 			end() 		const 	{ return const_iterator(_tree.end()); }
+			iterator 				end() 				{ return _tree.end(); } // { return iterator(_tree.end()); }
+			const_iterator 			end() 		const 	{ return _tree.end(); } //const_iterator(_tree.end());
 
 			reverse_iterator		rbegin() 			{ return reverse_iterator(end()); }
 			const_reverse_iterator	rbegin()	const	{ return const_reverse_iterator( end()); }
@@ -108,13 +110,13 @@ explicit	map(const key_compare& comp = key_compare(), const allocator_type& allo
 		// ELEMENT ACCESS -------------------------------------------------------------------------------------------------------------------
 			mapped_type& operator[] (const key_type& k)
 			{
-				pair<iterator,bool> p = insert(make_pair(k, mapped_type()));
+				pair<iterator,bool> p = insert(ft::make_pair(k, mapped_type()));
 				return (*(p.first)).second;
 			}
 		// ----------------------------------------------------------------------------------------------------------------------------------
 		// MODIFIERS ------------------------------------------------------------------------------------------------------------------------
 		// ---------- INSERTION -------------------------------------------------------------------------------------------------------------
-			pair<iterator,bool> insert (const value_type& val) 
+			ft::pair<iterator, bool> insert (const value_type& val) 
 			{ 
 				return _tree.insert(val); 
 			}
@@ -176,7 +178,8 @@ explicit	map(const key_compare& comp = key_compare(), const allocator_type& allo
 
 			value_compare	value_comp() const
 			{
-				return value_compare(_tree.key_comp());
+				return value_compare(key_compare());
+				// return value_compare(_tree.key_comp());
 			}
 		// ----------------------------------------------------------------------------------------------------------------------------------
 		// OPERATIONS -----------------------------------------------------------------------------------------------------------------------
@@ -196,12 +199,12 @@ explicit	map(const key_compare& comp = key_compare(), const allocator_type& allo
 				return 1;
 			}
 
-			pair<iterator,iterator>             equal_range (const key_type& k) 
+			ft::pair<iterator, iterator>             equal_range (const key_type& k) 
 			{ 
 				return ft::make_pair<iterator, iterator>(lower_bound(k), upper_bound(k)); 
 			}
 
-			pair<const_iterator,const_iterator> equal_range (const key_type& k)	const 
+			ft::pair<const_iterator, const_iterator> equal_range (const key_type& k)	const 
 			{ 
 				return ft::make_pair<const_iterator, const_iterator>(lower_bound(k), upper_bound(k)); 
 			}

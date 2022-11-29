@@ -306,7 +306,7 @@ namespace ft
 		// -------------------------------------------------------------------------------------------------------------------
 		// ---------- SEARCH -------------------------------------------------------------------------------------------------
 		public:
-			const_iterator	find (const key_type& key) const
+			iterator	find (const key_type& key) const
 			{
 				node_type *tmp_parent = _header;
 				node_type *tmp = getRoot();
@@ -434,18 +434,20 @@ namespace ft
 							node->parent->l_child = tmp;
 						else
 							node->parent->r_child = tmp;
-					if (getLeftMost() == node) 
+					if (getLeftMost() == node)
+					{
 						if (node->r_child == 0)        // node->l_child must be null also
 							getLeftMost() = node->parent;
-						// makes getLeftMost() == _M_header if node == getRoot()
 						else
-							getLeftMost() = getMinOf(tmp);
-					if (getRightMost() == node)  
+							getLeftMost() = getMinOf(tmp); // makes getLeftMost() == _M_header if node == getRoot()
+					}
+					if (getRightMost() == node)
+					{
 						if (node->l_child == 0)         // node->r_child must be null also
 							getRightMost() = node->parent;  
-						// makes getRightMost() == _M_header if node == getRoot()
 						else                      // tmp == node->l_child
-							getRightMost() = getMaxOf(tmp);
+							getRightMost() = getMaxOf(tmp); // makes getRightMost() == _M_header if node == getRoot()
+					}
 				}
 				if (nodeToDel->colour != RED) 
 				{ 
@@ -555,11 +557,11 @@ namespace ft
  			key_compare 	key_comp() 	const { return _comp; }
 
   		// ITERATORS
-			iterator 		begin() 		{ return iterator(getLeftMost()); }
-			const_iterator	begin() const 	{ return const_iterator(getLeftMost()); }
+			iterator 		begin() const		{ return iterator(getLeftMost()); }
+			// const_iterator	begin() const 	{ return const_iterator(getLeftMost()); }
 
-			iterator 		end() 			{ return iterator(_header); }
-  			const_iterator 	end() 	const	{ return const_iterator(_header); }
+			iterator 		end() 	const	{ return iterator(_header); }
+  			// const_iterator 	end() 	const	{ return const_iterator(_header); }
 
 			// reverse_iterator rbegin() {return reverse_iterator(end());}
   			// const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
