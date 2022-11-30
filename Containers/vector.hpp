@@ -5,11 +5,11 @@
 // # include <stdexcept>
 # include <stdexcept>
 
-# include "utils/vector_utils/Random_access_iterator.hpp"
-# include "utils/vector_utils/enable_if.hpp"
-# include "utils/iterator_utils/reverse_iterator.hpp"
-# include "utils/iterator_utils/Utility_functions.hpp"
-# include "utils/iterator_utils/iterator.hpp"
+# include "Utility/iterator/Random_access_iterator.hpp"
+# include "Utility/utils/enable_if.hpp"
+# include "Utility/iterator/reverse_iterator.hpp"
+# include "Utility/utils/Utility_functions.hpp"
+# include "Utility/iterator/iterator.hpp"
 
 namespace ft 
 {	
@@ -116,7 +116,7 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 
 			void			reserve (size_type n)
 			{
-				if (n > max_size() || n < 0)
+				if (n > max_size()) // || n < 0
 					throw std::length_error("vector");
 				if (n > _capacity) 
 				{

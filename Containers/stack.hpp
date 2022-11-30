@@ -32,25 +32,13 @@ explicit	stack (const container_type& ctnr = container_type() ) : _c(ctnr) {}
 		// ---------------------------------------------------------------------------------------------------------------------------
 		// RELATIONAL OPERATORS ------------------------------------------------------------------------------------------------------
 			// Friend keyword: grants operator overloads access to private/protected members of underlying container
-			template <class Tx, class Containerx>
-			friend  bool operator== (const stack<Tx,Containerx>& lhs, const stack<Tx,Containerx>& rhs) { return (lhs._c == rhs._c); }
-
-			template <class Tx, class Containerx>
-			friend  bool operator!= (const stack<Tx,Containerx>& lhs, const stack<Tx,Containerx>& rhs) { return (lhs._c != rhs._c); }
-
-			template <class Tx, class Containerx>
-			friend  bool operator<  (const stack<Tx,Containerx>& lhs, const stack<Tx,Containerx>& rhs) { return (lhs._c < rhs._c); }
-
-			template <class Tx, class Containerx>
-			friend  bool operator<= (const stack<Tx,Containerx>& lhs, const stack<Tx,Containerx>& rhs) { return (lhs._c <= rhs._c); }
-			
-			template <class Tx, class Containerx>
-			friend  bool operator>  (const stack<Tx,Containerx>& lhs, const stack<Tx,Containerx>& rhs) { return (lhs._c > rhs._c); }
-
-			template <class Tx, class Containerx>
-			friend  bool operator>= (const stack<Tx,Containerx>& lhs, const stack<Tx,Containerx>& rhs) { return (lhs._c >= rhs._c); }
+			friend  bool operator== (const stack& lhs, const stack& rhs) { return (lhs._c == rhs._c); }
+			friend  bool operator!= (const stack& lhs, const stack& rhs) { return (lhs._c != rhs._c); }
+			friend  bool operator<  (const stack& lhs, const stack& rhs) { return (lhs._c < rhs._c); }
+			friend  bool operator<= (const stack& lhs, const stack& rhs) { return (lhs._c <= rhs._c); }
+			friend  bool operator>  (const stack& lhs, const stack& rhs) { return (lhs._c > rhs._c); }
+			friend  bool operator>= (const stack& lhs, const stack& rhs) { return (lhs._c >= rhs._c); }
 		// ---------------------------------------------------------------------------------------------------------------------------
-		
 		protected:
 			container_type	_c;
 

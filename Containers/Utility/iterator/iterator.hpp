@@ -3,7 +3,6 @@
 
 #include <cstddef> // defines ptrdiff_t
 
-
 namespace ft 
 {
 

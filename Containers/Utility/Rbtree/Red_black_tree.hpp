@@ -2,8 +2,8 @@
 # define RED_BLACK_TREE_HPP
 
 # include "Node.hpp"
-# include "Bidirectional_iterator.hpp"
-# include "../iterator_utils/reverse_iterator.hpp"
+# include "../iterator/Bidirectional_iterator.hpp"
+# include "../iterator/reverse_iterator.hpp"
 
 # include <iostream>
 

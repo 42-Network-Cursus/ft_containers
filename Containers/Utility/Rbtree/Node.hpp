@@ -1,9 +1,7 @@
 #ifndef NODE_HPP
 # define NODE_HPP
 
-# include <iostream> // TO DEL
-
-# include "pair.hpp"
+# include "../utils/pair.hpp"
 
 namespace ft
 {

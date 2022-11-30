@@ -1,8 +1,8 @@
 #ifndef UTILITY_FUNCTIONS_HPP
 # define UTILITY_FUNCTIONS_HPP
 
-# include "iterator.hpp"
 # include <typeinfo>
+# include "../iterator/iterator.hpp"
 
 namespace ft 
 {
