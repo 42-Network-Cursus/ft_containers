@@ -14,6 +14,7 @@
 
 # include <fstream>
 # include <iostream>
+# include <iomanip>
 
 # if defined(USING_STD)
 #  define TESTED_NAMESPACE std

@@ -1,11 +1,17 @@
 
+SF			=	./TEST-LOG/set
+STF			=	./TEST-LOG/stack
+MF			=	./TEST-LOG/map
+VF			=	./TEST-LOG/vector
+
 FT			=	ft_test
 STD			=	std_test
 O			=	Unit-Tests/objects
 S			=	Unit-Tests/srcs/
 INCL		= 	Unit-Tests/incl/
 
-FLAGS		=	-Wall -Wextra -Werror -std=c++98  -I$(INCL)
+FLAGS		=	-Wall -Wextra -Werror -std=c++98  -I$(INCL) \
+# -fsanitize=address -static-libasan -g
 RM			=	rm -rf
 
 SRCS		=	main.cpp \
@@ -52,25 +58,25 @@ fclean		: clean
 				@$(RM) ./ft_test
 				@echo "Cleaning: $(STD)"
 				@$(RM) ./std_test
-				@echo "Cleaning: ./TEST-LOG/vector"
-				@$(RM) ./TEST-LOG/vector
-				@echo "Cleaning: ./TEST-LOG/stack"
-				@$(RM) ./TEST-LOG/stack
-				@echo "Cleaning: ./TEST-LOG/set"
-				@$(RM) ./TEST-LOG/set
-				@echo "Cleaning: ./TEST-LOG/map"
-				@$(RM) ./TEST-LOG/map
+				@echo "Cleaning: $(VF)"
+				@$(RM) $(VF)
+				@echo "Cleaning: $(STF)"
+				@$(RM) $(STF)
+				@echo "Cleaning: $(SF)"
+				@$(RM) $(SF)
+				@echo "Cleaning: $(MF)"
+				@$(RM) $(MF)
 				@$(RM) ./TEST-LOG
 
 re		:	fclean all
 
 run		:
-			@mkdir -p ./TEST-LOG/map
-			@mkdir -p ./TEST-LOG/vector
-			@mkdir -p ./TEST-LOG/set
-			@mkdir -p ./TEST-LOG/stack
+			@mkdir -p $(MF)
+			@mkdir -p $(VF)
+			@mkdir -p $(SF)
+			@mkdir -p $(STF)
 			@./$(FT)
 			@./$(STD)
-			@echo "Output redirected to TEST-LOG directory"
+			@echo "Output redirected to TEST-LOG directory."
 
-PHONY	:	all clean fclean re run 
+PHONY	:	all clean fclean re run diff

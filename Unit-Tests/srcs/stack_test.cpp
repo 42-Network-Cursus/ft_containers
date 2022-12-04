@@ -28,7 +28,7 @@ void	cmp(const Stack &lhs, const Stack &rhs, std::ofstream &FILE)
 // -----------------------------------------------------------------------------------------
 // TESTS -----------------------------------------------------------------------------------
 
-void	test_1(std::ofstream &FILE)
+void	stack_test_1(std::ofstream &FILE)
 {
 	FILE << "----- TEST 1 -----" << std::endl;
 	FILE << "Testing: default constructor, adding elements, empty() & size()" << std::endl;
@@ -51,7 +51,7 @@ void	test_1(std::ofstream &FILE)
 	printContent(stck, FILE);
 }
 
-void	test_2(std::ofstream &FILE)
+void	stack_test_2(std::ofstream &FILE)
 {
 	FILE << "----- TEST 2 -----" << std::endl;
 	FILE << "Testing: default constructor w/ " NS_STR "::vector as param, adding elements, empty() & size()" << std::endl;
@@ -86,7 +86,7 @@ void	test_2(std::ofstream &FILE)
 	printContent(stck, FILE);
 }
 
-void	test_3(std::ofstream &FILE)
+void	stack_test_3(std::ofstream &FILE)
 {
 	FILE << "----- TEST 3 -----" << std::endl;
 	FILE << "Testing: default constructor w/ std::list as param, adding elements, empty() & size()" << std::endl;
@@ -121,7 +121,7 @@ void	test_3(std::ofstream &FILE)
 	printContent(stck, FILE);
 }
 
-void	test_4(std::ofstream &FILE)
+void	stack_test_4(std::ofstream &FILE)
 {
 	FILE << "----- TEST 4 -----" << std::endl;
 	FILE << "Testing: Relational operators" << std::endl;
@@ -174,7 +174,7 @@ void	test_4(std::ofstream &FILE)
 	cmp(B_stack, A_stack, FILE);
 }
 
-void	test_5(std::ofstream &FILE)
+void	stack_test_5(std::ofstream &FILE)
 {
 	FILE << "----- TEST 5 -----" << std::endl;
 	FILE << "Testing: Relational operators w/ std::list as container" << std::endl;
@@ -232,14 +232,14 @@ void	stack_test()
 {
 	std::ofstream FILE("TEST-LOG/stack/" F_OUT "stack.txt");
 	
-	test_1(FILE);
-	FILE << "########################################" << std::endl;
-	test_2(FILE);
-	FILE << "########################################" << std::endl;
-	test_3(FILE);
-	FILE << "########################################" << std::endl;
-	test_4(FILE);
-	FILE << "########################################" << std::endl;
-	test_5(FILE);
-	FILE << "########################################" << std::endl;
+	stack_test_1(FILE);
+	FILE << "################################################################################" << std::endl;
+	stack_test_2(FILE);
+	FILE << "################################################################################" << std::endl;
+	stack_test_3(FILE);
+	FILE << "################################################################################" << std::endl;
+	stack_test_4(FILE);
+	FILE << "################################################################################" << std::endl;
+	stack_test_5(FILE);
+	FILE << "################################################################################" << std::endl;
 }

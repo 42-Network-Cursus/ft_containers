@@ -59,10 +59,12 @@ namespace ft
 			}; 
 			
 		// CONSTRUCTORS ---------------------------------------------------------------------------------------------------------------------
-explicit	map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {}
+explicit	map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+			: _comp(comp), _alloc(alloc) {}
 			
 			template <class InputIt>  
 			map(InputIt first, InputIt last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+			: _comp(comp), _alloc(alloc)
 			{
 				for (; first != last; first++)
 					_tree.insert(*first);
@@ -229,6 +231,10 @@ explicit	map(const key_compare& comp = key_compare(), const allocator_type& allo
 		// ----------------------------------------------------------------------------------------------------------------------------------
 		private:
 			RBTree				_tree;
+
+			Compare				_comp;
+
+			Alloc				_alloc;
 
 	}; // END class map
 

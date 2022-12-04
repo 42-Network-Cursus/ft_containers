@@ -370,13 +370,13 @@ namespace ft
 		public:
 			void	erase(iterator it)
 			{
-				node_type *nodeToDel = EraseAndRebalance(it.getNode(), _header);
+				node_type *nodeToDel = EraseAndRebalance(it.getNode());
 				destroyNode(nodeToDel);
 				_size--;
 			}
 
 		private:
-			node_type	*EraseAndRebalance(node_type *node, node_type *_header)
+			node_type	*EraseAndRebalance(node_type *node)
 			{
 				node_type* nodeToDel = node;
 				node_type* tmp = 0;

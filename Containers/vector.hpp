@@ -199,7 +199,8 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 
 			void		push_back ( const value_type& val ) 
 			{
-				if ( _capacity <= _size ) {
+				if ( _capacity <= _size ) 
+				{
 					if (_size == 0)
 						reserve(1);
 					else
