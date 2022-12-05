@@ -86,7 +86,12 @@ explicit	map(const key_compare& comp = key_compare(), const allocator_type& allo
 		// ASSIGNMENT OPERATOR --------------------------------------------------------------------------------------------------------------
 			map& operator= (const map& rhs)
 			{
-				_tree = rhs._tree;
+				clear();
+				const_iterator it = rhs.begin();
+				const_iterator ite = rhs.end();
+
+				for (; it != ite; it++)
+					_tree.insert(*it);
 				return *this;
 			}
 		// ----------------------------------------------------------------------------------------------------------------------------------

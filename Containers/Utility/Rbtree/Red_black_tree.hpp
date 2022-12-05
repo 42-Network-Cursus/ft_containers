@@ -44,7 +44,7 @@ namespace ft
 		public:
 			Red_black_tree (const allocator_type& alloc = allocator_type(), const key_compare& comp = key_compare()) 
 			: _comp(comp), _valueAlloc(alloc), _size(0), _capacity(0) 
-			{ 
+			{
 				_header = allocNode();
 				_header->colour = RED;
 				_header->parent = NULL;
@@ -55,14 +55,17 @@ namespace ft
 		public:
 			~Red_black_tree () 
 			{
-				deallocNode(_header); 
+				// deallocNode(_header); 
 			}
 		// -------------------------------------------------------------------------------------------------------------------
 		// NODE ALLOCATION ---------------------------------------------------------------------------------------------------
 		private:
 			node_type	*allocNode()	{ return _nodeAlloc.allocate(1); }
 
-			void	deallocNode(node_type	*node)	{ _nodeAlloc.deallocate(node, 1); }
+			void	deallocNode(node_type	*node)	
+			{
+				_nodeAlloc.deallocate(node, 1); 
+			}
 
 			node_type	*createNode (const value_type& val)
 			{
@@ -381,7 +384,7 @@ namespace ft
 				node_type* nodeToDel = node;
 				node_type* tmp = 0;
 				node_type* tmp_parent = 0;
-			
+
 				if (nodeToDel->l_child == 0)     // node has at most one non-null child. y == z.
 					tmp = nodeToDel->r_child;     // tmp might be null.
 				else
@@ -490,10 +493,11 @@ namespace ft
 								break;
 							}
 						} 
-						else 
+						else //add if ...
 						{   
 							// same as above, with r_child <-> l_child.
 							node_type* tmpSibling = tmp_parent->l_child;
+
 							if (tmpSibling->colour == RED) 
 							{
 								tmpSibling->colour = BLACK;
@@ -557,7 +561,13 @@ namespace ft
  			key_compare 	key_comp() 	const { return _comp; }
 
   		// ITERATORS
-			iterator 		begin() const		{ return iterator(getLeftMost()); }
+			iterator 		begin() const		
+			{ 
+				if (_header)
+					return iterator(getLeftMost());
+				else
+					return (end());
+			}
 			// const_iterator	begin() const 	{ return const_iterator(getLeftMost()); }
 
 			iterator 		end() 	const	{ return iterator(_header); }

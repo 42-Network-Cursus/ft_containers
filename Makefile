@@ -11,7 +11,7 @@ S			=	Unit-Tests/srcs/
 INCL		= 	Unit-Tests/incl/
 
 FLAGS		=	-Wall -Wextra -Werror -std=c++98  -I$(INCL) \
-# -fsanitize=address -static-libasan -g
+-fsanitize=address -static-libsan -g
 RM			=	rm -rf
 
 SRCS		=	main.cpp \
@@ -70,13 +70,26 @@ fclean		: clean
 
 re		:	fclean all
 
-run		:
+run		:	all
 			@mkdir -p $(MF)
 			@mkdir -p $(VF)
 			@mkdir -p $(SF)
 			@mkdir -p $(STF)
 			@./$(FT)
 			@./$(STD)
-			@echo "Output redirected to TEST-LOG directory."
+			@echo "Output redirected to TEST-LOG directory."	
+
+diff	:
+			@-diff -u $(VF)/ft_vector.txt $(VF)/std_vector.txt > $(VF)/diff_vector.txt
+			@-diff -y $(VF)/ft_vector.txt $(VF)/std_vector.txt > $(VF)/easy_compare_vector.txt
+			
+			@-diff -u $(STF)/ft_stack.txt $(STF)/std_stack.txt > $(STF)/diff_stack.txt
+			@-diff -y $(STF)/ft_stack.txt $(STF)/std_stack.txt > $(STF)/easy_compare_stack.txt
+					
+			@-diff $(MF)/ft_map.txt $(MF)/std_map.txt > $(MF)/diff_map.txt
+			@-diff -y $(MF)/ft_map.txt $(MF)/std_map.txt > $(MF)/easy_compare_map.txt
+
+			@-diff $(SF)/ft_set.txt $(SF)/std_set.txt > $(SF)/diff_set.txt
+			@-diff -y $(SF)/ft_set.txt $(SF)/std_set.txt > $(SF)/easy_compare_set.txt
 
 PHONY	:	all clean fclean re run diff

@@ -16,8 +16,9 @@ namespace ft
 	{
 		public:
 
-			typedef T			key_type;
-			typedef T			value_type;
+			typedef T				key_type;
+			typedef T				value_type;
+			typedef ft::pair<T, T>	value_pair;
 
 			typedef	Compare		key_compare;
 			typedef Compare		value_compare;
@@ -41,13 +42,16 @@ namespace ft
 			typedef size_t 										size_type;
 
 		// CONSTRUCTORS
-explicit 	set (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {}
+explicit 	set (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) 
+			: _comp(comp), _alloc(alloc)
+			{}
 			
 			template <class InputIt>  
 			set (InputIt first, InputIt last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+			: _comp(comp), _alloc(alloc)
 			{
 				for (; first != last; first++)
-					_tree.insert(*first);
+					_tree.insert(ft::make_pair(*first, *first));
 			}
 			
 			set (const set& x)
@@ -73,11 +77,11 @@ explicit 	set (const key_compare& comp = key_compare(), const allocator_type& al
 
 		// ----------------------------------------------------------------------------------------------------------------------------------
 		// ITERATORS ------------------------------------------------------------------------------------------------------------------------
-			iterator				begin()				{ return iterator(_tree.begin()); }
-			const_iterator			begin()		const	{ return const_iterator(_tree.begin()); }
+			iterator				begin()				{ return iterator((*_tree.begin()).first); }
+			const_iterator			begin()		const	{ return const_iterator((*_tree.begin()).first); }
 
-			iterator 				end() 				{ return iterator(_tree.end()); }
-			const_iterator 			end() 		const 	{ return const_iterator(_tree.end()); }
+			iterator 				end() 				{ return iterator((*_tree.end()).first); }
+			const_iterator 			end() 		const 	{ return const_iterator((*_tree.end()).first); }
 
 			reverse_iterator		rbegin() 			{ return reverse_iterator(end()); }
 			const_reverse_iterator	rbegin()	const	{ return const_reverse_iterator( end()); }
@@ -96,19 +100,19 @@ explicit 	set (const key_compare& comp = key_compare(), const allocator_type& al
 
 			pair<iterator,bool> insert (const value_type& val)
 			{
-				return _tree.insert(val);
+				return _tree.insert(ft::make_pair(val, val));
 			}
 
 			iterator insert (iterator position, const value_type& val)
 			{
-				return _tree.insertHint(position, val);
+				return _tree.insertHint(position, ft::make_pair(val, val));
 			}
 
 			template <class InputIt>  
 			void insert (InputIt first, InputIt last)
 			{
 				for (; first != last; first++)
-					_tree.insert(*first);
+					_tree.insert(ft::make_pair(*first, *first));
 			}
 		// ---------- DELETION --------------------------------------------------------------------------------------------------------------
 			void erase (iterator position)
@@ -200,7 +204,10 @@ explicit 	set (const key_compare& comp = key_compare(), const allocator_type& al
 		// ----------------------------------------------------------------------------------------------------------------------------------
 
 		private:
-			RBTree _tree;
+			RBTree	_tree;
+
+			Compare	_comp;
+			Alloc	_alloc;
 
 	}; // END class set
 
