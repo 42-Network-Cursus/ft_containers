@@ -1,4 +1,4 @@
-#include "test.hpp"
+#include "Unit-Test.hpp"
 
 #define TESTED_TYPE int
 #define T_SIZE_TYPE typename TESTED_NAMESPACE::vector<T>::size_type
@@ -398,9 +398,7 @@ void	vector_test_10(std::ofstream &FILE)
 
 	FILE << "push_back():\n" << std::endl;
 
-	std::cout << vct.capacity() << std::endl;
 	vct.push_back("One long string");
-	std::cout << "SEG\n";
 	vct2.push_back("Another long string");
 
 	printContent(vct, FILE);
@@ -625,8 +623,8 @@ void	vector_test()
 	FILE << "################################################################################" << std::endl;
 	vector_test_9(FILE);
 	FILE << "################################################################################" << std::endl;
-	// vector_test_10(FILE); // SEGFAULT ON WINDOWS PC
-	// FILE << "############## ##################################################################" << std::endl;
+	vector_test_10(FILE);
+	FILE << "############## ##################################################################" << std::endl;
 	vector_test_11(FILE);
 	FILE << "################################################################################" << std::endl;
 	vector_test_12(FILE);

@@ -1,7 +1,4 @@
-#include "test.hpp"
-
-// #define T1 int
-// #define T2 int
+#include "Unit-Test.hpp"
 
 #define _pair		TESTED_NAMESPACE::pair
 #define _map		TESTED_NAMESPACE::map<T1, T2>
@@ -37,8 +34,8 @@ void	ft_bound(MAP &mp, const int &param, std::ofstream &FILE)
 	typedef int T1;
 	typedef int T2;
 
-	typename _it ite = mp.end(), it[2]; // _map<T1, T2>::iterator
-	_pair<typename _it, typename _it> ft_range; // _map<T1, T2>::iterator, _map<T1, T2>::iterator
+	typename _it ite = mp.end(), it[2];
+	_pair<typename _it, typename _it> ft_range;
 
 	FILE << "key [" << param << "]:" << std::endl;
 	it[0] = mp.lower_bound(param); it[1] = mp.upper_bound(param);
@@ -54,8 +51,8 @@ void	ft_const_bound(const MAP &mp, const int &param, std::ofstream &FILE)
 	typedef int T1;
 	typedef int T2;
 
-	typename _c_it ite = mp.end(), it[2]; // _map<int, int>::const_iterator
-	_pair<typename _c_it, typename _c_it> ft_range; // _map<int, int>::const_iterator, _map<int, int>::const_iterator
+	typename _c_it ite = mp.end(), it[2];
+	_pair<typename _c_it, typename _c_it> ft_range;
 
 	FILE << "key [" << param << "]:" << std::endl;
 	it[0] = mp.lower_bound(param); it[1] = mp.upper_bound(param);
@@ -145,10 +142,10 @@ void	map_test_1(std::ofstream &FILE)
 	FILE << "T1: int, T2: int" << std::endl;
 	TIMER t(&FILE);
 
-	std::list<_val_type> lst; //_map<int, int>::value_type
+	std::list<_val_type> lst;
 	unsigned int lst_size = 10;
 	for (unsigned int i = 0; i < lst_size; ++i)
-		lst.push_back(_val_type(i + 1, (i + 1) * 3)); // _map<int, int>::value_type
+		lst.push_back(_val_type(i + 1, (i + 1) * 3));
 	_map mp(lst.begin(), lst.end());
 	printContent(mp, FILE);
 
@@ -197,7 +194,7 @@ void	map_test_3(std::ofstream &FILE)
 	typedef int T2;
 
 	FILE << "----- TEST 3 -----" << std::endl;
-	FILE << "Testing: Swap" << std::endl;
+	FILE << "Testing: Assignment" << std::endl;
 	FILE << "T1: int, T2: int" << std::endl;
 	TIMER t(&FILE);
 
@@ -239,7 +236,7 @@ void	map_test_4(std::ofstream &FILE)
 	typedef int		T2;
 
 	FILE << "----- TEST 4 -----" << std::endl;
-	FILE << "Testing: Swap" << std::endl;
+	FILE << "Testing: Empty, clear" << std::endl;
 	FILE << "T1: char, T2: int" << std::endl;
 	TIMER t(&FILE);
 	
@@ -272,49 +269,50 @@ void	map_test_4(std::ofstream &FILE)
 	printContent(mp2, FILE);
 }
 
-// void	map_test_5(std::ofstream &FILE)
-// {
-// 	typedef int				T1;
-// 	typedef std::string		T2;
+void	map_test_5(std::ofstream &FILE)
+{
+	typedef char	T1;
+	typedef int		T2;
 
-// 	FILE << "----- TEST 5 -----" << std::endl;
-// 	FILE << "Testing: Erase" << std::endl;
-// 	FILE << "T1: int, T2: string" << std::endl;
-// 	TIMER t(&FILE);
-	
-// 	std::list<_pair<const T1, T2> > lst;
-// 	unsigned int lst_size = 10;
-// 	for (unsigned int i = 0; i < lst_size; ++i)
-// 		lst.push_back(_pair<const T1, T2>(i, std::string((lst_size - i), i + 65)));
-// 	_map mp(lst.begin(), lst.end());
-// 	printContent(mp, FILE);
+	FILE << "----- TEST 5 -----" << std::endl;
+	FILE << "Testing: Swap" << std::endl;
+	TIMER t(&FILE);
 
-	
-// 	std::cout << (*(++mp.begin())).second << std::endl;
+	std::list<_pair<const T1, T2> > lst;
 
-// 	ft_erase(FILE, mp, ++mp.begin());
+	unsigned int lst_size = 7;
+	for (unsigned int i = 0; i < lst_size; ++i)
+		lst.push_back(_pair<const T1, T2>('a' + i, lst_size - i));
+	_map foo(lst.begin(), lst.end());
 
-// 	ft_erase(FILE, mp, mp.begin());
-// 	ft_erase(FILE, mp, --mp.end());
+	lst.clear(); lst_size = 4;
+	for (unsigned int i = 0; i < lst_size; ++i)
+		lst.push_back(_pair<const T1, T2>('z' - i, i * 5));
+	_map bar(lst.begin(), lst.end());
 
-// 	ft_erase(FILE, mp, mp.begin(), ++(++(++mp.begin())));
+	_c_it it_foo = foo.begin();
+	_c_it it_bar = bar.begin();
 
-// 	printContent(mp, FILE); // TODEL
+	FILE << "BEFORE SWAP" << std::endl;
 
-// 	ft_erase(FILE, mp, --(--(--mp.end())), --mp.end());
+	FILE << "foo contains:" << std::endl;
+	printContent(foo, FILE);
+	FILE << "bar contains:" << std::endl;
+	printContent(bar, FILE);
 
-// 	mp[10] = "Hello";
-// 	mp[11] = "Hi there";
-// 	printContent(mp, FILE);
-// 	ft_erase(FILE, mp, --(--(--mp.end())), mp.end());
+	foo.swap(bar);
 
-// 	mp[12] = "ONE";
-// 	mp[13] = "TWO";
-// 	mp[14] = "THREE";
-// 	mp[15] = "FOUR";
-// 	printContent(mp, FILE);
-// 	ft_erase(FILE, mp, mp.begin(), mp.end());
-// }
+	FILE << "AFTER SWAP" << std::endl;
+
+	FILE << "foo contains:" << std::endl;
+	printContent(foo, FILE);
+	FILE << "bar contains:" << std::endl;
+	printContent(bar, FILE);
+
+	FILE << "Iterator validity:" << std::endl;
+	FILE << (it_foo == bar.begin()) << std::endl;
+	FILE << (it_bar == foo.begin()) << std::endl;
+}
 
 void	map_test_6(std::ofstream &FILE)
 {
@@ -350,7 +348,6 @@ void	map_test_6(std::ofstream &FILE)
 
 void	map_test_7(std::ofstream &FILE)
 {
-
 	typedef int				T1;
 	typedef std::string		T2;
 
@@ -531,23 +528,23 @@ void	map_test_11(std::ofstream &FILE)
 	mp1['a'] = 2; mp1['b'] = 3; mp1['c'] = 4; mp1['d'] = 5;
 	mp2['a'] = 2; mp2['b'] = 3; mp2['c'] = 4; mp2['d'] = 5;
 
-	cmp(mp1, mp1, FILE); // 0
-	cmp(mp1, mp2, FILE); // 1
+	cmp(mp1, mp1, FILE);
+	cmp(mp1, mp2, FILE);
 
 	mp2['e'] = 6; mp2['f'] = 7; mp2['h'] = 8; mp2['h'] = 9;
 
-	cmp(mp1, mp2, FILE); // 2
-	cmp(mp2, mp1, FILE); // 3
+	cmp(mp1, mp2, FILE);
+	cmp(mp2, mp1, FILE);
 
 	(++(++mp1.begin()))->second = 42;
 
-	cmp(mp1, mp2, FILE); // 4
-	cmp(mp2, mp1, FILE); // 5
+	cmp(mp1, mp2, FILE);
+	cmp(mp2, mp1, FILE);
 
 	swap(mp1, mp2);
 
-	cmp(mp1, mp2, FILE); // 6
-	cmp(mp2, mp1, FILE); // 7
+	cmp(mp1, mp2, FILE);
+	cmp(mp2, mp1, FILE);
 }
 
 void	map_test_12(std::ofstream &FILE)
@@ -604,52 +601,6 @@ void	map_test_13(std::ofstream &FILE)
 	printContent(mp, FILE);
 	
 }
-
-void	map_test_14(std::ofstream &FILE)
-{
-	typedef char	T1;
-	typedef int		T2;
-
-	FILE << "----- TEST 14 -----" << std::endl;
-	FILE << "Testing: Swap" << std::endl;
-	TIMER t(&FILE);
-
-	std::list<_pair<const T1, T2> > lst;
-
-	unsigned int lst_size = 7;
-	for (unsigned int i = 0; i < lst_size; ++i)
-		lst.push_back(_pair<const T1, T2>('a' + i, lst_size - i));
-	_map foo(lst.begin(), lst.end());
-
-	lst.clear(); lst_size = 4;
-	for (unsigned int i = 0; i < lst_size; ++i)
-		lst.push_back(_pair<const T1, T2>('z' - i, i * 5));
-	_map bar(lst.begin(), lst.end());
-
-	_c_it it_foo = foo.begin();
-	_c_it it_bar = bar.begin();
-
-	FILE << "BEFORE SWAP" << std::endl;
-
-	FILE << "foo contains:" << std::endl;
-	printContent(foo, FILE);
-	FILE << "bar contains:" << std::endl;
-	printContent(bar, FILE);
-
-	foo.swap(bar);
-
-	FILE << "AFTER SWAP" << std::endl;
-
-	FILE << "foo contains:" << std::endl;
-	printContent(foo, FILE);
-	FILE << "bar contains:" << std::endl;
-	printContent(bar, FILE);
-
-	FILE << "Iterator validity:" << std::endl;
-	FILE << (it_foo == bar.begin()) << std::endl;
-	FILE << (it_bar == foo.begin()) << std::endl;
-	
-}
 // -----------------------------------------------------------------------------------------
 
 void	map_test()
@@ -664,8 +615,8 @@ void	map_test()
 	FILE << "################################################################################" << std::endl;
 	map_test_4(FILE);
 	FILE << "################################################################################" << std::endl;
-	// map_test_5(FILE);
-	// FILE << "################################################################################" << std::endl;
+	map_test_5(FILE);
+	FILE << "################################################################################" << std::endl;
 	map_test_6(FILE);
 	FILE << "################################################################################" << std::endl;
 	map_test_7(FILE);
@@ -682,10 +633,4 @@ void	map_test()
 	FILE << "################################################################################" << std::endl;
 	map_test_13(FILE);
 	FILE << "################################################################################" << std::endl;
-	map_test_14(FILE);
-	FILE << "################################################################################" << std::endl;
-	// map_test_15(FILE);
-	// FILE << "################################################################################" << std::endl;
-	// map_test_16(FILE);
-	// FILE << "################################################################################" << std::endl;
 }

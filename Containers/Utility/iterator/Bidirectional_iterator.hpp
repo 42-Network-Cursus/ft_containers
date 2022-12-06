@@ -1,8 +1,6 @@
 #ifndef BIDIRECTIONAL_ITERATOR_HPP
 # define BIDIRECTIONAL_ITERATOR_HPP
 
-# include <iostream> // Testing, delete later
-
 # include "iterator.hpp"
 # include "../Rbtree/Node.hpp"
 
@@ -12,38 +10,30 @@ namespace ft
 	class Bidirectional_iterator : public virtual ft::iterator <ft::bidirectional_iterator_tag, Value> 
 	{
 		public:
-			typedef Key																			key_type;
-			// typedef T																			mapped_type;
-			// typedef ft::pair<const Key, T>														value_type;
-			typedef Value																		value_type;
+			typedef Key		key_type;
+			typedef Value	value_type;
 
+			typedef Node<Key, Value>	node_type;
+			
 			typedef  ft::bidirectional_iterator_tag		iterator_category;
 			typedef  ptrdiff_t							difference_type;
 			
-			// typedef value_type*																			pointer;
-		//weird
 			typedef typename ft::verify_const_property<IsConst, value_type*, const value_type*>::type	pointer;
 			typedef typename ft::verify_const_property<IsConst, value_type&, const value_type&>::type	reference;
-			// typedef value_type&																			reference;
-			// typedef const value_type&																	const_reference;
 
-			typedef Node<Key, Value>																node_type;
-
-		// CONSTRUCTORS
+		// CONSTRUCTORS -----------------------------------------------------------------------------------
 			Bidirectional_iterator (node_type *node = NULL) : _node(node) {}
 			Bidirectional_iterator (const Bidirectional_iterator<Key, Value>& rhs) : _node(rhs.getNode()) {}
-
-		// DESTRUCTOR
+		// DESTRUCTOR -------------------------------------------------------------------------------------
 			~Bidirectional_iterator () {}
-
-		// ASSIGMNEMT OPERATOR
+		// ASSIGMNEMT OPERATOR ----------------------------------------------------------------------------
 			Bidirectional_iterator& operator= (const Bidirectional_iterator& rhs) 
 			{
 				_node = rhs._node;
 				return (*this);
 			}
 		// ------------------------------------------------------------------------------------------------
-		// INCREMENT && DECREMENT
+		// INCREMENT && DECREMENT -------------------------------------------------------------------------
 			Bidirectional_iterator& operator++ () 
 			{
 				Bidirectional_iterator tmp(_node->next());
@@ -71,18 +61,20 @@ namespace ft
 				--(*this);
 				return tmp;
 			}
-		// ---------------------------------------------------------------------
-		// ACCESS OPERATORS
+		// ------------------------------------------------------------------------------------------------
+		// ACCESS OPERATORS -------------------------------------------------------------------------------
 			reference	operator* ()	const 	{ return (_node->value); }
 			pointer		operator-> ()	const 	{ return (&(operator*() )); }
-		//----------------------------------------------------------------------
-		// COMPARING OPERATORS
+		// ------------------------------------------------------------------------------------------------
+		// COMPARING OPERATORS ----------------------------------------------------------------------------
 			friend bool operator==	(const Bidirectional_iterator& lhs, const Bidirectional_iterator& rhs)	{ return (lhs._node == rhs._node); }
 			friend bool operator!=	(const Bidirectional_iterator& lhs, const Bidirectional_iterator& rhs)	{ return (lhs._node != rhs._node); }
 		// ------------------------------------------------------------------------------------------------
+		// GETTERS ----------------------------------------------------------------------------------------
 			const key_type&	getKey() { return _node->getKey(); }
+			const key_type&	getSetKey() { return _node->getSetKey(); }
 			node_type	*getNode() const { return _node; }
-		
+		// ------------------------------------------------------------------------------------------------
 		private:
 			node_type	*_node;
 	

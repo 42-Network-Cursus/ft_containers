@@ -34,21 +34,8 @@ explicit	reverse_iterator (iterator_type it) : _data(it) {}
 
 			template <typename It>
 			difference_type		operator- (const reverse_iterator<It> &rhs) { return (rhs.base() - _data); }
-			
-			// friend difference_type	operator- ( reverse_iterator lhs, reverse_iterator rhs )
-			// {
-			// 	return (lhs._data - rhs._data);
-			// }  
-
-			// template <class Iteratorx>  
-			// friend typename reverse_iterator<Iteratorx>::difference_type operator- (const reverse_iterator<Iteratorx>& lhs, const reverse_iterator<Iteratorx>& rhs)
-			// { return (lhs.base() - rhs.base()); }
 
 			reverse_iterator	operator+ (difference_type n) const { return (reverse_iterator(_data - n) ); }
-
-			// template <class Iteratorx>  
-			// friend reverse_iterator<Iteratorx> operator+ (typename reverse_iterator<Iteratorx>::difference_type n, const reverse_iterator<Iteratorx>& rhs)
-			// { return (rhs._data -= n); }
 
 			reverse_iterator&	operator-= (difference_type n) 
 			{
@@ -70,7 +57,6 @@ explicit	reverse_iterator (iterator_type it) : _data(it) {}
 				--(*this);
 				return (tmp);
 			}
-
 
 			reverse_iterator& operator++ () 
 			{

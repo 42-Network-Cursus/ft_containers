@@ -1,8 +1,6 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
-// # include <memory>
-// # include <stdexcept>
 # include <stdexcept>
 
 # include "Utility/iterator/Random_access_iterator.hpp"
@@ -65,16 +63,14 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 				for (size_type i = 0; i < _size; i++)
 					_data[i] = rhs._data[i];
 			}
-		
-		// DESTRUCTOR
+		// DESTRUCTOR --------------------------------------------------------------------------------------------------------
 			~vector() 
 			{
 				clear();
 				if (_capacity)
 					_alloc.deallocate(_data, _capacity);
 			}
-			
-		// ASSIGMENT OPERATOR
+		// ASSIGMENT OPERATOR ------------------------------------------------------------------------------------------------
 			vector&	operator= (const vector& rhs) 
 			{
 				if (this != &rhs) 
@@ -101,22 +97,15 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 			const_reverse_iterator	rend ()		const	{ return ( const_reverse_iterator( begin() ) ); }
 		// -------------------------------------------------------------------------------------------------------------------
 		// CAPACITY -----------------------------------------------------------------------------------------------------------
-			// Returns number of elements
 			size_type		size ()				const	{ return (_size); }
-
-			// Returns max number of elements the vector could hold given OS specs
 			size_type		max_size ()			const	{ return (_alloc.max_size() ); }
-
-			// Allocated space for sizeof(value_type) elements
 			size_type		capacity ()			const	{ return (_capacity); }
-
-			allocator_type	get_allocator ()		const	{ return (_alloc); }
-
+			allocator_type	get_allocator ()	const	{ return (_alloc); }
 			bool			empty ()			const	{ return (_size == 0); }
 
 			void			reserve (size_type n)
 			{
-				if (n > max_size()) // || n < 0
+				if (n > max_size())
 					throw std::length_error("vector");
 				if (n > _capacity) 
 				{
@@ -357,22 +346,19 @@ explicit	vector (size_type n, const value_type& val = value_type(), const alloca
 		// -------------------------------------------------------------------------------------------------------------------
 
 		private:
-			// Array used to store data. Grows dynamically depending on needs.
 			pointer			_data;
-
-			// Allocator used to dynamically grow memory needs for _data.
 			allocator_type	_alloc;
-
-			// Allocated space in memory
 			size_type		_capacity;
-
-			// Number of elements
 			size_type		_size;
 
 	}; // END class vector
 
+	// -------------------------------------------------------------------------------------------
 	template <class T, class Alloc>  
-	void swap (vector<T,Alloc>& lhs, vector<T,Alloc>& rhs) { lhs.swap(rhs); }
+	void swap (vector<T,Alloc>& lhs, vector<T,Alloc>& rhs) 
+	{ 
+		lhs.swap(rhs); 
+	}
 
 } // END namespace ft
 

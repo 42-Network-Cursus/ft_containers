@@ -17,18 +17,20 @@ namespace ft
 	class map 
 	{
 		public:
-			typedef Key											key_type;
-			typedef T											mapped_type;
-			typedef ft::pair<const Key, T>						value_type;
+			typedef Key							key_type;
+			typedef T							mapped_type;
+			typedef ft::pair<const Key, T>		value_type;
+
 			typedef	Red_black_tree<Key, value_type, Compare, Alloc>		RBTree;
 
-			typedef	Compare										key_compare;
-			typedef Alloc										allocator_type;
+			typedef	Compare		key_compare;
+			typedef Alloc		allocator_type;
 
-			typedef	value_type&									reference;
-			typedef const value_type&							const_reference;
-			typedef value_type*									pointer;
-			typedef const value_type*							const_pointer;
+			typedef	value_type&				reference;
+			typedef const value_type&		const_reference;
+
+			typedef value_type*				pointer;
+			typedef const value_type*		const_pointer;
 			
 			typedef ft::Bidirectional_iterator<Key, value_type>			iterator;
 			typedef ft::Bidirectional_iterator<Key, value_type, true>	const_iterator;
@@ -36,8 +38,8 @@ namespace ft
 			typedef ft::reverse_iterator<iterator> 				reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;	
 
-			typedef ptrdiff_t									difference_type;
-			typedef size_t 										size_type;
+			typedef ptrdiff_t	difference_type;
+			typedef size_t 		size_type;
 
 			class value_compare
 			{   
@@ -99,8 +101,8 @@ explicit	map(const key_compare& comp = key_compare(), const allocator_type& allo
 			iterator				begin()				{ return _tree.begin(); }
 			const_iterator			begin()		const	{ return _tree.begin(); }
 
-			iterator 				end() 				{ return _tree.end(); } // { return iterator(_tree.end()); }
-			const_iterator 			end() 		const 	{ return _tree.end(); } //const_iterator(_tree.end());
+			iterator 				end() 				{ return _tree.end(); }
+			const_iterator 			end() 		const 	{ return _tree.end(); }
 
 			reverse_iterator		rbegin() 			{ return reverse_iterator(end()); }
 			const_reverse_iterator	rbegin()	const	{ return const_reverse_iterator( end()); }
@@ -186,12 +188,11 @@ explicit	map(const key_compare& comp = key_compare(), const allocator_type& allo
 			value_compare	value_comp() const
 			{
 				return value_compare(key_compare());
-				// return value_compare(_tree.key_comp());
 			}
 		// ----------------------------------------------------------------------------------------------------------------------------------
 		// OPERATIONS -----------------------------------------------------------------------------------------------------------------------
-			iterator		find (const key_type& k)			{ return _tree.find(k); }
-			const_iterator	find (const key_type& k)	const	{ return _tree.find(k); }
+			iterator		find (const key_type& k)				{ return _tree.find(k); }
+			const_iterator	find (const key_type& k)		const	{ return _tree.find(k); }
 
 			iterator		lower_bound (const key_type& k)			{ return _tree.lower_bound(k); }
 			const_iterator	lower_bound (const key_type& k)	const	{ return _tree.lower_bound(k); }
@@ -238,11 +239,11 @@ explicit	map(const key_compare& comp = key_compare(), const allocator_type& allo
 			RBTree				_tree;
 
 			Compare				_comp;
-
 			Alloc				_alloc;
 
 	}; // END class map
 
+	// -------------------------------------------------------------------------------------------
 	template <class Key, class T, class Compare, class Alloc>  
 	void swap (map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y)
 	{

@@ -27,7 +27,9 @@ FT_OBJS		=	$(SRCS:$S%=$(FT_OBJ)%.o)
 STD_OBJ		=	$O/std_objs/
 STD_OBJS	=	$(SRCS:$S%=$(STD_OBJ)%.o)
 
-all			: $(FT) $(STD)
+all			:  $(STD) $(FT)
+				@echo "Use make run to execute both executables."
+				@echo "Use make diff to create diff files of output."
 
 $(STD_OBJ)	:
 				@mkdir -p $@
@@ -68,28 +70,28 @@ fclean		: clean
 				@$(RM) $(MF)
 				@$(RM) ./TEST-LOG
 
-re		:	fclean all
+re			:	fclean all
 
-run		:	all
-			@mkdir -p $(MF)
-			@mkdir -p $(VF)
-			@mkdir -p $(SF)
-			@mkdir -p $(STF)
-			@./$(FT)
-			@./$(STD)
-			@echo "Output redirected to TEST-LOG directory."	
+run			:
+				@mkdir -p $(MF)
+				@mkdir -p $(VF)
+				@mkdir -p $(SF)
+				@mkdir -p $(STF)
+				@./$(FT)
+				@./$(STD)
+				@echo "Output redirected to TEST-LOG directory."	
 
-diff	:
-			@-diff -u $(VF)/ft_vector.txt $(VF)/std_vector.txt > $(VF)/diff_vector.txt
-			@-diff -y $(VF)/ft_vector.txt $(VF)/std_vector.txt > $(VF)/easy_compare_vector.txt
-			
-			@-diff -u $(STF)/ft_stack.txt $(STF)/std_stack.txt > $(STF)/diff_stack.txt
-			@-diff -y $(STF)/ft_stack.txt $(STF)/std_stack.txt > $(STF)/easy_compare_stack.txt
-					
-			@-diff $(MF)/ft_map.txt $(MF)/std_map.txt > $(MF)/diff_map.txt
-			@-diff -y $(MF)/ft_map.txt $(MF)/std_map.txt > $(MF)/easy_compare_map.txt
+diff		:
+				@-diff $(VF)/ft_vector.txt $(VF)/std_vector.txt > $(VF)/diff_vector.txt
+				@-diff -y $(VF)/ft_vector.txt $(VF)/std_vector.txt > $(VF)/easy_compare_vector.txt
+				
+				@-diff $(STF)/ft_stack.txt $(STF)/std_stack.txt > $(STF)/diff_stack.txt
+				@-diff -y $(STF)/ft_stack.txt $(STF)/std_stack.txt > $(STF)/easy_compare_stack.txt
+						
+				@-diff $(MF)/ft_map.txt $(MF)/std_map.txt > $(MF)/diff_map.txt
+				@-diff -y $(MF)/ft_map.txt $(MF)/std_map.txt > $(MF)/easy_compare_map.txt
 
-			@-diff $(SF)/ft_set.txt $(SF)/std_set.txt > $(SF)/diff_set.txt
-			@-diff -y $(SF)/ft_set.txt $(SF)/std_set.txt > $(SF)/easy_compare_set.txt
+				@-diff $(SF)/ft_set.txt $(SF)/std_set.txt > $(SF)/diff_set.txt
+				@-diff -y $(SF)/ft_set.txt $(SF)/std_set.txt > $(SF)/easy_compare_set.txt
 
-PHONY	:	all clean fclean re run diff
+PHONY		:	all clean fclean re run diff

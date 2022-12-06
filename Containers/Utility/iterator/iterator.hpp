@@ -1,7 +1,7 @@
 #ifndef ITERATOR_HPP
 # define ITERATOR_HPP
 
-#include <cstddef> // defines ptrdiff_t
+#include <cstddef>
 
 namespace ft 
 {
@@ -44,30 +44,6 @@ namespace ft
 			typedef typename Iterator::pointer               pointer;
 			typedef typename Iterator::reference             reference;
 	};
-
-// pointer specialization
-// 	template <typename T> 
-// 	class iterator_traits <T*> 
-// 	{
-// 		public:
-// 			typedef  T          							value_type;
-// 			typedef  ptrdiff_t      						difference_type;
-// 			typedef  random_access_iterator_tag				iterator_category;
-// 			typedef  T*              						pointer;
-// 			typedef  T&            							reference;
-// 	};
-
-// // const pointer specialization
-// 	template <typename T> 
-// 	class iterator_traits <const T*> 
-// 	{
-// 		public:
-// 			typedef  T          							value_type;
-// 			typedef  ptrdiff_t      						difference_type;
-// 			typedef  random_access_iterator_tag				iterator_category;
-// 			typedef  const T*              					pointer;
-// 			typedef  const T&            					reference;
-// 	};
 //---------------------------------------------------------------------------
 
 // Used to define type given to iterator as const or non const

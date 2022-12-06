@@ -22,16 +22,6 @@ namespace ft
 		template<typename U, typename V> 
 		pair (const pair<U,V> &pr) : first(pr.first), second(pr.second) {}
 	// -----------------------------------------------------------------------------
-
-	// ASSIGMENT OPERATOR
-	// implicitly declared ?
-		// pair &operator= (const pair &pr)
-		// {
-		// 	first	= pr.first;
-		// 	second	= pr.second;
-		// 	return (*this);
-		// }
-	// -----------------------------------------------------------------------------
 	// RELATIONAL OPERATORS 
 		template <class X, class Y>  
 		friend bool operator== (const pair<X,Y> &lhs, const pair<X,Y> &rhs);

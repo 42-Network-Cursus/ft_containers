@@ -16,32 +16,30 @@ namespace ft
 	{
 		public:
 
-			typedef T				key_type;
-			typedef T				value_type;
-			typedef ft::pair<T, T>	value_pair;
+			typedef T			key_type;
+			typedef T			value_type;
 
 			typedef	Compare		key_compare;
 			typedef Compare		value_compare;
+			typedef Alloc		allocator_type;
 			
-			typedef Alloc	allocator_type;
-			typedef	Red_black_tree<T, value_type, Compare, Alloc>		RBTree;
+			typedef	Red_black_tree<T, value_type, Compare, Alloc>	RBTree;
 
-			typedef	value_type&									reference;
-			typedef const value_type&							const_reference;
+			typedef	value_type&			reference;
+			typedef const value_type&	const_reference;
 
-			typedef value_type*									pointer;
-			typedef const value_type*							const_pointer;
+			typedef value_type*			pointer;
+			typedef const value_type*	const_pointer;
 
 			typedef ft::Bidirectional_iterator<T, value_type>			iterator;
-			typedef ft::Bidirectional_iterator<T, value_type, true>	const_iterator;
+			typedef ft::Bidirectional_iterator<T, value_type, true>		const_iterator;
 
 			typedef ft::reverse_iterator<iterator> 				reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;	
 
-			typedef ptrdiff_t									difference_type;
-			typedef size_t 										size_type;
-
-		// CONSTRUCTORS
+			typedef ptrdiff_t	difference_type;
+			typedef size_t 		size_type;
+		// CONSTRUCTORS ---------------------------------------------------------------------------------------------------------------------
 explicit 	set (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) 
 			: _comp(comp), _alloc(alloc)
 			{}
@@ -51,7 +49,7 @@ explicit 	set (const key_compare& comp = key_compare(), const allocator_type& al
 			: _comp(comp), _alloc(alloc)
 			{
 				for (; first != last; first++)
-					_tree.insert(ft::make_pair(*first, *first));
+					_tree.set_insert(*first);
 			}
 			
 			set (const set& x)
@@ -60,28 +58,31 @@ explicit 	set (const key_compare& comp = key_compare(), const allocator_type& al
 				const_iterator ite = x.end();
 
 				for (; it != ite; it++)
-					_tree.insert(*it);
+					_tree.set_insert(*it);
 			}
-		// DESTRUCTOR --------------------------------------------------------
+		// DESTRUCTOR -----------------------------------------------------------------------------------------------------------------------
 			~set()
 			{
 				clear();
 			}
-		// ASSIGMNEMT OPERATOR
+		// ASSIGMNEMT OPERATOR --------------------------------------------------------------------------------------------------------------
 			set& operator= (const set& rhs)
 			{
-				_tree = rhs._tree;
+				clear();
+				const_iterator it = rhs.begin();
+				const_iterator ite = rhs.end();
+
+				for (; it != ite; it++)
+					_tree.set_insert(*it);
 				return *this;
 			}
-		// -------------------------------------------------------------------
-
 		// ----------------------------------------------------------------------------------------------------------------------------------
 		// ITERATORS ------------------------------------------------------------------------------------------------------------------------
-			iterator				begin()				{ return iterator((*_tree.begin()).first); }
-			const_iterator			begin()		const	{ return const_iterator((*_tree.begin()).first); }
+			iterator				begin()				{ return iterator(_tree.begin()); }
+			const_iterator			begin()		const	{ return const_iterator(_tree.begin()); }
 
-			iterator 				end() 				{ return iterator((*_tree.end()).first); }
-			const_iterator 			end() 		const 	{ return const_iterator((*_tree.end()).first); }
+			iterator 				end() 				{ return iterator(_tree.end()); }
+			const_iterator 			end() 		const 	{ return const_iterator(_tree.end()); }
 
 			reverse_iterator		rbegin() 			{ return reverse_iterator(end()); }
 			const_reverse_iterator	rbegin()	const	{ return const_reverse_iterator( end()); }
@@ -100,19 +101,19 @@ explicit 	set (const key_compare& comp = key_compare(), const allocator_type& al
 
 			pair<iterator,bool> insert (const value_type& val)
 			{
-				return _tree.insert(ft::make_pair(val, val));
+				return _tree.set_insert(val);
 			}
 
 			iterator insert (iterator position, const value_type& val)
 			{
-				return _tree.insertHint(position, ft::make_pair(val, val));
+				return _tree.set_insertHint(position, val);
 			}
 
 			template <class InputIt>  
 			void insert (InputIt first, InputIt last)
 			{
 				for (; first != last; first++)
-					_tree.insert(ft::make_pair(*first, *first));
+					_tree.set_insert(*first);
 			}
 		// ---------- DELETION --------------------------------------------------------------------------------------------------------------
 			void erase (iterator position)
@@ -164,11 +165,11 @@ explicit 	set (const key_compare& comp = key_compare(), const allocator_type& al
 			}
 		// ----------------------------------------------------------------------------------------------------------------------------------
 		// OPERATIONS -----------------------------------------------------------------------------------------------------------------------
-			iterator find (const value_type& val) const { return _tree.find(val); }
+			iterator find (const value_type& val) const { return _tree.set_find(val); }
 			
-			iterator lower_bound (const value_type& val) const { return _tree.lower_bound(val); }
+			iterator lower_bound (const value_type& val) const { return _tree.set_lower_bound(val); }
 
-			iterator upper_bound (const value_type& val) const { return _tree.upper_bound(val); }
+			iterator upper_bound (const value_type& val) const { return _tree.set_upper_bound(val); }
 
 			size_type count (const value_type& val) const
 			{
@@ -177,13 +178,11 @@ explicit 	set (const key_compare& comp = key_compare(), const allocator_type& al
 				return 1;
 			}
 
-
 			pair<iterator,iterator> equal_range (const value_type& val) const
 			{ 
 				return ft::make_pair<iterator, iterator>(lower_bound(val), upper_bound(val)); 
 			}
-
-
+		// ----------------------------------------------------------------------------------------------------------------------------------
 		// RELATIONAL OPERATORS -------------------------------------------------------------------------------------------------------------  
 			friend bool operator== ( const set& lhs, const set& rhs )
 			{
@@ -202,10 +201,9 @@ explicit 	set (const key_compare& comp = key_compare(), const allocator_type& al
 			friend bool operator>  ( const set& lhs, const set& rhs ) { return (rhs < lhs); }
 			friend bool operator>= ( const set& lhs, const set& rhs ) { return (!(lhs < rhs)); }
 		// ----------------------------------------------------------------------------------------------------------------------------------
-
 		private:
 			RBTree	_tree;
-
+			
 			Compare	_comp;
 			Alloc	_alloc;
 

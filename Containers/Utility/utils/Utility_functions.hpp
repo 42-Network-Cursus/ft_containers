@@ -47,12 +47,6 @@ namespace ft
 		return (n);
 	}
 
-	// template<typename It1, typename It2>  
-	// typename ft::iterator_traits<It1>::difference_type    distance (It1 first, It2 last) 
-	// {
-	// 	return (last - first);
-	// }
-
 } // END namespace ft
 
 #endif // UTILITY_FUNCTIONS_HPP

@@ -18,8 +18,6 @@ namespace ft
 	{
 		public:
 			typedef Key												key_type;
-			// typedef T												mapped_type;
-			// typedef ft::pair<const Key, T>							value_type;
 			typedef Value											value_type;
 
 			typedef	Compare											key_compare;
@@ -53,10 +51,7 @@ namespace ft
 			}
 		// DESTRUCTOR --------------------------------------------------------------------------------------------------------
 		public:
-			~Red_black_tree () 
-			{
-				// deallocNode(_header); 
-			}
+			~Red_black_tree () {}
 		// -------------------------------------------------------------------------------------------------------------------
 		// NODE ALLOCATION ---------------------------------------------------------------------------------------------------
 		private:
@@ -79,18 +74,6 @@ namespace ft
 				_valueAlloc.destroy(&(node->value) );
 				deallocNode(node);
 			}
-			
- 			//Needed ?
-			// node_type	*cloneNode (node_type *node)
-			// {
-			// 	node_type	*tmp = createNode(node->value);
-				
-			// 	tmp->colour = node->colour;
-			// 	tmp->l_child = NULL;
-			// 	tmp->r_child = NULL;
-			// 	return tmp;
-			// }
-
 		// -------------------------------------------------------------------------------------------------------------------
 		// CAPACITY
 		public:
@@ -145,6 +128,7 @@ namespace ft
 			}
 		// -------------------------------------------------------------------------------------------------------------------
 		// ---------- INSERTION ----------------------------------------------------------------------------------------------
+		//--------------------- MAP VARIATION --------------------------------------------------------------------------------
 		public:
 			ft::pair<iterator, bool>	insert (const value_type& val)
 			{
@@ -178,7 +162,7 @@ namespace ft
 
 			iterator insertHint(iterator position, const value_type& val)
 			{
-				if (position.getNode() == _header) // == _header/ end()
+				if (position.getNode() == _header)
 				{
 					if (size() > 0 && _comp(getKeyOf(getRightMost()), val.first))
 						return insertNode(NULL, getRightMost(), val);
@@ -187,9 +171,8 @@ namespace ft
 				}
 				else if (_comp(val.first, getKeyOf(position.getNode())))
 				{
-					// First, try before...
 					iterator prevPos = position;
-					if (position.getNode() == getLeftMost()) // begin()
+					if (position.getNode() == getLeftMost())
 						return insertNode(getLeftMost(), getLeftMost(), val);
 					else if (_comp(getKeyOf((--prevPos).getNode()), val.first))
 					{
@@ -203,7 +186,6 @@ namespace ft
 				}
 				else if (_comp(getKeyOf(position.getNode()), val.first))
 				{
-					// ... then try after.
 					iterator nextPos = position;
 					if (position.getNode() == getRightMost())
 						return insertNode(0, getRightMost(), val);
@@ -218,7 +200,6 @@ namespace ft
 						return insert(val).first;
 				}
 				else
-					// Equivalent keys.
 					return position;
 			}
 
@@ -306,6 +287,112 @@ namespace ft
 				}
 				getRoot()->colour = BLACK;
 			}
+		//--------------------- SET VARIATION --------------------------------------------------------------------------------
+		public:
+			ft::pair<iterator, bool>	set_insert (const value_type& val)
+			{
+				node_type	*tmp = getRoot();
+				node_type	*tmp_parent = _header;
+				bool		compareResult = true;
+				
+				while (tmp)
+				{
+					tmp_parent = tmp;
+					compareResult = _comp(val, getSetKeyOf(tmp) );
+					if (compareResult)
+						tmp = getLeftChildOf(tmp);					
+					else
+						tmp = getRightChildOf(tmp);
+				}
+
+				iterator it = iterator(tmp_parent);
+				if (compareResult)
+				{
+					if (it == begin() )
+						return (ft::pair<iterator, bool>(set_insertNode(tmp, tmp_parent, val), true));
+					else
+						--it;
+				}
+				if (_comp(it.getSetKey(), val) )
+					return (ft::pair<iterator, bool>(set_insertNode(tmp, tmp_parent, val), true) );
+				return (ft::pair<iterator, bool>(it, false) );
+				
+			}
+
+			iterator set_insertHint(iterator position, const value_type& val)
+			{
+				if (position.getNode() == _header)
+				{
+					if (size() > 0 && _comp(getSetKeyOf(getRightMost()), val))
+						return set_insertNode(NULL, getRightMost(), val);
+					else
+						return set_insert(val).first;
+				}
+				else if (_comp(val, getSetKeyOf(position.getNode())))
+				{
+					iterator prevPos = position;
+					if (position.getNode() == getLeftMost())
+						return set_insertNode(getLeftMost(), getLeftMost(), val);
+					else if (_comp(getSetKeyOf((--prevPos).getNode()), val))
+					{
+						if (getRightChildOf(prevPos.getNode()) == 0)
+							return set_insertNode(0, prevPos.getNode(), val);
+						else
+							return set_insertNode(position.getNode(), position.getNode(), val);
+					}
+					else
+						return set_insert(val).first;
+				}
+				else if (_comp(getSetKeyOf(position.getNode()), val))
+				{
+					iterator nextPos = position;
+					if (position.getNode() == getRightMost())
+						return set_insertNode(0, getRightMost(), val);
+					else if (_comp(val, getSetKeyOf((++nextPos).getNode())))
+					{
+						if (getRightChildOf(position.getNode()) == 0)
+							return set_insertNode(0, position.getNode(), val);
+						else
+							return set_insertNode(nextPos.getNode(), nextPos.getNode(), val);
+					}
+					else
+						return set_insert(val).first;
+				}
+				else
+					return position;
+			}
+
+		private:
+			iterator	set_insertNode (node_type *pos, node_type *pos_parent, const value_type& val)
+			{
+				node_type	*newNode;
+				
+				if (pos_parent == _header || pos || _comp(val, pos_parent->getSetKey()) )
+				{
+					newNode = createNode(val);
+					getLeftChildOf(pos_parent) = newNode;
+					if (pos_parent == _header)
+					{
+						getRoot() = newNode;
+						getRightMost() = newNode;
+					}
+					else if (pos_parent == getLeftMost() )
+						getLeftMost() = newNode;
+				}
+				else
+				{
+					newNode = createNode(val);
+					getRightChildOf(pos_parent) = newNode;
+					if (pos_parent == getRightMost() )
+						getRightMost() = newNode;
+				}
+				getParentOf(newNode) 		= pos_parent;
+				getLeftChildOf(newNode) 	= NULL;
+				getRightChildOf(newNode) 	= NULL;
+				insertFix(newNode, _header->parent);
+				_size++;
+				return iterator(newNode);
+			}
 		// -------------------------------------------------------------------------------------------------------------------
 		// ---------- SEARCH -------------------------------------------------------------------------------------------------
 		public:
@@ -326,7 +413,30 @@ namespace ft
 				}
 
 				iterator it = iterator(tmp_parent);
-				if (_comp(key, getKeyOf(it.getNode())) ) // it == end() || 
+				if (_comp(key, getKeyOf(it.getNode())) ) 
+					return end();
+				else
+					return it;
+			}
+
+			iterator	set_find (const key_type& key) const
+			{
+				node_type *tmp_parent = _header;
+				node_type *tmp = getRoot();
+
+				while (tmp)
+				{
+					if (!_comp(tmp->getSetKey(), key) )
+					{
+						tmp_parent = tmp;
+						tmp = getLeftChildOf(tmp);
+					}
+					else
+						tmp = getRightChildOf(tmp);
+				}
+
+				iterator it = iterator(tmp_parent);
+				if (_comp(key, getSetKeyOf(it.getNode())) )
 					return end();
 				else
 					return it;
@@ -368,6 +478,43 @@ namespace ft
 				}
 				return iterator(tmp_parent);
 			}
+
+			iterator set_lower_bound (const key_type &k) const
+			{
+				node_type *tmp = getRoot();
+				node_type *tmp_parent = _header;
+				
+				while (tmp != 0)
+				{
+					if (!_comp(getSetKeyOf(tmp), k))
+					{
+						tmp_parent = tmp,
+						tmp = getLeftChildOf(tmp);
+					}
+					else
+						tmp = getRightChildOf(tmp);
+				}
+				return iterator(tmp_parent);
+			}
+
+			iterator set_upper_bound (const key_type &k) const
+			{
+				node_type *tmp = getRoot();
+				node_type *tmp_parent = _header;
+
+				while (tmp != 0)
+				{
+					if (_comp(k, getSetKeyOf(tmp)))
+					{
+						tmp_parent = tmp;
+						tmp = getLeftChildOf(tmp);
+
+					}
+					else
+						tmp = getRightChildOf(tmp);
+				}
+				return iterator(tmp_parent);
+			}
 		// -------------------------------------------------------------------------------------------------------------------
 		// ---------- DELETION -----------------------------------------------------------------------------------------------
 		public:
@@ -385,15 +532,15 @@ namespace ft
 				node_type* tmp = 0;
 				node_type* tmp_parent = 0;
 
-				if (nodeToDel->l_child == 0)     // node has at most one non-null child. y == z.
+				if (nodeToDel->l_child == 0)     // node has at most one non-null child.
 					tmp = nodeToDel->r_child;     // tmp might be null.
 				else
-					if (nodeToDel->r_child == 0)  // node has exactly one non-null child. y == z.
+					if (nodeToDel->r_child == 0)  // node has exactly one non-null child.
 						tmp = nodeToDel->l_child;    // tmp is not null.
 					else 
 					{
-						// node has two non-null children.  Set nodeToDel to
-						nodeToDel = nodeToDel->r_child;   //   node's successor.  tmp might be null.
+						// node has two non-null children.  Set nodeToDel to node's successor.  tmp might be null.
+						nodeToDel = nodeToDel->r_child;  
 						while (nodeToDel->l_child != 0)
 							nodeToDel = nodeToDel->l_child;
 						tmp = nodeToDel->r_child;
@@ -408,7 +555,7 @@ namespace ft
 						tmp_parent = nodeToDel->parent;
 						if (tmp) 
 							tmp->parent = nodeToDel->parent;
-						nodeToDel->parent->l_child = tmp;   // nodeToDel must be a child of l_child
+						nodeToDel->parent->l_child = tmp;
 						nodeToDel->r_child = node->r_child;
 						node->r_child->parent = nodeToDel;
 					}
@@ -426,12 +573,12 @@ namespace ft
 					// nodeToDel now points to node to be actually deleted
 				}
 				else 
-				{                        // nodeToDel == node
+				{                   
 					tmp_parent = nodeToDel->parent;
 					if (tmp) 
 						tmp->parent = nodeToDel->parent;   
 					if (getRoot() == node)
-						getRoot() = tmp; // getRoot() = tmp;
+						getRoot() = tmp;
 					else 
 						if (node->parent->l_child == node)
 							node->parent->l_child = tmp;
@@ -439,17 +586,17 @@ namespace ft
 							node->parent->r_child = tmp;
 					if (getLeftMost() == node)
 					{
-						if (node->r_child == 0)        // node->l_child must be null also
+						if (node->r_child == 0)
 							getLeftMost() = node->parent;
 						else
-							getLeftMost() = getMinOf(tmp); // makes getLeftMost() == _M_header if node == getRoot()
+							getLeftMost() = getMinOf(tmp);
 					}
 					if (getRightMost() == node)
 					{
-						if (node->l_child == 0)         // node->r_child must be null also
+						if (node->l_child == 0)
 							getRightMost() = node->parent;  
-						else                      // tmp == node->l_child
-							getRightMost() = getMaxOf(tmp); // makes getRightMost() == _M_header if node == getRoot()
+						else
+							getRightMost() = getMaxOf(tmp);
 					}
 				}
 				if (nodeToDel->colour != RED) 
@@ -493,7 +640,7 @@ namespace ft
 								break;
 							}
 						} 
-						else //add if ...
+						else 
 						{   
 							// same as above, with r_child <-> l_child.
 							node_type* tmpSibling = tmp_parent->l_child;
@@ -568,16 +715,8 @@ namespace ft
 				else
 					return (end());
 			}
-			// const_iterator	begin() const 	{ return const_iterator(getLeftMost()); }
 
 			iterator 		end() 	const	{ return iterator(_header); }
-  			// const_iterator 	end() 	const	{ return const_iterator(_header); }
-
-			// reverse_iterator rbegin() {return reverse_iterator(end());}
-  			// const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
-  		
-			// reverse_iterator rend() {return reverse_iterator(begin());}
-  			// const_reverse_iterator rend() const {  return const_reverse_iterator(begin()); } 
 		// -------------------------------------------------------------------------------------------------------------------
 		// SWAP --------------------------------------------------------------------------------------------------------------
 			void	swap(Red_black_tree &rhsTree)
@@ -608,11 +747,7 @@ namespace ft
 					getRightMost() = _header;
 				}
 				else
-				{
-					// getRoot()->swap(rhsTree.getRoot());
-					// getLeftMost()->swap(rhsTree.getLeftMost());
-					// getRightMost()->swap(rhsTree.getRightMost());
-					
+				{		
 					std::swap(getRoot(),rhsTree.getRoot());
        				std::swap(getLeftMost(),rhsTree.getLeftMost());
      				std::swap(getRightMost(),rhsTree.getRightMost());
@@ -639,6 +774,7 @@ namespace ft
 			
 			reference		getValueOf(node_type *node)			{ return node->value; }			
 			const key_type	&getKeyOf(node_type *node)	 const	{ return node->getKey(); }
+			const key_type	&getSetKeyOf(node_type *node)	const	{ return node->getSetKey(); }
 			NodeColour		&getColourOf(node_type *node)		{ return node->colour; }
 		// -------------------------------------------------------------------------------------------------------------------	
 		// MEMBER VARIABLES --------------------------------------------------------------------------------------------------

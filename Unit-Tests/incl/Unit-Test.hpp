@@ -1,5 +1,5 @@
-#ifndef TEST_HPP
-# define TEST_HPP
+#ifndef UNIT_TEST_HPP
+# define UNIT_TEST_HPP
 
 # include "../../Containers/vector.hpp"
 # include "../../Containers/map.hpp"
@@ -57,4 +57,4 @@ class TIMER
 		std::ofstream *FILE;
 };
 
-#endif // TEST_HPP
+#endif // UNIT_TEST_HPP

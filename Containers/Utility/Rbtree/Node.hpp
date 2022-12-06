@@ -13,10 +13,8 @@ namespace ft
 	class Node
 	{
 		public:
-			typedef Key												key_type;
-			// typedef T												mapped_type;
-			// typedef ft::pair<const Key, T>							value_type;
-			typedef Value							value_type;
+			typedef Key		key_type;
+			typedef Value	value_type;
 
 
 		// MEMBER VARIABLES --------------------------------------------------------
@@ -42,15 +40,15 @@ namespace ft
 		// ----------------------------------------------------------------------------
 			Node& operator= (const Node& rhs) 
 			{
-				// value = value_type(rhs.value);
-				colour		= rhs.colour;
-				parent		= rhs.parent;
+				colour	= rhs.colour;
+				parent	= rhs.parent;
 				l_child	= rhs.l_child;
 				r_child	= rhs.r_child;
 				return (*this);
 			}
 
-			const key_type&	getKey () const { return value.first; }
+			const key_type&	getKey () 		const 	{ return value.first; }
+			const key_type&	getSetKey ()	const	{ return value; }
 
 			Node	*getMin()
 			{
@@ -68,7 +66,7 @@ namespace ft
 				return tmp;
 			}
 
-			Node	*next () // Maybe implement in iterator directly
+			Node	*next ()
 			{
 				Node	*tmp = this;
 
@@ -92,20 +90,18 @@ namespace ft
 				return tmp;
 			}
 
-			Node	*prev() // Maybe implement in iterator directly
+			Node	*prev()
 			{
 				Node *tmp = this;
-				// case 1 if tmp == header, r_child of header is MAX_VAL of tree
+				//if tmp == header, r_child of header is MAX_VAL of tree
 				if (tmp->colour == RED && (tmp->parent->parent == tmp) )
 					tmp = tmp->r_child;
-				// case 2
 				else if (tmp->l_child)
 				{
 					tmp = tmp->l_child;
 					while (tmp->r_child)
 						tmp = tmp->r_child;
 				}
-				// case 3
 				else
 				{
 					Node *tmp_parent = tmp->parent;
@@ -118,10 +114,8 @@ namespace ft
 				}
 				return tmp;
 			}
-		// -----------------------------------------------------------------------------------
-		
+		// -----------------------------------------------------------------------------------	
 	}; // END class Node
-
 } // END namespace ft
 
 #endif // NODE_HPP
